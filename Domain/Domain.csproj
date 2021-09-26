@@ -1,13 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <RootNamespace>Subrom.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Subrom.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ValueOf" Version="2.0.21" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+		<PackageReference Include="ValueOf" Version="2.0.21" />
+	</ItemGroup>
 
 </Project>

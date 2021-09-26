@@ -1,8 +1,11 @@
-﻿using Subrom.Domain.Hash;
+﻿using System.Xml.Serialization;
+using Subrom.Domain.Hash;
 
 namespace Subrom.Domain.Datfiles {
-	public class Disk {
+	public class Rom {
 		public string Name { get; set; } = "";
+
+		public long Size { get; set; }
 
 		public Crc Crc { get; set; }
 
