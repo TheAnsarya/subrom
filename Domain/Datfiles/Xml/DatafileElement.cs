@@ -4,16 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Subrom.Domain.Datfiles.Kinds;
 using Subrom.Domain.Hash;
 
 namespace Subrom.Domain.Datfiles.Xml {
-	// TODO: must remove dtd line from the xml file before processing otherwise it errors
+	// TODO: must remove dtd line from the xml file before processing otherwise it errors: <!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" "http://www.logiqx.com/Dats/datafile.dtd">
 	//[XmlRoot("datafile", Namespace = "http://www.logiqx.com/Dats/datafile.dtd")]
+	// TODO: the following dtd is incomplete, rebuild
+	// DTD: <!ELEMENT datafile (header?, game+)>
 	[XmlRoot("datafile")]
 	public class DatafileElement {
-		[XmlElement("debug")]
-		public bool Debug { get; set; }
+		// DTD: <!ATTLIST datafile build CDATA #IMPLIED>
+		[XmlAttribute("build")]
+		public string Build { get; set; } = "";
 
+		// DTD: <!ATTLIST datafile debug (yes|no) "no">
+		[XmlAttribute("debug")]
+		public string Debug { get; set; }
+
+		// DTD: <!ELEMENT header (name, description, category?, version, date?, author, email?, homepage?, url?, comment?, clrmamepro?, romcenter?)>
 		[XmlElement("header")]
 		public HeaderElement Header { get; set; } = new();
 
@@ -29,7 +38,10 @@ namespace Subrom.Domain.Datfiles.Xml {
 					Author = Header.Author,
 					Category = Header.Category,
 					Clrmamepro = new Clrmamepro() {
-						Forcepacking = Header.Clrmamepro?.Forcepacking ?? "",
+						ForceMerging = ForceMergingKind.From(Header.Clrmamepro?.ForceMerging ?? ""),
+						ForceNoDump = ForceNoDumpKind.From(Header.Clrmamepro?.ForceNoDump ?? ""),
+						ForcePacking = ForcePackingKind.From(Header.Clrmamepro?.ForcePacking ?? ""),
+						Header = Header.Clrmamepro?.Header ?? "",
 					},
 					Comment = Header.Comment,
 					Date = Header.Date,

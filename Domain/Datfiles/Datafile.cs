@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 namespace Subrom.Domain.Datfiles {
 
 	public class Datafile {
+		public string Build { get; set; } = "";
+
 		public bool Debug { get; set; }
 
 		public Header Header { get; set; } = new();

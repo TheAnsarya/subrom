@@ -22,6 +22,8 @@ namespace Subrom.Domain.Datfiles {
 
 		public string Comment { get; set; } = "";
 
-		public Clrmamepro Clrmamepro { get; set; }
+		public Clrmamepro Clrmamepro { get; set; } = new();
+
+		public Romcenter Romcenter { get; set; } = new();
 	}
 }

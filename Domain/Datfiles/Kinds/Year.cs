@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ValueOf;
 
-namespace Subrom.Domain.Datfiles.Subitem {
+namespace Subrom.Domain.Datfiles.Kinds {
 	public class Year : ValueOf<string, Year> {
 		protected static Regex ValidYearRegex { get; } = new(@"^(?:\d\?{3}|\d{2}\?{2}|\d{3}\?|\d{4})$", RegexOptions.Compiled);
 
