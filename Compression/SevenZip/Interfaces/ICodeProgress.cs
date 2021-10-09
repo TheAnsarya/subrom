@@ -1,6 +1,5 @@
-﻿// ICoder.h
-
-namespace SevenZip {
+﻿
+namespace Subrom.Compression.SevenZip.Interfaces {
 	public interface ICodeProgress {
 		/// <summary>
 		/// Callback progress.
@@ -12,5 +11,5 @@ namespace SevenZip {
 		/// output size. -1 if unknown.
 		/// </param>
 		void SetProgress(long inSize, long outSize);
-	};
+	}
 }

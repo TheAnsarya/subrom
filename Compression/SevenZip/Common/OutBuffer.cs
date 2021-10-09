@@ -1,4 +1,4 @@
-// OutBuffer.cs
+﻿// OutBuffer.cs
 
 namespace SevenZip.Buffer {
 	public class OutBuffer {
@@ -39,6 +39,6 @@ namespace SevenZip.Buffer {
 			m_Pos = 0;
 		}
 
-		public ulong GetProcessedSize() => m_ProcessedSize + m_Pos;
+		public ulong ProcessedSize => m_ProcessedSize + m_Pos;
 	}
 }

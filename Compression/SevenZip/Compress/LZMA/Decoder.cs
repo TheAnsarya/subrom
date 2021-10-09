@@ -1,4 +1,7 @@
 ﻿using SevenZip.Compression.RangeCoder;
+using Subrom.Compression.SevenZip.Compress.RangeCoder;
+using Subrom.Compression.SevenZip.Exceptions;
+using Subrom.Compression.SevenZip.Interfaces;
 
 namespace SevenZip.Compression.LZMA {
 
@@ -17,6 +20,7 @@ namespace SevenZip.Compression.LZMA {
 					m_LowCoder[posState] = new BitTreeDecoder(Base.kNumLowLenBits);
 					m_MidCoder[posState] = new BitTreeDecoder(Base.kNumMidLenBits);
 				}
+
 				m_NumPosStates = numPosStates;
 			}
 
@@ -26,6 +30,7 @@ namespace SevenZip.Compression.LZMA {
 					m_LowCoder[posState].Init();
 					m_MidCoder[posState].Init();
 				}
+
 				m_Choice2.Init();
 				m_HighCoder.Init();
 			}
@@ -41,6 +46,7 @@ namespace SevenZip.Compression.LZMA {
 						symbol += Base.kNumMidLenSymbols;
 						symbol += m_HighCoder.Decode(rangeDecoder);
 					}
+
 					return symbol;
 				}
 			}
@@ -149,7 +155,7 @@ namespace SevenZip.Compression.LZMA {
 			if (m_DictionarySize != dictionarySize) {
 				m_DictionarySize = dictionarySize;
 				m_DictionarySizeCheck = Math.Max(m_DictionarySize, 1);
-				var blockSize = Math.Max(m_DictionarySizeCheck, (1 << 12));
+				var blockSize = Math.Max(m_DictionarySizeCheck, 1 << 12);
 				m_OutWindow.Create(blockSize);
 			}
 		}
@@ -286,7 +292,7 @@ namespace SevenZip.Compression.LZMA {
 							var posSlot = m_PosSlotDecoder[Base.GetLenToPosState(len)].Decode(m_RangeDecoder);
 							if (posSlot >= Base.kStartPosModelIndex) {
 								var numDirectBits = (int)((posSlot >> 1) - 1);
-								rep0 = ((2 | (posSlot & 1)) << numDirectBits);
+								rep0 = (2 | (posSlot & 1)) << numDirectBits;
 								if (posSlot < Base.kEndPosModelIndex) {
 									rep0 += BitTreeDecoder.ReverseDecode(m_PosDecoders,
 											rep0 - posSlot - 1, m_RangeDecoder, numDirectBits);
@@ -312,6 +318,7 @@ namespace SevenZip.Compression.LZMA {
 					}
 				}
 			}
+
 			m_OutWindow.Flush();
 			m_OutWindow.ReleaseStream();
 			m_RangeDecoder.ReleaseStream();
@@ -332,7 +339,7 @@ namespace SevenZip.Compression.LZMA {
 
 			uint dictionarySize = 0;
 			for (var i = 0; i < 4; i++) {
-				dictionarySize += ((uint)(properties[1 + i])) << (i * 8);
+				dictionarySize += ((uint)properties[1 + i]) << (i * 8);
 			}
 
 			SetDictionarySize(dictionarySize);

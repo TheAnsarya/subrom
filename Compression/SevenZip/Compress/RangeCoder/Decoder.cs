@@ -1,6 +1,6 @@
 ﻿namespace SevenZip.Compression.RangeCoder {
 	internal class Decoder {
-		public const uint kTopValue = (1 << 24);
+		public const uint kTopValue = 1 << 24;
 		public uint Range;
 		public uint Code;
 		public Stream Stream;

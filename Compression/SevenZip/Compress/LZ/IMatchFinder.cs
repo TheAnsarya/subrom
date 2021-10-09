@@ -7,7 +7,7 @@ namespace SevenZip.Compression.LZ {
 		void ReleaseStream();
 		byte GetIndexByte(int index);
 		uint GetMatchLen(int index, uint distance, uint limit);
-		uint GetNumAvailableBytes();
+		uint NumAvailableBytes { get; }
 	}
 
 	internal interface IMatchFinder : IInWindowStream {

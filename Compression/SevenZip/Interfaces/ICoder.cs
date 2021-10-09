@@ -1,4 +1,6 @@
-﻿namespace SevenZip {
+﻿using Subrom.Compression.SevenZip.Exceptions;
+
+namespace Subrom.Compression.SevenZip.Interfaces {
 	public interface ICoder {
 		/// <summary>
 		/// Codes streams.

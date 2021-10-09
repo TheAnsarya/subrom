@@ -1,4 +1,4 @@
-﻿namespace SevenZip {
+﻿namespace Subrom.Compression.SevenZip.Exceptions {
 	/// <summary>
 	/// The exception that is thrown when the value of an argument is outside the allowable range.
 	/// </summary>

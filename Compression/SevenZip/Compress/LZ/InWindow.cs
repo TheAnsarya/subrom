@@ -2,7 +2,7 @@
 
 namespace SevenZip.Compression.LZ {
 	public class InWindow {
-		public byte[] _bufferBase = null; // pointer to buffer with data
+		public byte[] _bufferBase; // pointer to buffer with data
 		private Stream _stream;
 		private uint _posLimit; // offset (from _buffer) of first byte when new block reading must be done
 		private bool _streamEndWasReached; // if (true) then _streamPos shows real end of stream
@@ -124,7 +124,7 @@ namespace SevenZip.Compression.LZ {
 			return i;
 		}
 
-		public uint GetNumAvailableBytes() => _streamPos - _pos;
+		public uint NumAvailableBytes => _streamPos - _pos;
 
 		public void ReduceOffsets(int subValue) {
 			_bufferOffset += (uint)subValue;

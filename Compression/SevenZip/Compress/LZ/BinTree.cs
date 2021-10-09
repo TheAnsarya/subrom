@@ -67,7 +67,7 @@ namespace SevenZip.Compression.LZ {
 
 			_cutValue = 16 + (matchMaxLen >> 1);
 
-			var windowReservSize = (historySize + keepAddBufferBefore + matchMaxLen + keepAddBufferAfter) / 2 + 256;
+			var windowReservSize = ((historySize + keepAddBufferBefore + matchMaxLen + keepAddBufferAfter) / 2) + 256;
 
 			base.Create(historySize + keepAddBufferBefore, matchMaxLen + keepAddBufferAfter, windowReservSize);
 
@@ -123,11 +123,11 @@ namespace SevenZip.Compression.LZ {
 			if (HASH_ARRAY) {
 				var temp = CRC.Table[_bufferBase[cur]] ^ _bufferBase[cur + 1];
 				hash2Value = temp & (kHash2Size - 1);
-				temp ^= ((uint)(_bufferBase[cur + 2]) << 8);
+				temp ^= (uint)_bufferBase[cur + 2] << 8;
 				hash3Value = temp & (kHash3Size - 1);
 				hashValue = (temp ^ (CRC.Table[_bufferBase[cur + 3]] << 5)) & _hashMask;
 			} else {
-				hashValue = _bufferBase[cur] ^ ((uint)(_bufferBase[cur + 1]) << 8);
+				hashValue = _bufferBase[cur] ^ ((uint)_bufferBase[cur + 1] << 8);
 			}
 
 			var curMatch = _hash[kFixHashSize + hashValue];
@@ -164,7 +164,7 @@ namespace SevenZip.Compression.LZ {
 			_hash[kFixHashSize + hashValue] = _pos;
 
 			var ptr0 = (_cyclicBufferPos << 1) + 1;
-			var ptr1 = (_cyclicBufferPos << 1);
+			var ptr1 = _cyclicBufferPos << 1;
 
 			uint len0, len1;
 			len0 = len1 = kNumHashDirectBytes;
@@ -186,6 +186,7 @@ namespace SevenZip.Compression.LZ {
 					_son[ptr0] = _son[ptr1] = kEmptyHashValue;
 					break;
 				}
+
 				var delta = _pos - curMatch;
 				var cyclicPos = ((delta <= _cyclicBufferPos) ?
 							(_cyclicBufferPos - delta) :
@@ -210,6 +211,7 @@ namespace SevenZip.Compression.LZ {
 						}
 					}
 				}
+
 				if (_bufferBase[pby1 + len] < _bufferBase[cur + len]) {
 					_son[ptr1] = curMatch;
 					ptr1 = cyclicPos + 1;
@@ -222,6 +224,7 @@ namespace SevenZip.Compression.LZ {
 					len0 = len;
 				}
 			}
+
 			MovePos();
 			return offset;
 		}
@@ -248,19 +251,19 @@ namespace SevenZip.Compression.LZ {
 					var temp = CRC.Table[_bufferBase[cur]] ^ _bufferBase[cur + 1];
 					var hash2Value = temp & (kHash2Size - 1);
 					_hash[hash2Value] = _pos;
-					temp ^= ((uint)(_bufferBase[cur + 2]) << 8);
+					temp ^= (uint)_bufferBase[cur + 2] << 8;
 					var hash3Value = temp & (kHash3Size - 1);
 					_hash[kHash3Offset + hash3Value] = _pos;
 					hashValue = (temp ^ (CRC.Table[_bufferBase[cur + 3]] << 5)) & _hashMask;
 				} else {
-					hashValue = _bufferBase[cur] ^ ((uint)(_bufferBase[cur + 1]) << 8);
+					hashValue = _bufferBase[cur] ^ ((uint)_bufferBase[cur + 1] << 8);
 				}
 
 				var curMatch = _hash[kFixHashSize + hashValue];
 				_hash[kFixHashSize + hashValue] = _pos;
 
 				var ptr0 = (_cyclicBufferPos << 1) + 1;
-				var ptr1 = (_cyclicBufferPos << 1);
+				var ptr1 = _cyclicBufferPos << 1;
 
 				uint len0, len1;
 				len0 = len1 = kNumHashDirectBytes;
@@ -292,6 +295,7 @@ namespace SevenZip.Compression.LZ {
 							break;
 						}
 					}
+
 					if (_bufferBase[pby1 + len] < _bufferBase[cur + len]) {
 						_son[ptr1] = curMatch;
 						ptr1 = cyclicPos + 1;
@@ -304,6 +308,7 @@ namespace SevenZip.Compression.LZ {
 						len0 = len;
 					}
 				}
+
 				MovePos();
 			}
 			while (--num != 0);

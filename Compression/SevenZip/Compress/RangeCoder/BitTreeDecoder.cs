@@ -1,4 +1,6 @@
-﻿namespace SevenZip.Compression.RangeCoder {
+﻿using Subrom.Compression.SevenZip.Compress.RangeCoder;
+
+namespace SevenZip.Compression.RangeCoder {
 	internal struct BitTreeDecoder {
 		private readonly BitDecoder[] Models;
 		private readonly int NumBitLevels;

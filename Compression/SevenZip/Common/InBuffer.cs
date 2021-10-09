@@ -30,8 +30,8 @@
 			var aNumProcessedBytes = m_Stream.Read(m_Buffer, 0, (int)m_BufferSize);
 			m_Pos = 0;
 			m_Limit = (uint)aNumProcessedBytes;
-			m_StreamWasExhausted = (aNumProcessedBytes == 0);
-			return (!m_StreamWasExhausted);
+			m_StreamWasExhausted = aNumProcessedBytes == 0;
+			return !m_StreamWasExhausted;
 		}
 
 		public void ReleaseStream() =>
@@ -61,6 +61,6 @@
 			return m_Buffer[m_Pos++];
 		}
 
-		public ulong GetProcessedSize() => m_ProcessedSize + m_Pos;
+		public ulong ProcessedSize => m_ProcessedSize + m_Pos;
 	}
 }

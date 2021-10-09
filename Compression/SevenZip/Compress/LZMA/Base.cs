@@ -26,7 +26,7 @@ namespace SevenZip.Compression.LZMA {
 
 		public const int kNumAlignBits = 4;
 		public const uint kAlignTableSize = 1 << kNumAlignBits;
-		public const uint kAlignMask = (kAlignTableSize - 1);
+		public const uint kAlignMask = kAlignTableSize - 1;
 
 		public const uint kStartPosModelIndex = 4;
 		public const uint kEndPosModelIndex = 14;
@@ -38,17 +38,16 @@ namespace SevenZip.Compression.LZMA {
 		public const uint kNumLitContextBitsMax = 8;
 
 		public const int kNumPosStatesBitsMax = 4;
-		public const uint kNumPosStatesMax = (1 << kNumPosStatesBitsMax);
+		public const uint kNumPosStatesMax = 1 << kNumPosStatesBitsMax;
 		public const int kNumPosStatesBitsEncodingMax = 4;
-		public const uint kNumPosStatesEncodingMax = (1 << kNumPosStatesBitsEncodingMax);
+		public const uint kNumPosStatesEncodingMax = 1 << kNumPosStatesBitsEncodingMax;
 
 		public const int kNumLowLenBits = 3;
 		public const int kNumMidLenBits = 3;
 		public const int kNumHighLenBits = 8;
 		public const uint kNumLowLenSymbols = 1 << kNumLowLenBits;
 		public const uint kNumMidLenSymbols = 1 << kNumMidLenBits;
-		public const uint kNumLenSymbols = kNumLowLenSymbols + kNumMidLenSymbols +
-				(1 << kNumHighLenBits);
+		public const uint kNumLenSymbols = kNumLowLenSymbols + kNumMidLenSymbols + (1 << kNumHighLenBits);
 		public const uint kMatchMaxLen = kMatchMinLen + kNumLenSymbols - 1;
 	}
 }
