@@ -4,6 +4,11 @@ namespace Subrom.Domain.ValueObjects;
 /// Combines all hash values for a ROM file.
 /// </summary>
 public readonly record struct RomHashes {
+	/// <summary>
+	/// Empty hash value for error cases.
+	/// </summary>
+	public static RomHashes Empty => default;
+
 	public Crc Crc { get; init; }
 	public Md5 Md5 { get; init; }
 	public Sha1 Sha1 { get; init; }
