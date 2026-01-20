@@ -13,7 +13,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | 🟢 Near Complete | 25 | 92% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
-| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 0% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 30% |
+| #9 | Backend Rebuild | 🟡 In Progress | 35 | 5% |
+| #10 | System Tray & Service | ⚪ Not Started | 15 | 0% |
 
 ---
 
@@ -287,7 +289,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `performance`, `priority-high`
 
-**Status:** 🟡 In Progress
+**Status:** 🟡 In Progress (30%)
 
 **Reference Data:**
 - TOSEC Pack: 4,743 DAT files, ~100MB compressed
@@ -296,37 +298,37 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #8.1: SignalR Streaming
 
-**Parent:** #8 | **Status:** 🟡 In Progress
+**Parent:** #8 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #300 | Add SignalR hub for import progress | ⬜ Todo | #8.1 |
-| #301 | Implement batch progress reporting | ⬜ Todo | #8.1 |
+| #300 | Add SignalR streaming event types | ✅ Done | #8.1 |
+| #301 | Enhance useSignalR hook with streaming | ✅ Done | #8.1 |
 | #302 | Add large file hashing progress events | ⬜ Todo | #8.1 |
 | #303 | Implement cache invalidation events | ⬜ Todo | #8.1 |
 | #304 | Add connection state recovery | ⬜ Todo | #8.1 |
 
 ### Sub-Epic #8.2: Virtual Data Tables
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #310 | Add react-window for virtualization | ⬜ Todo | #8.2 |
-| #311 | Create VirtualTable component | ⬜ Todo | #8.2 |
-| #312 | Implement infinite scroll loading | ⬜ Todo | #8.2 |
+| #310 | Add react-window for virtualization | ✅ Done | #8.2 |
+| #311 | Create VirtualTable component | ✅ Done | #8.2 |
+| #312 | Implement infinite scroll loading | ✅ Done | #8.2 |
 | #313 | Add cursor-based pagination support | ⬜ Todo | #8.2 |
 | #314 | Optimize row rendering performance | ⬜ Todo | #8.2 |
 
 ### Sub-Epic #8.3: Client-Side Caching
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #320 | Create LRU cache store | ⬜ Todo | #8.3 |
-| #321 | Implement memory monitoring | ⬜ Todo | #8.3 |
-| #322 | Add TTL-based expiration | ⬜ Todo | #8.3 |
+| #320 | Create LRU cache store | ✅ Done | #8.3 |
+| #321 | Implement memory monitoring | ✅ Done | #8.3 |
+| #322 | Add TTL-based expiration | ✅ Done | #8.3 |
 | #323 | Implement cache invalidation handlers | ⬜ Todo | #8.3 |
 | #324 | Add visibility-based cache cleanup | ⬜ Todo | #8.3 |
 
@@ -351,6 +353,167 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #341 | Create TreeView component | ⬜ Todo | #8.5 |
 | #342 | Implement lazy branch loading | ⬜ Todo | #8.5 |
 | #343 | Add hierarchy stats aggregation | ⬜ Todo | #8.5 |
+
+### Sub-Epic #8.6: Progress Display
+
+**Parent:** #8 | **Status:** ✅ Complete
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #350 | Create OperationProgress component | ✅ Done | #8.6 |
+| #351 | Add multi-stage progress support | ✅ Done | #8.6 |
+| #352 | Implement progress streaming | ✅ Done | #8.6 |
+
+---
+
+## Epic #9: Backend Rebuild
+
+**Goal:** Rebuild backend using modern .NET 10/C# 14 with clean architecture, optimized for Plex-like local server operation
+
+**Labels:** `epic`, `backend`, `architecture`, `priority-critical`
+
+**Status:** 🟡 In Progress (5%)
+
+**Reference:** See [backend-rebuild.md](../plans/backend-rebuild.md) for detailed architecture
+
+### Sub-Epic #9.1: Domain Layer
+
+**Parent:** #9 | **Status:** 🟡 In Progress
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #400 | Create new Subrom.Domain project | ⬜ Todo | #9.1 |
+| #401 | Design DAT file aggregate root | ⬜ Todo | #9.1 |
+| #402 | Design Game/ROM aggregate with region | ⬜ Todo | #9.1 |
+| #403 | Create Hash value objects (Crc, Md5, Sha1) | ✅ Done | #9.1 |
+| #404 | Design Drive entity with offline support | ⬜ Todo | #9.1 |
+| #405 | Create ScanJob entity with progress | ⬜ Todo | #9.1 |
+| #406 | Design Settings configuration entity | ⬜ Todo | #9.1 |
+| #407 | Add domain events for SignalR | ⬜ Todo | #9.1 |
+| #408 | Create domain validation rules | ⬜ Todo | #9.1 |
+
+### Sub-Epic #9.2: Application Layer
+
+**Parent:** #9 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #410 | Create new Subrom.Application project | ⬜ Todo | #9.2 |
+| #411 | Implement DatFileService | ⬜ Todo | #9.2 |
+| #412 | Implement ScanService with channels | ⬜ Todo | #9.2 |
+| #413 | Implement HashService with parallel ops | ⬜ Todo | #9.2 |
+| #414 | Implement VerificationService | ⬜ Todo | #9.2 |
+| #415 | Implement DriveService with monitoring | ⬜ Todo | #9.2 |
+| #416 | Create MediatR command/query handlers | ⬜ Todo | #9.2 |
+| #417 | Add FluentValidation validators | ⬜ Todo | #9.2 |
+| #418 | Implement Mapperly mappers | ⬜ Todo | #9.2 |
+
+### Sub-Epic #9.3: Infrastructure Layer
+
+**Parent:** #9 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #420 | Create new Subrom.Infrastructure project | ⬜ Todo | #9.3 |
+| #421 | Implement EF Core DbContext with SQLite | ⬜ Todo | #9.3 |
+| #422 | Add SQLite optimizations (WAL, mmap) | ⬜ Todo | #9.3 |
+| #423 | Create entity configurations | ⬜ Todo | #9.3 |
+| #424 | Implement repository pattern | ⬜ Todo | #9.3 |
+| #425 | Add XML/ClrMamePro DAT parsers | ⬜ Todo | #9.3 |
+| #426 | Implement streaming XML parser | ⬜ Todo | #9.3 |
+| #427 | Create file system abstraction | ⬜ Todo | #9.3 |
+| #428 | Add 7-Zip compression support | ✅ Done | #9.3 |
+
+### Sub-Epic #9.4: Web API Layer
+
+**Parent:** #9 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #430 | Create new Subrom.Server project | ⬜ Todo | #9.4 |
+| #431 | Configure minimal API endpoints | ⬜ Todo | #9.4 |
+| #432 | Add Scalar/OpenAPI documentation | ⬜ Todo | #9.4 |
+| #433 | Implement SignalR SubromHub | ⬜ Todo | #9.4 |
+| #434 | Add CORS for localhost dev | ⬜ Todo | #9.4 |
+| #435 | Configure Serilog structured logging | ⬜ Todo | #9.4 |
+| #436 | Add health check endpoint | ⬜ Todo | #9.4 |
+| #437 | Implement static file serving for UI | ⬜ Todo | #9.4 |
+| #438 | Add global exception handling | ⬜ Todo | #9.4 |
+
+### Sub-Epic #9.5: Testing
+
+**Parent:** #9 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #440 | Create Subrom.Tests.Unit project | ⬜ Todo | #9.5 |
+| #441 | Create Subrom.Tests.Integration project | ⬜ Todo | #9.5 |
+| #442 | Add domain model unit tests | ⬜ Todo | #9.5 |
+| #443 | Add service layer unit tests | ⬜ Todo | #9.5 |
+| #444 | Add API integration tests | ⬜ Todo | #9.5 |
+| #445 | Add DAT parser tests with sample files | ⬜ Todo | #9.5 |
+
+---
+
+## Epic #10: System Tray & Windows Service
+
+**Goal:** Implement Plex-like system tray application and optional Windows Service for background operation
+
+**Labels:** `epic`, `desktop`, `windows`, `priority-high`
+
+**Status:** ⚪ Not Started
+
+**Reference:** See [plex-like-architecture.md](../plans/plex-like-architecture.md) for detailed design
+
+### Sub-Epic #10.1: System Tray Application
+
+**Parent:** #10 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #500 | Create Subrom.Tray Windows Forms project | ⬜ Todo | #10.1 |
+| #501 | Implement NotifyIcon with context menu | ⬜ Todo | #10.1 |
+| #502 | Add server process management | ⬜ Todo | #10.1 |
+| #503 | Implement icon state indicators | ⬜ Todo | #10.1 |
+| #504 | Add notification support | ⬜ Todo | #10.1 |
+| #505 | Create quick actions menu | ⬜ Todo | #10.1 |
+| #506 | Implement "Open in Browser" action | ⬜ Todo | #10.1 |
+| #507 | Add single-instance enforcement | ⬜ Todo | #10.1 |
+
+### Sub-Epic #10.2: Windows Service
+
+**Parent:** #10 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #510 | Create Subrom.Service project | ⬜ Todo | #10.2 |
+| #511 | Implement WindowsService hosting | ⬜ Todo | #10.2 |
+| #512 | Add service installer | ⬜ Todo | #10.2 |
+| #513 | Configure service recovery options | ⬜ Todo | #10.2 |
+| #514 | Add service control from tray app | ⬜ Todo | #10.2 |
+
+### Sub-Epic #10.3: Settings & Configuration
+
+**Parent:** #10 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #520 | Design settings.json schema | ⬜ Todo | #10.3 |
+| #521 | Implement IOptions configuration | ⬜ Todo | #10.3 |
+| #522 | Add settings persistence | ⬜ Todo | #10.3 |
+| #523 | Create settings dialog in tray app | ⬜ Todo | #10.3 |
+| #524 | Implement startup registration | ⬜ Todo | #10.3 |
+
+### Sub-Epic #10.4: Logging & Diagnostics
+
+**Parent:** #10 | **Status:** ⚪ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #530 | Configure Serilog file rolling | ⬜ Todo | #10.4 |
+| #531 | Add log viewer dialog | ⬜ Todo | #10.4 |
+| #532 | Implement crash reporting | ⬜ Todo | #10.4 |
+| #533 | Add diagnostic endpoint | ⬜ Todo | #10.4 |
 
 ---
 
