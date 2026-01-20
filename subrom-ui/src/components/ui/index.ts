@@ -17,6 +17,12 @@ export type { ProgressBarProps } from './ProgressBar';
 export { DataTable } from './DataTable';
 export type { DataTableProps, Column } from './DataTable';
 
+export { VirtualTable } from './VirtualTable';
+export type { VirtualTableProps, VirtualColumn } from './VirtualTable';
+
+export { OperationProgress } from './OperationProgress';
+export type { OperationProgressProps, OperationType } from './OperationProgress';
+
 export { FileUpload } from './FileUpload';
 export type { FileUploadProps } from './FileUpload';
 
