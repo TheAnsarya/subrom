@@ -11,8 +11,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 40% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
-| #6 | Web UI Rebuild | � Near Complete | 25 | 92% |
+| #6 | Web UI Rebuild | 🟢 Near Complete | 25 | 92% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 0% |
 
 ---
 
@@ -269,12 +270,87 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 - `ui` - Frontend
 - `cli` - Command line interface
 - `database` - Database related
+- `performance` - Performance optimization
+- `caching` - Cache related
 
 ### Status
 - `needs-triage` - Needs review
 - `blocked` - Waiting on something
 - `in-progress` - Being worked on
 - `ready-for-review` - PR ready
+
+---
+
+## Epic #8: Large Dataset Handling
+
+**Goal:** Handle DAT files with 60K+ entries, 4K+ DAT file collections, and ROM files ranging from KB to GB
+
+**Labels:** `epic`, `performance`, `priority-high`
+
+**Status:** 🟡 In Progress
+
+**Reference Data:**
+- TOSEC Pack: 4,743 DAT files, ~100MB compressed
+- Largest single DAT: 61,454 entries (18MB XML)
+- File sizes: KB (NES ROMs) to GB (disc images)
+
+### Sub-Epic #8.1: SignalR Streaming
+
+**Parent:** #8 | **Status:** 🟡 In Progress
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #300 | Add SignalR hub for import progress | ⬜ Todo | #8.1 |
+| #301 | Implement batch progress reporting | ⬜ Todo | #8.1 |
+| #302 | Add large file hashing progress events | ⬜ Todo | #8.1 |
+| #303 | Implement cache invalidation events | ⬜ Todo | #8.1 |
+| #304 | Add connection state recovery | ⬜ Todo | #8.1 |
+
+### Sub-Epic #8.2: Virtual Data Tables
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #310 | Add react-window for virtualization | ⬜ Todo | #8.2 |
+| #311 | Create VirtualTable component | ⬜ Todo | #8.2 |
+| #312 | Implement infinite scroll loading | ⬜ Todo | #8.2 |
+| #313 | Add cursor-based pagination support | ⬜ Todo | #8.2 |
+| #314 | Optimize row rendering performance | ⬜ Todo | #8.2 |
+
+### Sub-Epic #8.3: Client-Side Caching
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #320 | Create LRU cache store | ⬜ Todo | #8.3 |
+| #321 | Implement memory monitoring | ⬜ Todo | #8.3 |
+| #322 | Add TTL-based expiration | ⬜ Todo | #8.3 |
+| #323 | Implement cache invalidation handlers | ⬜ Todo | #8.3 |
+| #324 | Add visibility-based cache cleanup | ⬜ Todo | #8.3 |
+
+### Sub-Epic #8.4: Server-Side Streaming
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #330 | Add streaming XML parser | ⬜ Todo | #8.4 |
+| #331 | Implement batch database inserts | ⬜ Todo | #8.4 |
+| #332 | Add cursor-based API endpoints | ⬜ Todo | #8.4 |
+| #333 | Implement chunked file hashing | ⬜ Todo | #8.4 |
+
+### Sub-Epic #8.5: DAT Hierarchy
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #340 | Design DAT hierarchy data model | ⬜ Todo | #8.5 |
+| #341 | Create TreeView component | ⬜ Todo | #8.5 |
+| #342 | Implement lazy branch loading | ⬜ Todo | #8.5 |
+| #343 | Add hierarchy stats aggregation | ⬜ Todo | #8.5 |
 
 ---
 
