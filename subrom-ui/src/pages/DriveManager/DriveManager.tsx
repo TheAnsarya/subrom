@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faHdd,
@@ -10,83 +10,87 @@ import {
 	faFolder,
 	faFolderOpen,
 	faTrash,
-	faEllipsisV
+	faEllipsisV,
+	faSpinner
 } from '@fortawesome/free-solid-svg-icons';
+import { useDrives, useCreateDrive, useRefreshDrive, useDeleteDrive, useCreateScan, type Drive } from '../../api';
 import './DriveManager.css';
 
-interface Drive {
-	id: string;
-	name: string;
-	path: string;
-	status: 'online' | 'offline' | 'scanning';
-	totalSize: string;
-	usedSize: string;
-	romCount: number;
-	lastScan?: string;
+function formatBytes(bytes: number): string {
+	if (bytes === 0) return '0 B';
+	const k = 1024;
+	const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
-const DriveManager: React.FC = () => {
-	const [drives] = useState<Drive[]>([
-		{
-			id: '1',
-			name: 'Main ROM Storage',
-			path: 'D:\\ROMs',
-			status: 'online',
-			totalSize: '2 TB',
-			usedSize: '1.2 TB',
-			romCount: 15234,
-			lastScan: '2024-01-19 10:30'
-		},
-		{
-			id: '2',
-			name: 'Backup Drive',
-			path: 'E:\\ROM-Backup',
-			status: 'online',
-			totalSize: '4 TB',
-			usedSize: '2.8 TB',
-			romCount: 23456,
-			lastScan: '2024-01-18 22:15'
-		},
-		{
-			id: '3',
-			name: 'Portable Storage',
-			path: 'F:\\Games',
-			status: 'offline',
-			totalSize: '500 GB',
-			usedSize: '450 GB',
-			romCount: 8721,
-			lastScan: '2024-01-15 14:45'
-		},
-		{
-			id: '4',
-			name: 'NAS Archive',
-			path: '\\\\NAS\\ROMs',
-			status: 'scanning',
-			totalSize: '8 TB',
-			usedSize: '5.2 TB',
-			romCount: 45678,
-			lastScan: 'In progress...'
-		},
-	]);
+function formatDate(dateString: string | null): string {
+	if (!dateString) return 'Never';
+	return new Date(dateString).toLocaleString();
+}
 
-	const getStatusIcon = (status: string) => {
-		switch (status) {
-			case 'online':
-				return <FontAwesomeIcon icon={faCheckCircle} className="drive-status-icon online" />;
-			case 'offline':
-				return <FontAwesomeIcon icon={faTimesCircle} className="drive-status-icon offline" />;
-			case 'scanning':
-				return <FontAwesomeIcon icon={faSync} className="drive-status-icon scanning fa-spin" />;
-			default:
-				return null;
+export default function DriveManager() {
+	const { data: drives, isLoading, error, refetch } = useDrives();
+	const createDrive = useCreateDrive();
+	const refreshDrive = useRefreshDrive();
+	const deleteDrive = useDeleteDrive();
+	const createScan = useCreateScan();
+
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [newDriveLabel, setNewDriveLabel] = useState('');
+	const [newDrivePath, setNewDrivePath] = useState('');
+
+	const handleAddDrive = () => {
+		if (newDriveLabel.trim() && newDrivePath.trim()) {
+			createDrive.mutate(
+				{ label: newDriveLabel.trim(), path: newDrivePath.trim() },
+				{
+					onSuccess: () => {
+						setShowAddModal(false);
+						setNewDriveLabel('');
+						setNewDrivePath('');
+					},
+				}
+			);
 		}
 	};
 
-	const getUsagePercent = (drive: Drive): number => {
-		const used = parseFloat(drive.usedSize);
-		const total = parseFloat(drive.totalSize);
-		return (used / total) * 100;
+	const handleScan = (drive: Drive) => {
+		createScan.mutate({ rootPath: drive.path, driveId: drive.id, recursive: true, verifyHashes: true });
 	};
+
+	const handleDelete = (drive: Drive) => {
+		if (window.confirm(`Are you sure you want to remove "${drive.label}"? ROM records will be preserved.`)) {
+			deleteDrive.mutate(drive.id);
+		}
+	};
+
+	const getStatusIcon = (drive: Drive) => {
+		if (drive.isOnline) {
+			return <FontAwesomeIcon icon={faCheckCircle} className="drive-status-icon online" />;
+		}
+		return <FontAwesomeIcon icon={faTimesCircle} className="drive-status-icon offline" />;
+	};
+
+	const getUsagePercent = (drive: Drive): number => {
+		if (drive.totalCapacity === 0) return 0;
+		const used = drive.totalCapacity - drive.freeSpace;
+		return (used / drive.totalCapacity) * 100;
+	};
+
+	const offlineDrives = drives?.filter(d => !d.isOnline) ?? [];
+	const offlineRomCount = offlineDrives.reduce((sum, d) => sum + d.romCount, 0);
+
+	if (error) {
+		return (
+			<div className="drive-manager">
+				<div className="error-message">
+					<FontAwesomeIcon icon={faExclamationTriangle} />
+					Failed to load drives: {error.message}
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="drive-manager">
@@ -96,11 +100,11 @@ const DriveManager: React.FC = () => {
 					<p className="page-subtitle">Manage your ROM storage locations</p>
 				</div>
 				<div className="header-actions">
-					<button className="btn btn-secondary">
-						<FontAwesomeIcon icon={faSync} />
+					<button className="btn btn-secondary" onClick={() => refetch()} disabled={isLoading}>
+						<FontAwesomeIcon icon={isLoading ? faSpinner : faSync} spin={isLoading} />
 						Refresh All
 					</button>
-					<button className="btn btn-primary">
+					<button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
 						<FontAwesomeIcon icon={faPlus} />
 						Add Drive
 					</button>
@@ -119,79 +123,150 @@ const DriveManager: React.FC = () => {
 				</div>
 			</div>
 
-			<div className="drives-grid">
-				{drives.map(drive => (
-					<div key={drive.id} className={`drive-card ${drive.status}`}>
-						<div className="drive-header">
-							<div className="drive-icon">
-								<FontAwesomeIcon icon={faHdd} />
+			{isLoading ? (
+				<div className="loading-container">
+					<FontAwesomeIcon icon={faSpinner} spin size="2x" />
+					<p>Loading drives...</p>
+				</div>
+			) : drives && drives.length > 0 ? (
+				<div className="drives-grid">
+					{drives.map(drive => (
+						<div key={drive.id} className={`drive-card ${drive.isOnline ? 'online' : 'offline'}`}>
+							<div className="drive-header">
+								<div className="drive-icon">
+									<FontAwesomeIcon icon={faHdd} />
+								</div>
+								<div className="drive-title">
+									<h3>{drive.label}</h3>
+									<span className="drive-path">{drive.path}</span>
+								</div>
+								<button className="drive-menu">
+									<FontAwesomeIcon icon={faEllipsisV} />
+								</button>
 							</div>
-							<div className="drive-title">
-								<h3>{drive.name}</h3>
-								<span className="drive-path">{drive.path}</span>
+
+							<div className="drive-status">
+								{getStatusIcon(drive)}
+								<span className="status-label">
+									{drive.isOnline ? 'Online' : 'Offline'}
+								</span>
 							</div>
-							<button className="drive-menu">
-								<FontAwesomeIcon icon={faEllipsisV} />
+
+							<div className="drive-storage">
+								<div className="storage-info">
+									<span>{formatBytes(drive.totalCapacity - drive.freeSpace)} / {formatBytes(drive.totalCapacity)}</span>
+									<span>{Math.round(getUsagePercent(drive))}%</span>
+								</div>
+								<div className="storage-bar">
+									<div 
+										className="storage-fill" 
+										style={{ width: `${getUsagePercent(drive)}%` }}
+									/>
+								</div>
+							</div>
+
+							<div className="drive-stats">
+								<div className="stat">
+									<FontAwesomeIcon icon={faFolder} />
+									<span>{drive.romCount.toLocaleString()} ROMs</span>
+								</div>
+								<div className="stat">
+									<FontAwesomeIcon icon={faSync} />
+									<span>{formatDate(drive.lastScanned)}</span>
+								</div>
+							</div>
+
+							<div className="drive-actions">
+								<button 
+									className="btn btn-small btn-secondary" 
+									disabled={!drive.isOnline}
+									onClick={() => refreshDrive.mutate(drive.id)}
+								>
+									<FontAwesomeIcon icon={faFolderOpen} />
+									Refresh
+								</button>
+								<button 
+									className="btn btn-small btn-secondary" 
+									disabled={!drive.isOnline}
+									onClick={() => handleScan(drive)}
+								>
+									<FontAwesomeIcon icon={faSync} />
+									Scan
+								</button>
+								<button 
+									className="btn btn-small btn-danger"
+									onClick={() => handleDelete(drive)}
+								>
+									<FontAwesomeIcon icon={faTrash} />
+								</button>
+							</div>
+						</div>
+					))}
+				</div>
+			) : (
+				<div className="empty-state">
+					<FontAwesomeIcon icon={faHdd} size="3x" />
+					<h3>No Drives Configured</h3>
+					<p>Add a drive to start scanning your ROM collection.</p>
+					<button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
+						<FontAwesomeIcon icon={faPlus} />
+						Add Your First Drive
+					</button>
+				</div>
+			)}
+
+			{offlineDrives.length > 0 && (
+				<div className="offline-summary">
+					<h3>Offline Storage Summary</h3>
+					<p>
+						<strong>{offlineDrives.length} drive{offlineDrives.length > 1 ? 's' : ''}</strong> currently offline, 
+						containing <strong>{offlineRomCount.toLocaleString()} ROMs</strong>.
+						These ROMs are tracked in your database and will be accessible when the drive reconnects.
+					</p>
+				</div>
+			)}
+
+			{showAddModal && (
+				<div className="modal-overlay" onClick={() => setShowAddModal(false)}>
+					<div className="modal" onClick={(e) => e.stopPropagation()}>
+						<h2>Add New Drive</h2>
+						<div className="form-group">
+							<label>Label</label>
+							<input
+								type="text"
+								value={newDriveLabel}
+								onChange={(e) => setNewDriveLabel(e.target.value)}
+								placeholder="e.g., Main ROM Storage"
+							/>
+						</div>
+						<div className="form-group">
+							<label>Path</label>
+							<input
+								type="text"
+								value={newDrivePath}
+								onChange={(e) => setNewDrivePath(e.target.value)}
+								placeholder="e.g., D:\ROMs"
+							/>
+						</div>
+						<div className="modal-actions">
+							<button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>
+								Cancel
 							</button>
-						</div>
-
-						<div className="drive-status">
-							{getStatusIcon(drive.status)}
-							<span className="status-label">
-								{drive.status.charAt(0).toUpperCase() + drive.status.slice(1)}
-							</span>
-						</div>
-
-						<div className="drive-storage">
-							<div className="storage-info">
-								<span>{drive.usedSize} / {drive.totalSize}</span>
-								<span>{Math.round(getUsagePercent(drive))}%</span>
-							</div>
-							<div className="storage-bar">
-								<div 
-									className="storage-fill" 
-									style={{ width: `${getUsagePercent(drive)}%` }}
-								/>
-							</div>
-						</div>
-
-						<div className="drive-stats">
-							<div className="stat">
-								<FontAwesomeIcon icon={faFolder} />
-								<span>{drive.romCount.toLocaleString()} ROMs</span>
-							</div>
-							<div className="stat">
-								<FontAwesomeIcon icon={faSync} />
-								<span>{drive.lastScan}</span>
-							</div>
-						</div>
-
-						<div className="drive-actions">
-							<button className="btn btn-small btn-secondary" disabled={drive.status === 'offline'}>
-								<FontAwesomeIcon icon={faFolderOpen} />
-								Browse
-							</button>
-							<button className="btn btn-small btn-secondary" disabled={drive.status !== 'online'}>
-								<FontAwesomeIcon icon={faSync} />
-								Scan
-							</button>
-							<button className="btn btn-small btn-danger">
-								<FontAwesomeIcon icon={faTrash} />
+							<button 
+								className="btn btn-primary" 
+								onClick={handleAddDrive}
+								disabled={createDrive.isPending || !newDriveLabel.trim() || !newDrivePath.trim()}
+							>
+								{createDrive.isPending ? (
+									<><FontAwesomeIcon icon={faSpinner} spin /> Adding...</>
+								) : (
+									<><FontAwesomeIcon icon={faPlus} /> Add Drive</>
+								)}
 							</button>
 						</div>
 					</div>
-				))}
-			</div>
-
-			<div className="offline-summary">
-				<h3>Offline Storage Summary</h3>
-				<p>
-					<strong>1 drive</strong> is currently offline, containing <strong>8,721 ROMs</strong>.
-					These ROMs are tracked in your database and will be accessible when the drive reconnects.
-				</p>
-			</div>
+				</div>
+			)}
 		</div>
 	);
-};
-
-export default DriveManager;
+}

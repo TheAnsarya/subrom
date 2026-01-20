@@ -277,6 +277,36 @@
 	background: var(--bg-hover);
 }
 
+/* Info Box */
+.info-box {
+	padding: 1rem;
+	background: rgba(33, 150, 243, 0.1);
+	border: 1px solid var(--accent-primary);
+	border-radius: 8px;
+	margin-top: 1rem;
+}
+
+.info-box p {
+	margin: 0;
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+	line-height: 1.5;
+}
+
+.info-box strong {
+	color: var(--text-primary);
+}
+
+/* Input Readonly */
+.input-readonly {
+	padding: 0.75rem;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	color: var(--text-muted);
+	font-size: 0.875rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
 	.settings-container {

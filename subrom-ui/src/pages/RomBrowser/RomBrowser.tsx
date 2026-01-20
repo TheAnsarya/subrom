@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faGamepad,
@@ -9,170 +9,114 @@ import {
 	faChevronRight,
 	faChevronDown,
 	faFolder,
-	faFolderOpen
+	faFolderOpen,
+	faSpinner,
+	faHdd
 } from '@fortawesome/free-solid-svg-icons';
+import { useRoms, useDrives, useRomStats, type RomFile } from '../../api';
+import { useDisplaySettings } from '../../store';
 import './RomBrowser.css';
 
-interface SystemNode {
-	id: string;
-	name: string;
-	icon?: any;
-	children?: SystemNode[];
-	romCount?: number;
-	completePercent?: number;
+function formatBytes(bytes: number): string {
+	if (bytes === 0) return '0 B';
+	const k = 1024;
+	const sizes = ['B', 'KB', 'MB', 'GB'];
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
-interface Rom {
-	id: string;
-	name: string;
-	status: 'verified' | 'missing' | 'bad' | 'unknown';
-	size?: string;
-	crc?: string;
-	region?: string;
-}
-
-const RomBrowser: React.FC = () => {
-	const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(['nintendo']));
-	const [selectedSystem, setSelectedSystem] = useState<string | null>('nes');
+export default function RomBrowser() {
+	const displaySettings = useDisplaySettings();
+	const [selectedDriveId, setSelectedDriveId] = useState<string | null>(null);
 	const [searchTerm, setSearchTerm] = useState('');
-	const [statusFilter, setStatusFilter] = useState('all');
+	const [statusFilter, setStatusFilter] = useState<'all' | 'online' | 'offline' | 'verified'>('all');
+	const [page, setPage] = useState(1);
 
-	// Mock system tree
-	const systemTree: SystemNode[] = [
-		{
-			id: 'nintendo',
-			name: 'Nintendo',
-			children: [
-				{ id: 'nes', name: 'NES', romCount: 2847, completePercent: 92 },
-				{ id: 'snes', name: 'SNES', romCount: 3521, completePercent: 88 },
-				{ id: 'n64', name: 'N64', romCount: 387, completePercent: 76 },
-				{ id: 'gb', name: 'Game Boy', romCount: 1456, completePercent: 95 },
-				{ id: 'gba', name: 'GBA', romCount: 2531, completePercent: 89 },
-			]
-		},
-		{
-			id: 'sega',
-			name: 'Sega',
-			children: [
-				{ id: 'genesis', name: 'Genesis', romCount: 1856, completePercent: 78 },
-				{ id: 'mastersystem', name: 'Master System', romCount: 567, completePercent: 82 },
-				{ id: 'gamegear', name: 'Game Gear', romCount: 432, completePercent: 91 },
-			]
-		},
-		{
-			id: 'sony',
-			name: 'Sony',
-			children: [
-				{ id: 'ps1', name: 'PlayStation', romCount: 4521, completePercent: 45 },
-				{ id: 'psp', name: 'PSP', romCount: 2156, completePercent: 38 },
-			]
-		},
-	];
+	const { data: drives, isLoading: drivesLoading } = useDrives();
+	const { data: romStats } = useRomStats();
+	const { data: romsData, isLoading: romsLoading, error } = useRoms({
+		driveId: selectedDriveId ?? undefined,
+		search: searchTerm || undefined,
+		online: statusFilter === 'online' ? true : statusFilter === 'offline' ? false : undefined,
+		verified: statusFilter === 'verified' ? true : undefined,
+		page,
+		pageSize: displaySettings.pageSize,
+	});
 
-	// Mock ROMs
-	const roms: Rom[] = [
-		{ id: '1', name: 'Super Mario Bros. (USA)', status: 'verified', size: '40 KB', crc: 'D445F698', region: 'USA' },
-		{ id: '2', name: 'Super Mario Bros. 2 (USA)', status: 'verified', size: '128 KB', crc: 'E0CA425F', region: 'USA' },
-		{ id: '3', name: 'Super Mario Bros. 3 (USA)', status: 'bad', size: '384 KB', crc: '00000000', region: 'USA' },
-		{ id: '4', name: 'Legend of Zelda, The (USA)', status: 'verified', size: '128 KB', crc: 'A12B3C4D', region: 'USA' },
-		{ id: '5', name: 'Zelda II - The Adventure of Link (USA)', status: 'missing', region: 'USA' },
-		{ id: '6', name: 'Metroid (USA)', status: 'verified', size: '128 KB', crc: 'B5C6D7E8', region: 'USA' },
-		{ id: '7', name: 'Mega Man (USA)', status: 'verified', size: '128 KB', crc: 'F9A0B1C2', region: 'USA' },
-		{ id: '8', name: 'Mega Man 2 (USA)', status: 'missing', region: 'USA' },
-		{ id: '9', name: 'Castlevania (USA)', status: 'verified', size: '128 KB', crc: 'D3E4F5A6', region: 'USA' },
-		{ id: '10', name: 'Contra (USA)', status: 'verified', size: '128 KB', crc: '78901234', region: 'USA' },
-	];
+	const roms = romsData?.items ?? [];
+	const totalPages = romsData?.totalPages ?? 1;
 
-	const toggleNode = (id: string) => {
-		setExpandedNodes(prev => {
-			const next = new Set(prev);
-			if (next.has(id)) {
-				next.delete(id);
-			} else {
-				next.add(id);
-			}
-			return next;
-		});
-	};
-
-	const getStatusIcon = (status: string) => {
-		switch (status) {
-			case 'verified':
-				return <FontAwesomeIcon icon={faCheckCircle} className="rom-status verified" />;
-			case 'missing':
-				return <FontAwesomeIcon icon={faTimesCircle} className="rom-status missing" />;
-			case 'bad':
-				return <FontAwesomeIcon icon={faExclamationTriangle} className="rom-status bad" />;
-			default:
-				return null;
+	const getStatusIcon = (rom: RomFile) => {
+		if (rom.verifiedAt) {
+			return <FontAwesomeIcon icon={faCheckCircle} className="rom-status verified" title="Verified" />;
 		}
+		if (!rom.isOnline) {
+			return <FontAwesomeIcon icon={faTimesCircle} className="rom-status offline" title="Offline" />;
+		}
+		return <FontAwesomeIcon icon={faExclamationTriangle} className="rom-status unverified" title="Unverified" />;
 	};
 
-	const renderSystemNode = (node: SystemNode, depth = 0) => {
-		const hasChildren = node.children && node.children.length > 0;
-		const isExpanded = expandedNodes.has(node.id);
-		const isSelected = selectedSystem === node.id;
+	const driveMap = useMemo(() => {
+		const map = new Map<string, string>();
+		drives?.forEach(d => map.set(d.id, d.label));
+		return map;
+	}, [drives]);
 
+	if (error) {
 		return (
-			<div key={node.id} className="tree-node">
-				<div
-					className={`tree-item ${isSelected ? 'selected' : ''}`}
-					style={{ paddingLeft: `${depth * 16 + 8}px` }}
-					onClick={() => {
-						if (hasChildren) {
-							toggleNode(node.id);
-						} else {
-							setSelectedSystem(node.id);
-						}
-					}}
-				>
-					{hasChildren ? (
-						<FontAwesomeIcon
-							icon={isExpanded ? faChevronDown : faChevronRight}
-							className="tree-toggle"
-						/>
-					) : (
-						<span className="tree-toggle-spacer" />
-					)}
-					<FontAwesomeIcon
-						icon={hasChildren ? (isExpanded ? faFolderOpen : faFolder) : faGamepad}
-						className="tree-icon"
-					/>
-					<span className="tree-label">{node.name}</span>
-					{node.completePercent !== undefined && (
-						<span className="tree-percent">{node.completePercent}%</span>
-					)}
+			<div className="rom-browser">
+				<div className="error-message">
+					<FontAwesomeIcon icon={faExclamationTriangle} />
+					Failed to load ROMs: {error.message}
 				</div>
-				{hasChildren && isExpanded && (
-					<div className="tree-children">
-						{node.children!.map(child => renderSystemNode(child, depth + 1))}
-					</div>
-				)}
 			</div>
 		);
-	};
-
-	const filteredRoms = roms.filter(rom => {
-		const matchesSearch = rom.name.toLowerCase().includes(searchTerm.toLowerCase());
-		const matchesStatus = statusFilter === 'all' || rom.status === statusFilter;
-		return matchesSearch && matchesStatus;
-	});
+	}
 
 	return (
 		<div className="rom-browser">
 			<div className="page-header">
 				<h1>ROM Collection</h1>
-				<p className="page-subtitle">Browse and verify your ROM files</p>
+				<p className="page-subtitle">
+					{romStats ? `${romStats.totalRoms.toLocaleString()} ROMs (${formatBytes(romStats.totalSize)})` : 'Browse and verify your ROM files'}
+				</p>
 			</div>
 
 			<div className="browser-content">
 				<aside className="system-sidebar">
 					<div className="sidebar-header">
-						<h3>Systems</h3>
+						<h3>Drives</h3>
 					</div>
-					<div className="system-tree">
-						{systemTree.map(node => renderSystemNode(node))}
-					</div>
+					{drivesLoading ? (
+						<div className="loading-spinner">
+							<FontAwesomeIcon icon={faSpinner} spin />
+						</div>
+					) : (
+						<div className="system-tree">
+							<div
+								className={`tree-item ${!selectedDriveId ? 'selected' : ''}`}
+								onClick={() => setSelectedDriveId(null)}
+							>
+								<FontAwesomeIcon icon={faGamepad} className="tree-icon" />
+								<span className="tree-label">All ROMs</span>
+								<span className="tree-count">{romStats?.totalRoms ?? 0}</span>
+							</div>
+							{drives?.map(drive => (
+								<div
+									key={drive.id}
+									className={`tree-item ${selectedDriveId === drive.id ? 'selected' : ''} ${!drive.isOnline ? 'offline' : ''}`}
+									onClick={() => setSelectedDriveId(drive.id)}
+								>
+									<FontAwesomeIcon icon={faHdd} className="tree-icon" />
+									<span className="tree-label">{drive.label}</span>
+									<span className="tree-count">{drive.romCount}</span>
+									{!drive.isOnline && (
+										<FontAwesomeIcon icon={faTimesCircle} className="offline-indicator" title="Offline" />
+									)}
+								</div>
+							))}
+						</div>
+					)}
 				</aside>
 
 				<main className="rom-list-container">
@@ -183,44 +127,77 @@ const RomBrowser: React.FC = () => {
 								type="text"
 								placeholder="Search ROMs..."
 								value={searchTerm}
-								onChange={(e) => setSearchTerm(e.target.value)}
+								onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
 							/>
 						</div>
 						<select
 							value={statusFilter}
-							onChange={(e) => setStatusFilter(e.target.value)}
+							onChange={(e) => { setStatusFilter(e.target.value as typeof statusFilter); setPage(1); }}
 							className="status-filter"
 						>
 							<option value="all">All Status</option>
 							<option value="verified">Verified</option>
-							<option value="missing">Missing</option>
-							<option value="bad">Bad Dump</option>
+							<option value="online">Online</option>
+							<option value="offline">Offline</option>
 						</select>
 					</div>
 
-					<div className="rom-list">
-						{filteredRoms.map(rom => (
-							<div key={rom.id} className={`rom-item ${rom.status}`}>
-								<div className="rom-icon">
-									{getStatusIcon(rom.status)}
-								</div>
-								<div className="rom-info">
-									<div className="rom-name">{rom.name}</div>
-									<div className="rom-meta">
-										{rom.size && <span className="rom-size">{rom.size}</span>}
-										{rom.crc && <span className="rom-crc">CRC: {rom.crc}</span>}
+					{romsLoading ? (
+						<div className="loading-container">
+							<FontAwesomeIcon icon={faSpinner} spin size="2x" />
+							<p>Loading ROMs...</p>
+						</div>
+					) : roms.length > 0 ? (
+						<>
+							<div className="rom-list">
+								{roms.map(rom => (
+									<div key={rom.id} className={`rom-item ${rom.isOnline ? 'online' : 'offline'}`}>
+										<div className="rom-icon">
+											{getStatusIcon(rom)}
+										</div>
+										<div className="rom-info">
+											<div className="rom-name">{rom.fileName}</div>
+											<div className="rom-meta">
+												<span className="rom-size">{formatBytes(rom.size)}</span>
+												{rom.crc32 && <span className="rom-crc">CRC: {rom.crc32}</span>}
+												<span className="rom-drive">{driveMap.get(rom.driveId) ?? 'Unknown Drive'}</span>
+											</div>
+										</div>
+										<div className="rom-status-badge">
+											{rom.isOnline ? 'Online' : 'Offline'}
+										</div>
 									</div>
-								</div>
-								<div className="rom-region">
-									{rom.region}
-								</div>
+								))}
 							</div>
-						))}
-					</div>
+							{totalPages > 1 && (
+								<div className="pagination">
+									<button
+										className="btn btn-secondary"
+										disabled={page <= 1}
+										onClick={() => setPage(p => p - 1)}
+									>
+										Previous
+									</button>
+									<span className="page-info">Page {page} of {totalPages}</span>
+									<button
+										className="btn btn-secondary"
+										disabled={page >= totalPages}
+										onClick={() => setPage(p => p + 1)}
+									>
+										Next
+									</button>
+								</div>
+							)}
+						</>
+					) : (
+						<div className="empty-state">
+							<FontAwesomeIcon icon={faGamepad} size="3x" />
+							<h3>No ROMs Found</h3>
+							<p>{searchTerm || statusFilter !== 'all' ? 'No ROMs match your filters.' : 'Scan a drive to add ROMs to your collection.'}</p>
+						</div>
+					)}
 				</main>
 			</div>
 		</div>
 	);
-};
-
-export default RomBrowser;
+}
