@@ -1,0 +1,228 @@
+/* ROM Browser Styles */
+.rom-browser {
+	height: calc(100vh - 60px - 3rem);
+	display: flex;
+	flex-direction: column;
+}
+
+.browser-content {
+	display: grid;
+	grid-template-columns: 250px 1fr;
+	gap: 1rem;
+	flex: 1;
+	min-height: 0;
+}
+
+/* System Sidebar */
+.system-sidebar {
+	background: var(--bg-primary);
+	border-radius: 8px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.sidebar-header {
+	padding: 1rem;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h3 {
+	margin: 0;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.system-tree {
+	flex: 1;
+	overflow-y: auto;
+	padding: 0.5rem 0;
+}
+
+.tree-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem;
+	cursor: pointer;
+	color: var(--text-secondary);
+	transition: all 0.15s ease;
+}
+
+.tree-item:hover {
+	background: var(--bg-hover);
+	color: var(--text-primary);
+}
+
+.tree-item.selected {
+	background: var(--accent-primary-light);
+	color: var(--accent-primary);
+}
+
+.tree-toggle {
+	width: 12px;
+	font-size: 0.7rem;
+	color: var(--text-muted);
+}
+
+.tree-toggle-spacer {
+	width: 12px;
+}
+
+.tree-icon {
+	width: 16px;
+	font-size: 0.875rem;
+}
+
+.tree-label {
+	flex: 1;
+	font-size: 0.875rem;
+}
+
+.tree-percent {
+	font-size: 0.75rem;
+	color: var(--text-muted);
+}
+
+/* ROM List Container */
+.rom-list-container {
+	background: var(--bg-primary);
+	border-radius: 8px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.rom-filters {
+	display: flex;
+	gap: 1rem;
+	padding: 1rem;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.rom-filters .search-box {
+	flex: 1;
+	position: relative;
+	max-width: 400px;
+}
+
+.rom-filters .search-icon {
+	position: absolute;
+	left: 0.75rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--text-muted);
+}
+
+.rom-filters input {
+	width: 100%;
+	padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	background: var(--bg-secondary);
+	color: var(--text-primary);
+	font-size: 0.875rem;
+}
+
+.rom-filters input:focus {
+	outline: none;
+	border-color: var(--accent-primary);
+}
+
+.status-filter {
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	background: var(--bg-secondary);
+	color: var(--text-primary);
+	font-size: 0.875rem;
+}
+
+/* ROM List */
+.rom-list {
+	flex: 1;
+	overflow-y: auto;
+	padding: 0.5rem;
+}
+
+.rom-item {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	border-radius: 6px;
+	margin-bottom: 0.25rem;
+	transition: background 0.15s ease;
+}
+
+.rom-item:hover {
+	background: var(--bg-hover);
+}
+
+.rom-item.missing {
+	opacity: 0.7;
+}
+
+.rom-icon {
+	width: 24px;
+	text-align: center;
+}
+
+.rom-status {
+	font-size: 1rem;
+}
+
+.rom-status.verified {
+	color: var(--accent-success);
+}
+
+.rom-status.missing {
+	color: var(--accent-danger);
+}
+
+.rom-status.bad {
+	color: var(--accent-warning);
+}
+
+.rom-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.rom-name {
+	font-size: 0.875rem;
+	color: var(--text-primary);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.rom-meta {
+	display: flex;
+	gap: 1rem;
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	margin-top: 0.125rem;
+}
+
+.rom-region {
+	font-size: 0.75rem;
+	color: var(--text-secondary);
+	background: var(--bg-secondary);
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.browser-content {
+		grid-template-columns: 1fr;
+	}
+	
+	.system-sidebar {
+		display: none;
+	}
+}
