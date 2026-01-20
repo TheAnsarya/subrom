@@ -354,11 +354,12 @@ public class ProgressHub : Hub {
 - [x] Implement basic repositories
 - [ ] Add Serilog logging
 
-### Phase 2: Application Services (Week 2) 🔄 IN PROGRESS
-- [ ] DatService with import/parse
+### Phase 2: Application Services (Week 2) ✅ COMPLETE
+- [x] DatFileService with import/parse
 - [x] HashService with parallel hashing
-- [ ] ScanService with background processing
-- [ ] DriveService with online detection
+- [x] ScanService with background processing
+- [x] DriveService with online detection
+- [x] VerificationService for ROM verification
 
 ### Phase 3: Web API (Week 3) 🔄 IN PROGRESS
 - [ ] Controllers for all endpoints

@@ -14,7 +14,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #6 | Web UI Rebuild | 🟢 Near Complete | 25 | 92% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
 | #8 | Large Dataset Handling | 🟡 In Progress | 20 | 30% |
-| #9 | Backend Rebuild | 🟡 In Progress | 35 | 50% |
+| #9 | Backend Rebuild | 🟡 In Progress | 35 | 75% |
 | #10 | System Tray & Service | ⚪ Not Started | 15 | 0% |
 
 ---
@@ -372,7 +372,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `backend`, `architecture`, `priority-critical`
 
-**Status:** 🟡 In Progress (5%)
+**Status:** 🟡 In Progress (75%)
 
 **Reference:** See [backend-rebuild.md](../plans/backend-rebuild.md) for detailed architecture
 
@@ -399,11 +399,11 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
 | #410 | Create new Subrom.Application project | ✅ Done | #9.2 |
-| #411 | Implement DatFileService | ⬜ Todo | #9.2 |
-| #412 | Implement ScanService with channels | ⬜ Todo | #9.2 |
+| #411 | Implement DatFileService | ✅ Done | #9.2 |
+| #412 | Implement ScanService with channels | ✅ Done | #9.2 |
 | #413 | Implement HashService with parallel ops | ✅ Done | #9.2 |
-| #414 | Implement VerificationService | ⬜ Todo | #9.2 |
-| #415 | Implement DriveService with monitoring | ⬜ Todo | #9.2 |
+| #414 | Implement VerificationService | ✅ Done | #9.2 |
+| #415 | Implement DriveService with monitoring | ✅ Done | #9.2 |
 | #416 | Create MediatR command/query handlers | ⬜ Todo | #9.2 |
 | #417 | Add FluentValidation validators | ⬜ Todo | #9.2 |
 | #418 | Implement Mapperly mappers | ⬜ Todo | #9.2 |

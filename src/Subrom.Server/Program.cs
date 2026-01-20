@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Subrom.Application;
 using Subrom.Infrastructure;
 using Subrom.Infrastructure.Persistence;
 using Subrom.Server.Endpoints;
@@ -55,6 +56,9 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 
 	// Add Infrastructure services (DbContext, repositories, services)
 	services.AddInfrastructure(connectionString);
+
+	// Add Application services
+	services.AddApplication();
 
 	// SignalR
 	services.AddSignalR(options => {
