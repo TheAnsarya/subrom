@@ -1,0 +1,157 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 16px;
+	background: var(--background-color, #fff);
+	border: 1px solid var(--border-color, #e0e0e0);
+	border-radius: 8px;
+	transition: border-color 0.2s ease;
+}
+
+.container.compact {
+	padding: 12px;
+	gap: 6px;
+}
+
+.container.statusCompleted {
+	border-color: var(--success-color, #4caf50);
+}
+
+.container.statusFailed {
+	border-color: var(--error-color, #f44336);
+}
+
+.container.statusCancelled {
+	border-color: var(--warning-color, #ff9800);
+	opacity: 0.7;
+}
+
+.container.statusPaused {
+	border-color: var(--warning-color, #ff9800);
+}
+
+/* Header */
+.header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.iconContainer {
+	position: relative;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.typeIcon {
+	font-size: 1.25rem;
+	color: var(--primary-color, #1976d2);
+}
+
+.statusIcon {
+	position: absolute;
+	bottom: -2px;
+	right: -2px;
+	font-size: 0.75rem;
+	background: var(--background-color, #fff);
+	border-radius: 50%;
+	padding: 2px;
+}
+
+.container.statusCompleted .statusIcon {
+	color: var(--success-color, #4caf50);
+}
+
+.container.statusFailed .statusIcon,
+.container.statusCancelled .statusIcon {
+	color: var(--error-color, #f44336);
+}
+
+.container.statusPaused .statusIcon {
+	color: var(--warning-color, #ff9800);
+}
+
+.titleContainer {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.title {
+	font-weight: 600;
+	font-size: 0.95rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.currentItem {
+	font-size: 0.8rem;
+	color: var(--text-secondary, #666);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.actions {
+	display: flex;
+	gap: 8px;
+}
+
+.actionButton {
+	padding: 4px 8px;
+	background: transparent;
+	border: 1px solid var(--border-color, #e0e0e0);
+	border-radius: 4px;
+	cursor: pointer;
+	color: var(--text-color, #333);
+	font-size: 0.85rem;
+	transition: all 0.15s ease;
+}
+
+.actionButton:hover {
+	background: var(--hover-background, #f5f5f5);
+	border-color: var(--border-color-dark, #ccc);
+}
+
+/* Progress Container */
+.progressContainer {
+	width: 100%;
+}
+
+/* Details */
+.details {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 16px;
+	font-size: 0.8rem;
+	color: var(--text-secondary, #666);
+}
+
+.stat {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.stat.error {
+	color: var(--error-color, #f44336);
+}
+
+/* Dark Theme */
+[data-theme="dark"] .container {
+	--background-color: #1e1e1e;
+	--border-color: #404040;
+	--text-secondary: #999;
+	--hover-background: #2a2a2a;
+}
+
+[data-theme="dark"] .statusIcon {
+	background: #1e1e1e;
+}
