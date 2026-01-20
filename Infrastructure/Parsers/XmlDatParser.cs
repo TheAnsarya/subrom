@@ -243,10 +243,13 @@ public class XmlDatParser : IDatParser {
 	}
 
 	private static Disk ParseDisk(XmlReader reader) {
+		var sha1Str = reader.GetAttribute("sha1") ?? "";
+		var md5Str = reader.GetAttribute("md5") ?? "";
+
 		return new Disk {
 			Name = reader.GetAttribute("name") ?? "",
-			Sha1 = reader.GetAttribute("sha1") ?? "",
-			Md5 = reader.GetAttribute("md5") ?? "",
+			Sha1 = string.IsNullOrEmpty(sha1Str) ? null! : Sha1.From(sha1Str),
+			Md5 = string.IsNullOrEmpty(md5Str) ? null! : Md5.From(md5Str),
 			Merge = reader.GetAttribute("merge") ?? "",
 			Status = StatusKind.From(reader.GetAttribute("status") ?? "good")
 		};

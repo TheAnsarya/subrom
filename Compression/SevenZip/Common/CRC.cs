@@ -22,6 +22,8 @@ namespace SevenZip {
 
 		private uint _value = 0xFFFFFFFF;
 
+		public void Init() => _value = 0xFFFFFFFF;
+
 		public void UpdateByte(byte b) => _value = Table[((byte)_value) ^ b] ^ (_value >> 8);
 
 		public void Update(byte[] data, uint offset, uint size) {

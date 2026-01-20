@@ -3,6 +3,7 @@ build a complete RomVault or ClrMame type ROM file checker, turn on github issue
 
 update everything to the most modern code, and the mowst modern practices, all of the background code to dotnet 10, c#14 most modern versions, and most modern react version and rewrite everything to use the most modern code practices; go! continue; do the "what's next" tasks, add everything to github issues and todolists and updsate them; make sure to update the session/chat logs; continue;
 
+do the "what's next" tasks, making/updating github issues and todo lists; make sure you always update session/chat logs; always format using the editor configs (k&r braces and tabs not spaces); continue;
 
 
 

@@ -59,7 +59,7 @@ public class FileScannerService : IFileScannerService {
 				var fileInfo = new FileInfo(filePath);
 				await using var stream = File.OpenRead(filePath);
 
-				var hashes = await _hashService.GetAll(stream);
+				var hashes = await _hashService.GetAllAsync(stream);
 
 				scannedFile = new ScannedFile {
 					Path = filePath,
@@ -103,7 +103,7 @@ public class FileScannerService : IFileScannerService {
 			var fileInfo = new FileInfo(filePath);
 			await using var stream = File.OpenRead(filePath);
 
-			var hashes = await _hashService.GetAll(stream);
+			var hashes = await _hashService.GetAllAsync(stream);
 
 			return new ScannedFile {
 				Path = filePath,

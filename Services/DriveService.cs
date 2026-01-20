@@ -36,6 +36,7 @@ public class DriveService : IDriveService {
 		}
 
 		var drive = new Drive {
+			Id = Guid.CreateVersion7(),
 			Label = label,
 			Path = path,
 			VolumeId = volumeId,

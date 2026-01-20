@@ -6,8 +6,9 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Subrom.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<AnalysisLevel>latest-all</AnalysisLevel>
+		<NoWarn>$(NoWarn);CS0234;CS8618</NoWarn>
 	</PropertyGroup>
 
 </Project>

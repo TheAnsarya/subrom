@@ -1,4 +1,4 @@
-﻿using SevenZip.Compression.RangeCoder;
+﻿using RangeCoderNs = SevenZip.Compression.RangeCoder;
 
 namespace Subrom.Compression.SevenZip.Compress.RangeCoder {
 	internal struct BitEncoder {
@@ -20,7 +20,7 @@ namespace Subrom.Compression.SevenZip.Compress.RangeCoder {
 			}
 		}
 
-		public void Encode(Encoder encoder, uint symbol) {
+		public void Encode(RangeCoderNs.Encoder encoder, uint symbol) {
 			var newBound = (encoder.Range >> NumBitModelTotalBits) * Prob;
 			if (symbol == 0) {
 				encoder.Range = newBound;
@@ -31,7 +31,7 @@ namespace Subrom.Compression.SevenZip.Compress.RangeCoder {
 				Prob -= Prob >> NumMoveBits;
 			}
 
-			if (encoder.Range < Encoder.kTopValue) {
+			if (encoder.Range < RangeCoderNs.Encoder.kTopValue) {
 				encoder.Range <<= 8;
 				encoder.ShiftLow();
 			}
@@ -72,12 +72,12 @@ namespace Subrom.Compression.SevenZip.Compress.RangeCoder {
 
 		public void Init() => Prob = kBitModelTotal >> 1;
 
-		public uint Decode(RangeCoder.Decoder rangeDecoder) {
+		public uint Decode(RangeCoderNs.Decoder rangeDecoder) {
 			var newBound = (rangeDecoder.Range >> kNumBitModelTotalBits) * Prob;
 			if (rangeDecoder.Code < newBound) {
 				rangeDecoder.Range = newBound;
 				Prob += kBitModelTotal - Prob >> kNumMoveBits;
-				if (rangeDecoder.Range < Decoder.kTopValue) {
+				if (rangeDecoder.Range < RangeCoderNs.Decoder.kTopValue) {
 					rangeDecoder.Code = rangeDecoder.Code << 8 | (byte)rangeDecoder.Stream.ReadByte();
 					rangeDecoder.Range <<= 8;
 				}
@@ -87,7 +87,7 @@ namespace Subrom.Compression.SevenZip.Compress.RangeCoder {
 				rangeDecoder.Range -= newBound;
 				rangeDecoder.Code -= newBound;
 				Prob -= Prob >> kNumMoveBits;
-				if (rangeDecoder.Range < Decoder.kTopValue) {
+				if (rangeDecoder.Range < RangeCoderNs.Decoder.kTopValue) {
 					rangeDecoder.Code = rangeDecoder.Code << 8 | (byte)rangeDecoder.Stream.ReadByte();
 					rangeDecoder.Range <<= 8;
 				}
