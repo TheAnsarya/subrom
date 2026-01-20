@@ -11,7 +11,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 40% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
-| #6 | Web UI Rebuild | 🟡 In Progress | 25 | 0% |
+| #6 | Web UI Rebuild | � Near Complete | 25 | 92% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
 
 ---
@@ -146,69 +146,69 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `ui`, `priority-high`
 
-**Parent:** Epic #6
+**Status:** 🟢 75% Complete
 
 ### Sub-Epic #6.1: Project Setup
 
-**Parent:** #6
+**Parent:** #6 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #200 | Create new Vite + React 19 project | ⬜ Todo | #6.1 |
-| #201 | Configure TypeScript 5.9 with strict mode | ⬜ Todo | #6.1 |
-| #202 | Set up .editorconfig (tabs, K&R braces) | ⬜ Todo | #6.1 |
-| #203 | Configure path aliases (@/ imports) | ⬜ Todo | #6.1 |
-| #204 | Create CSS variables and theme system | ⬜ Todo | #6.1 |
-| #205 | Set up Yarn 4 with node-modules linker | ⬜ Todo | #6.1 |
+| #200 | Create new Vite + React 19 project | ✅ Done | #6.1 |
+| #201 | Configure TypeScript 5.8 with strict mode | ✅ Done | #6.1 |
+| #202 | Set up .editorconfig (tabs, K&R braces) | ✅ Done | #6.1 |
+| #203 | Configure path aliases (@/ imports) | ✅ Done | #6.1 |
+| #204 | Create CSS variables and theme system | ✅ Done | #6.1 |
+| #205 | Set up Yarn 4 with node-modules linker | ✅ Done | #6.1 |
 
 ### Sub-Epic #6.2: Core Components
 
-**Parent:** #6
+**Parent:** #6 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #210 | Create Layout component (sidebar, header) | ⬜ Todo | #6.2 |
-| #211 | Create DataTable with sort/filter/pagination | ⬜ Todo | #6.2 |
-| #212 | Create Modal dialog component | ⬜ Todo | #6.2 |
-| #213 | Create FileUpload component | ⬜ Todo | #6.2 |
-| #214 | Create ProgressBar component | ⬜ Todo | #6.2 |
-| #215 | Create Button, Input, Select components | ⬜ Todo | #6.2 |
-| #216 | Create Toast notification system | ⬜ Todo | #6.2 |
+| #210 | Create Layout component (sidebar, header) | ✅ Done | #6.2 |
+| #211 | Create DataTable with sort/filter/pagination | ✅ Done | #6.2 |
+| #212 | Create Modal dialog component | ✅ Done | #6.2 |
+| #213 | Create FileUpload component | ✅ Done | #6.2 |
+| #214 | Create ProgressBar component | ✅ Done | #6.2 |
+| #215 | Create Button, Input, Select components | ✅ Done | #6.2 |
+| #216 | Create Toast notification system | ✅ Done | #6.2 |
 
 ### Sub-Epic #6.3: API Integration
 
-**Parent:** #6
+**Parent:** #6 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #220 | Create fetch wrapper with error handling | ⬜ Todo | #6.3 |
-| #221 | Implement DAT files API client | ⬜ Todo | #6.3 |
-| #222 | Implement ROM files API client | ⬜ Todo | #6.3 |
-| #223 | Implement scan API client | ⬜ Todo | #6.3 |
-| #224 | Implement verification API client | ⬜ Todo | #6.3 |
-| #225 | Set up SignalR connection for real-time | ⬜ Todo | #6.3 |
-| #226 | Create useApi and useScanProgress hooks | ⬜ Todo | #6.3 |
+| #220 | Create fetch wrapper with error handling | ✅ Done | #6.3 |
+| #221 | Implement DAT files API client | ✅ Done | #6.3 |
+| #222 | Implement ROM files API client | ✅ Done | #6.3 |
+| #223 | Implement scan API client | ✅ Done | #6.3 |
+| #224 | Implement verification API client | ✅ Done | #6.3 |
+| #225 | Set up SignalR connection for real-time | ✅ Done | #6.3 |
+| #226 | Create useApi and useScanProgress hooks | ✅ Done | #6.3 |
 
 ### Sub-Epic #6.4: Pages
 
-**Parent:** #6
+**Parent:** #6 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #230 | Create Dashboard page with stats | ⬜ Todo | #6.4 |
-| #231 | Create DAT Manager page with import | ⬜ Todo | #6.4 |
-| #232 | Create ROM Files browser page | ⬜ Todo | #6.4 |
-| #233 | Create Verification results page | ⬜ Todo | #6.4 |
-| #234 | Create Settings page | ⬜ Todo | #6.4 |
-| #235 | Implement React Router navigation | ⬜ Todo | #6.4 |
+| #230 | Create Dashboard page with stats | ✅ Done | #6.4 |
+| #231 | Create DAT Manager page with import | ✅ Done | #6.4 |
+| #232 | Create ROM Files browser page | ✅ Done | #6.4 |
+| #233 | Create Verification results page | ✅ Done | #6.4 |
+| #234 | Create Settings page | ✅ Done | #6.4 |
+| #235 | Implement React Router navigation | ✅ Done | #6.4 |
 
 ### Sub-Epic #6.5: Polish & UX
 
-**Parent:** #6
+**Parent:** #6 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #240 | Implement dark/light theme toggle | ⬜ Todo | #6.5 |
+| #240 | Implement dark/light theme toggle | ✅ Done | #6.5 |
 | #241 | Add responsive design breakpoints | ⬜ Todo | #6.5 |
 | #242 | Add loading skeletons | ⬜ Todo | #6.5 |
 | #243 | Implement error boundaries | ⬜ Todo | #6.5 |

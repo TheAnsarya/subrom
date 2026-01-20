@@ -1,0 +1,129 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.dropzone {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-xl);
+	border: 2px dashed var(--color-border);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface);
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.dropzone:hover:not(.disabled) {
+	border-color: var(--color-primary);
+	background: var(--color-surface-hover);
+}
+
+.dropzone:focus {
+	outline: none;
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+.dragging {
+	border-color: var(--color-primary);
+	background: rgba(49, 130, 206, 0.05);
+}
+
+.disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.icon {
+	font-size: 2.5rem;
+	color: var(--color-text-muted);
+}
+
+.label {
+	font-size: var(--font-size-base);
+	font-weight: 500;
+	color: var(--color-text);
+}
+
+.hint {
+	font-size: var(--font-size-sm);
+	color: var(--color-text-muted);
+}
+
+.input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.error {
+	font-size: var(--font-size-sm);
+	color: var(--color-danger);
+}
+
+.fileList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.fileItem {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-sm) var(--spacing-md);
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+}
+
+.fileIcon {
+	color: var(--color-text-muted);
+}
+
+.fileName {
+	flex: 1;
+	font-size: var(--font-size-sm);
+	color: var(--color-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fileSize {
+	font-size: var(--font-size-sm);
+	color: var(--color-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.removeButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: none;
+	background: transparent;
+	color: var(--color-text-muted);
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.removeButton:hover {
+	background: var(--color-danger);
+	color: white;
+}
