@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Subrom.Infrastructure;
 using Subrom.Infrastructure.Persistence;
 using Subrom.Server.Endpoints;
 using Subrom.Server.Hubs;
@@ -48,13 +49,12 @@ finally {
 }
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration) {
-	// Database
+	// Database path
 	var dbPath = Path.Combine(GetDataPath(), "subrom.db");
-	services.AddDbContext<SubromDbContext>(options => {
-		options.UseSqlite($"Data Source={dbPath};Cache=Shared", sqlite => {
-			sqlite.CommandTimeout(30);
-		});
-	});
+	var connectionString = $"Data Source={dbPath};Cache=Shared";
+
+	// Add Infrastructure services (DbContext, repositories, services)
+	services.AddInfrastructure(connectionString);
 
 	// SignalR
 	services.AddSignalR(options => {
@@ -78,10 +78,6 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 	// Health checks
 	services.AddHealthChecks()
 		.AddDbContextCheck<SubromDbContext>();
-
-	// Add application services here
-	// services.AddScoped<IDatFileRepository, DatFileRepository>();
-	// services.AddScoped<IHashService, HashService>();
 }
 
 static void ConfigureApp(WebApplication app) {

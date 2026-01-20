@@ -87,7 +87,7 @@ public class GameEntry : Entity<int> {
 	/// <summary>
 	/// Adds a ROM to this game.
 	/// </summary>
-	internal void AddRom(RomEntry rom) {
+	public void AddRom(RomEntry rom) {
 		_roms.Add(rom);
 	}
 
