@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,20 +12,20 @@ import {
 import './Layout.css';
 
 interface LayoutProps {
-	children: React.ReactNode;
+	children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-	const location = useLocation();
-	const [sidebarOpen, setSidebarOpen] = React.useState(true);
+const navItems = [
+	{ path: '/', icon: faHome, label: 'Dashboard' },
+	{ path: '/dats', icon: faDatabase, label: 'DAT Files' },
+	{ path: '/roms', icon: faGamepad, label: 'ROM Collection' },
+	{ path: '/drives', icon: faHdd, label: 'Drives' },
+	{ path: '/settings', icon: faCog, label: 'Settings' },
+] as const;
 
-	const navItems = [
-		{ path: '/', icon: faHome, label: 'Dashboard' },
-		{ path: '/dats', icon: faDatabase, label: 'DAT Files' },
-		{ path: '/roms', icon: faGamepad, label: 'ROM Collection' },
-		{ path: '/drives', icon: faHdd, label: 'Drives' },
-		{ path: '/settings', icon: faCog, label: 'Settings' },
-	];
+export default function Layout({ children }: LayoutProps) {
+	const location = useLocation();
+	const [sidebarOpen, setSidebarOpen] = useState(true);
 
 	return (
 		<div className="layout">
@@ -33,6 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				<button
 					className="menu-toggle"
 					onClick={() => setSidebarOpen(!sidebarOpen)}
+					aria-label="Toggle sidebar"
 				>
 					<FontAwesomeIcon icon={faBars} />
 				</button>
@@ -72,6 +73,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 			</main>
 		</div>
 	);
-};
-
-export default Layout;
+}

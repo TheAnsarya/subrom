@@ -1,6 +1,9 @@
 
 build a complete RomVault or ClrMame type ROM file checker, turn on github issues and then make a bunch of issues and todolists for the update process and chat/session logs, and plans and roadmaps and create a UI to  navigate the dat files, and having the roms and downloading them and also collecting the files, from TOSEC, from GOODsets, from NoIntro, etc etc, make utilities to or a service to collect all the dats, then to process the dats, then to scan and organize the  files, then idon't drop  files just because the harddrive went offline; continue; document everything, plan everything, associate everything with guithub issues, and ever issue should be linked to an epic, and every commit should be linked to an issue, go!; continue; make plans for the future of the UI, code library, etc; continue;
 
+update everything to the most modern code, and the mowst modern practices, all of the background code to dotnet 10, c#14 most modern versions, and most modern react version and rewrite everything to use the most modern code practices; go! continue; do the "what's next" tasks, add everything to github issues and todolists and updsate them; make sure to update the session/chat logs; continue;
+
+
 
 
 

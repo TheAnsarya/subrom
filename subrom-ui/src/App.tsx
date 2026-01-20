@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import DatManager from './pages/DatManager/DatManager';
@@ -10,18 +9,18 @@ import './App.css';
 
 function App() {
 	return (
-		<Router>
+		<BrowserRouter>
 			<Layout>
-				<Switch>
-					<Route exact path="/" component={Dashboard} />
-					<Route path="/dats" component={DatManager} />
-					<Route path="/roms" component={RomBrowser} />
-					<Route path="/drives" component={DriveManager} />
-					<Route path="/settings" component={Settings} />
-					<Redirect to="/" />
-				</Switch>
+				<Routes>
+					<Route path="/" element={<Dashboard />} />
+					<Route path="/dats" element={<DatManager />} />
+					<Route path="/roms" element={<RomBrowser />} />
+					<Route path="/drives" element={<DriveManager />} />
+					<Route path="/settings" element={<Settings />} />
+					<Route path="*" element={<Navigate to="/" replace />} />
+				</Routes>
 			</Layout>
-		</Router>
+		</BrowserRouter>
 	);
 }
 
