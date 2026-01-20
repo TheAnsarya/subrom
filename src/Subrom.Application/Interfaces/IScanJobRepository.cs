@@ -22,9 +22,14 @@ public interface IScanJobRepository {
 	Task<IReadOnlyList<ScanJob>> GetByDriveAsync(Guid driveId, CancellationToken cancellationToken = default);
 
 	/// <summary>
-	/// Gets the currently active scan job (running or pending).
+	/// Gets the currently active scan jobs (running or queued).
 	/// </summary>
-	Task<ScanJob?> GetActiveAsync(CancellationToken cancellationToken = default);
+	Task<IReadOnlyList<ScanJob>> GetActiveAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Checks if a drive has an active scan job.
+	/// </summary>
+	Task<bool> HasActiveJobForDriveAsync(Guid driveId, CancellationToken cancellationToken = default);
 
 	/// <summary>
 	/// Adds a new scan job.

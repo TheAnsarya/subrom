@@ -19,18 +19,27 @@ public sealed class ScanJobRepository : IScanJobRepository {
 
 	public async Task<IReadOnlyList<ScanJob>> GetAllAsync(CancellationToken cancellationToken = default) =>
 		await _context.ScanJobs
-			.OrderByDescending(s => s.StartedAt)
+			.OrderByDescending(s => s.QueuedAt)
 			.ToListAsync(cancellationToken);
 
 	public async Task<IReadOnlyList<ScanJob>> GetByDriveAsync(Guid driveId, CancellationToken cancellationToken = default) =>
 		await _context.ScanJobs
 			.Where(s => s.DriveId == driveId)
-			.OrderByDescending(s => s.StartedAt)
+			.OrderByDescending(s => s.QueuedAt)
 			.ToListAsync(cancellationToken);
 
-	public async Task<ScanJob?> GetActiveAsync(CancellationToken cancellationToken = default) =>
+	public async Task<IReadOnlyList<ScanJob>> GetActiveAsync(CancellationToken cancellationToken = default) =>
 		await _context.ScanJobs
-			.FirstOrDefaultAsync(s => s.Status == ScanStatus.Running || s.Status == ScanStatus.Queued, cancellationToken);
+			.Where(s => s.Status == ScanStatus.Running || s.Status == ScanStatus.Queued)
+			.OrderByDescending(s => s.QueuedAt)
+			.ToListAsync(cancellationToken);
+
+	public async Task<bool> HasActiveJobForDriveAsync(Guid driveId, CancellationToken cancellationToken = default) =>
+		await _context.ScanJobs
+			.AnyAsync(s =>
+				s.DriveId == driveId &&
+				(s.Status == ScanStatus.Running || s.Status == ScanStatus.Queued),
+				cancellationToken);
 
 	public async Task AddAsync(ScanJob scanJob, CancellationToken cancellationToken = default) {
 		await _context.ScanJobs.AddAsync(scanJob, cancellationToken);
