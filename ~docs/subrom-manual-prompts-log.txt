@@ -5,6 +5,27 @@ update everything to the most modern code, and the mowst modern practices, all o
 
 do the "what's next" tasks, making/updating github issues and todo lists; make sure you always update session/chat logs; always format using the editor configs (k&r braces and tabs not spaces); continue;
 
+there are too many errors trying to update the react ui, so, rebuild the `subrom-ui` using `vite` and modern versions of all code and libraries and modern coding and architecture standards; make a plan and update the roadmap and create github issues including epics and make every sub issue an actual subissue linked to its parent; upddate the documentation and session/chat logs, plans, todolists, etc; make sure to use the `editorconfig` so that means k&r braces stykle and always use ***TABS NOT SPACES***; continue;
+
+continue working on this, making sure to update docs and todos and keep to the most modern practices and standards and code; continue;
+
+continue working on this after git commiting all files, in logical batches connecting them to issues; make sure the plan and components understand some dat files have tens of thousands of entries, some have a couple, and dats are in a heirarchy of dats, and files range from a handful of kilobytes to several gigabytes so the UI needs to be able to handle large data sets and stream the data in batches, not all at once, data cache stuff, and expiring parts and removing them so we don't max out the ram (example reference dats are available at `C:\~reference-roms\dats\`), make plans and todolists and issues and tests; continue, starting with signal R;
+
+No! never use npm! we're based on vite, and if not that then yarn, never npm or npx! add that to the copilot instructions and documentation, then go back and fix all of the npm stuff to use vite/yarn instead; and then continue current work;
+
+continue working on this after git commiting all files, in logical batches connecting them to issues; the backend was created a while ago by hand so it's way out of date, just like you rebuilt the frontend, rebuild the backend from the ground up using modern coding standards and practices and the most recent dotnet version (10?) and c# (14?) and modern build and architecture; can sqlite handle the load or do we need a real db?; understand the goal is a system like Plex where there is a local server component service and a web frontend accessible by url or a menu option on the system tray icon, make issues and todolists and plans and documentation for that too; continue;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
