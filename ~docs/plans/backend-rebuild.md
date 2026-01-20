@@ -108,6 +108,55 @@ Only if:
 
 ## Project Structure (Rebuild)
 
+> **Implementation Status (Session 07):** The core 4-project structure is complete and building.
+> Implemented: Domain (Aggregates, ValueObjects, Enums), Application (Interfaces, DTOs, Progress),
+> Infrastructure (DbContext, Repositories, Parsing, Services), Server (Endpoints, Hubs, DI).
+
+```
+Subrom/
+├── src/
+│   ├── Subrom.Domain/                 # Core domain models ✅
+│   │   ├── Aggregates/                # DDD aggregates
+│   │   │   ├── DatFiles/              # DatFile, GameEntry, RomEntry
+│   │   │   ├── Drives/                # Drive aggregate
+│   │   │   ├── RomFiles/              # RomFile (scanned files)
+│   │   │   └── ScanJobs/              # ScanJob aggregate
+│   │   ├── ValueObjects/              # Immutable value types
+│   │   │   └── Hashes.cs              # CRC32, MD5, SHA1 records
+│   │   └── Enums/                     # DatProvider, ScanStatus, etc.
+│   │
+│   ├── Subrom.Application/            # Application services ✅
+│   │   ├── DTOs/                      # Data transfer objects
+│   │   ├── Progress/                  # Progress reporting types
+│   │   └── Interfaces/                # Repository + service contracts
+│   │
+│   ├── Subrom.Infrastructure/         # Infrastructure implementations ✅
+│   │   ├── Persistence/
+│   │   │   ├── SubromDbContext.cs     # EF Core context
+│   │   │   ├── Configurations/        # Entity type configs
+│   │   │   ├── Repositories/          # DatFile, Drive, RomFile, ScanJob repos
+│   │   │   └── UnitOfWork.cs          # Transaction support
+│   │   ├── Parsing/                   # DAT file parsers
+│   │   │   ├── LogiqxDatParser.cs     # XML (No-Intro/Redump/TOSEC)
+│   │   │   └── DatParserFactory.cs    # Format detection
+│   │   ├── Services/
+│   │   │   └── HashService.cs         # CRC32/MD5/SHA1 hashing
+│   │   └── DependencyInjection.cs     # AddInfrastructure() extension
+│   │
+│   ├── Subrom.Server/                 # ASP.NET Core host ✅
+│   │   ├── Endpoints/                 # Minimal API endpoints
+│   │   ├── Hubs/                      # SignalR ProgressHub
+│   │   └── Program.cs                 # Host configuration
+│   │
+│   ├── Subrom.Tray/                   # System tray application (future)
+│   │
+│   └── Subrom.Service/                # Windows Service wrapper (future)
+│
+├── tests/                             # (future)
+│
+```
+
+### Original Planned Structure (Reference)
 ```
 Subrom/
 ├── src/
@@ -298,25 +347,25 @@ public class ProgressHub : Hub {
 
 ## Implementation Phases
 
-### Phase 1: Core Infrastructure (Week 1)
-- [ ] Create new solution structure
-- [ ] Set up Domain project with entities
-- [ ] Configure EF Core with SQLite
-- [ ] Implement basic repositories
+### Phase 1: Core Infrastructure (Week 1) ✅ COMPLETE
+- [x] Create new solution structure
+- [x] Set up Domain project with entities
+- [x] Configure EF Core with SQLite
+- [x] Implement basic repositories
 - [ ] Add Serilog logging
 
-### Phase 2: Application Services (Week 2)
+### Phase 2: Application Services (Week 2) 🔄 IN PROGRESS
 - [ ] DatService with import/parse
-- [ ] HashService with parallel hashing
+- [x] HashService with parallel hashing
 - [ ] ScanService with background processing
 - [ ] DriveService with online detection
 
-### Phase 3: Web API (Week 3)
+### Phase 3: Web API (Week 3) 🔄 IN PROGRESS
 - [ ] Controllers for all endpoints
-- [ ] SignalR hub implementation
+- [x] SignalR hub implementation (ProgressHub)
 - [ ] Request validation with FluentValidation
-- [ ] Global error handling
-- [ ] API documentation with OpenAPI
+- [x] Global error handling
+- [x] API documentation with OpenAPI (Scalar)
 
 ### Phase 4: System Tray & Service (Week 4)
 - [ ] Windows service host

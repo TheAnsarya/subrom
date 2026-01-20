@@ -14,7 +14,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #6 | Web UI Rebuild | 🟢 Near Complete | 25 | 92% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
 | #8 | Large Dataset Handling | 🟡 In Progress | 20 | 30% |
-| #9 | Backend Rebuild | 🟡 In Progress | 35 | 5% |
+| #9 | Backend Rebuild | 🟡 In Progress | 35 | 50% |
 | #10 | System Tray & Service | ⚪ Not Started | 15 | 0% |
 
 ---
@@ -378,30 +378,30 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #9.1: Domain Layer
 
-**Parent:** #9 | **Status:** 🟡 In Progress
+**Parent:** #9 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #400 | Create new Subrom.Domain project | ⬜ Todo | #9.1 |
-| #401 | Design DAT file aggregate root | ⬜ Todo | #9.1 |
-| #402 | Design Game/ROM aggregate with region | ⬜ Todo | #9.1 |
+| #400 | Create new Subrom.Domain project | ✅ Done | #9.1 |
+| #401 | Design DAT file aggregate root | ✅ Done | #9.1 |
+| #402 | Design Game/ROM aggregate with region | ✅ Done | #9.1 |
 | #403 | Create Hash value objects (Crc, Md5, Sha1) | ✅ Done | #9.1 |
-| #404 | Design Drive entity with offline support | ⬜ Todo | #9.1 |
-| #405 | Create ScanJob entity with progress | ⬜ Todo | #9.1 |
+| #404 | Design Drive entity with offline support | ✅ Done | #9.1 |
+| #405 | Create ScanJob entity with progress | ✅ Done | #9.1 |
 | #406 | Design Settings configuration entity | ⬜ Todo | #9.1 |
-| #407 | Add domain events for SignalR | ⬜ Todo | #9.1 |
+| #407 | Add domain events for SignalR | ✅ Done | #9.1 |
 | #408 | Create domain validation rules | ⬜ Todo | #9.1 |
 
 ### Sub-Epic #9.2: Application Layer
 
-**Parent:** #9 | **Status:** ⚪ Not Started
+**Parent:** #9 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #410 | Create new Subrom.Application project | ⬜ Todo | #9.2 |
+| #410 | Create new Subrom.Application project | ✅ Done | #9.2 |
 | #411 | Implement DatFileService | ⬜ Todo | #9.2 |
 | #412 | Implement ScanService with channels | ⬜ Todo | #9.2 |
-| #413 | Implement HashService with parallel ops | ⬜ Todo | #9.2 |
+| #413 | Implement HashService with parallel ops | ✅ Done | #9.2 |
 | #414 | Implement VerificationService | ⬜ Todo | #9.2 |
 | #415 | Implement DriveService with monitoring | ⬜ Todo | #9.2 |
 | #416 | Create MediatR command/query handlers | ⬜ Todo | #9.2 |
@@ -410,34 +410,34 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #9.3: Infrastructure Layer
 
-**Parent:** #9 | **Status:** ⚪ Not Started
+**Parent:** #9 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #420 | Create new Subrom.Infrastructure project | ⬜ Todo | #9.3 |
-| #421 | Implement EF Core DbContext with SQLite | ⬜ Todo | #9.3 |
-| #422 | Add SQLite optimizations (WAL, mmap) | ⬜ Todo | #9.3 |
-| #423 | Create entity configurations | ⬜ Todo | #9.3 |
-| #424 | Implement repository pattern | ⬜ Todo | #9.3 |
-| #425 | Add XML/ClrMamePro DAT parsers | ⬜ Todo | #9.3 |
+| #420 | Create new Subrom.Infrastructure project | ✅ Done | #9.3 |
+| #421 | Implement EF Core DbContext with SQLite | ✅ Done | #9.3 |
+| #422 | Add SQLite optimizations (WAL, mmap) | ✅ Done | #9.3 |
+| #423 | Create entity configurations | ✅ Done | #9.3 |
+| #424 | Implement repository pattern | ✅ Done | #9.3 |
+| #425 | Add XML/ClrMamePro DAT parsers | ✅ Done | #9.3 |
 | #426 | Implement streaming XML parser | ⬜ Todo | #9.3 |
 | #427 | Create file system abstraction | ⬜ Todo | #9.3 |
 | #428 | Add 7-Zip compression support | ✅ Done | #9.3 |
 
 ### Sub-Epic #9.4: Web API Layer
 
-**Parent:** #9 | **Status:** ⚪ Not Started
+**Parent:** #9 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #430 | Create new Subrom.Server project | ⬜ Todo | #9.4 |
-| #431 | Configure minimal API endpoints | ⬜ Todo | #9.4 |
-| #432 | Add Scalar/OpenAPI documentation | ⬜ Todo | #9.4 |
-| #433 | Implement SignalR SubromHub | ⬜ Todo | #9.4 |
-| #434 | Add CORS for localhost dev | ⬜ Todo | #9.4 |
-| #435 | Configure Serilog structured logging | ⬜ Todo | #9.4 |
-| #436 | Add health check endpoint | ⬜ Todo | #9.4 |
-| #437 | Implement static file serving for UI | ⬜ Todo | #9.4 |
+| #430 | Create new Subrom.Server project | ✅ Done | #9.4 |
+| #431 | Configure minimal API endpoints | ✅ Done | #9.4 |
+| #432 | Add Scalar/OpenAPI documentation | ✅ Done | #9.4 |
+| #433 | Implement SignalR SubromHub | ✅ Done | #9.4 |
+| #434 | Add CORS for localhost dev | ✅ Done | #9.4 |
+| #435 | Configure Serilog structured logging | ✅ Done | #9.4 |
+| #436 | Add health check endpoint | ✅ Done | #9.4 |
+| #437 | Implement static file serving for UI | ✅ Done | #9.4 |
 | #438 | Add global exception handling | ⬜ Todo | #9.4 |
 
 ### Sub-Epic #9.5: Testing
