@@ -1,27 +1,21 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import Dashboard from './pages/Dashboard/Dashboard';
-import DatManager from './pages/DatManager/DatManager';
-import RomBrowser from './pages/RomBrowser/RomBrowser';
-import DriveManager from './pages/DriveManager/DriveManager';
-import Settings from './pages/Settings/Settings';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from '@/components/Layout/Layout';
+import { Dashboard } from '@/pages/Dashboard/Dashboard';
+import { DatManager } from '@/pages/DatManager/DatManager';
+import { RomFiles } from '@/pages/RomFiles/RomFiles';
+import { Verification } from '@/pages/Verification/Verification';
+import { Settings } from '@/pages/Settings/Settings';
 
-function App() {
+export function App() {
 	return (
-		<BrowserRouter>
-			<Layout>
-				<Routes>
-					<Route path="/" element={<Dashboard />} />
-					<Route path="/dats" element={<DatManager />} />
-					<Route path="/roms" element={<RomBrowser />} />
-					<Route path="/drives" element={<DriveManager />} />
-					<Route path="/settings" element={<Settings />} />
-					<Route path="*" element={<Navigate to="/" replace />} />
-				</Routes>
-			</Layout>
-		</BrowserRouter>
+		<Layout>
+			<Routes>
+				<Route path="/" element={<Dashboard />} />
+				<Route path="/dats" element={<DatManager />} />
+				<Route path="/roms" element={<RomFiles />} />
+				<Route path="/verification" element={<Verification />} />
+				<Route path="/settings" element={<Settings />} />
+			</Routes>
+		</Layout>
 	);
 }
-
-export default App;

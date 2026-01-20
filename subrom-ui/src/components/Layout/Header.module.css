@@ -1,0 +1,32 @@
+.header {
+	display: flex;
+	align-items: center;
+	height: 56px;
+	padding: 0 var(--space-lg);
+	background-color: var(--color-bg-primary);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.menuButton,
+.themeButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: none;
+	background: none;
+	color: var(--color-text-secondary);
+	border-radius: var(--radius-md);
+	transition: all var(--transition-fast);
+}
+
+.menuButton:hover,
+.themeButton:hover {
+	background-color: var(--color-bg-hover);
+	color: var(--color-text-primary);
+}
+
+.spacer {
+	flex: 1;
+}

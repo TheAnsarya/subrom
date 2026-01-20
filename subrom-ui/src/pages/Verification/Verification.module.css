@@ -1,0 +1,126 @@
+.page {
+	max-width: 1200px;
+}
+
+.subtitle {
+	color: var(--color-text-secondary);
+	margin-bottom: var(--space-lg);
+}
+
+.tabs {
+	display: flex;
+	gap: var(--space-sm);
+	margin-bottom: var(--space-lg);
+	border-bottom: 1px solid var(--color-border);
+	padding-bottom: var(--space-sm);
+}
+
+.tab {
+	padding: var(--space-sm) var(--space-md);
+	border: none;
+	background: none;
+	color: var(--color-text-secondary);
+	font-weight: 500;
+	border-radius: var(--radius-md);
+	transition: all var(--transition-fast);
+}
+
+.tab:hover {
+	background: var(--color-bg-hover);
+	color: var(--color-text-primary);
+}
+
+.tab.active {
+	background: var(--color-accent-light);
+	color: var(--color-accent);
+}
+
+.content {
+	min-height: 300px;
+}
+
+.loading,
+.empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 200px;
+	color: var(--color-text-muted);
+}
+
+.summaryGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: var(--space-md);
+}
+
+.summaryCard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: var(--space-xl);
+	background: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	text-align: center;
+}
+
+.summaryIcon {
+	font-size: 2rem;
+	margin-bottom: var(--space-md);
+}
+
+.summaryCard[data-type="total"] .summaryIcon {
+	color: var(--color-accent);
+}
+
+.summaryCard[data-type="verified"] .summaryIcon {
+	color: var(--color-success);
+}
+
+.summaryCard[data-type="unknown"] .summaryIcon {
+	color: var(--color-warning);
+}
+
+.summaryCard[data-type="missing"] .summaryIcon {
+	color: var(--color-error);
+}
+
+.summaryValue {
+	font-size: var(--text-3xl);
+	font-weight: 700;
+	color: var(--color-text-primary);
+}
+
+.summaryLabel {
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+	margin-top: var(--space-xs);
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-sm);
+}
+
+.listItem {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+	padding: var(--space-md);
+	background: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+}
+
+.itemName {
+	font-weight: 500;
+	color: var(--color-text-primary);
+}
+
+.itemPath,
+.itemDesc {
+	font-size: var(--text-sm);
+	color: var(--color-text-muted);
+}

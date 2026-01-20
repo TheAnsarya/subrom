@@ -1,0 +1,132 @@
+.dashboard {
+	max-width: 1200px;
+}
+
+.subtitle {
+	color: var(--color-text-secondary);
+	margin-bottom: var(--space-xl);
+}
+
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 200px;
+	color: var(--color-text-muted);
+}
+
+.statsGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: var(--space-md);
+	margin-bottom: var(--space-2xl);
+}
+
+.statCard {
+	display: flex;
+	align-items: center;
+	gap: var(--space-md);
+	padding: var(--space-lg);
+	background: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+}
+
+.statIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-md);
+	font-size: var(--text-xl);
+}
+
+.statCard[data-color="blue"] .statIcon {
+	background: var(--color-accent-light);
+	color: var(--color-accent);
+}
+
+.statCard[data-color="purple"] .statIcon {
+	background: #ede9fe;
+	color: #7c3aed;
+}
+
+.statCard[data-color="green"] .statIcon {
+	background: var(--color-success-light);
+	color: var(--color-success);
+}
+
+.statCard[data-color="orange"] .statIcon {
+	background: var(--color-warning-light);
+	color: var(--color-warning);
+}
+
+.statContent {
+	display: flex;
+	flex-direction: column;
+}
+
+.statValue {
+	font-size: var(--text-2xl);
+	font-weight: 700;
+	color: var(--color-text-primary);
+}
+
+.statLabel {
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+}
+
+.section {
+	margin-bottom: var(--space-2xl);
+}
+
+.section h2 {
+	margin-bottom: var(--space-md);
+}
+
+.actions {
+	display: flex;
+	gap: var(--space-md);
+	flex-wrap: wrap;
+}
+
+.actionButton {
+	padding: var(--space-sm) var(--space-lg);
+	background: var(--color-accent);
+	color: white;
+	border-radius: var(--radius-md);
+	font-weight: 500;
+	transition: background var(--transition-fast);
+}
+
+.actionButton:hover {
+	background: var(--color-accent-hover);
+	text-decoration: none;
+}
+
+.datList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-sm);
+}
+
+.datItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--space-md);
+	background: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+}
+
+.datName {
+	font-weight: 500;
+}
+
+.datGames {
+	color: var(--color-text-secondary);
+	font-size: var(--text-sm);
+}

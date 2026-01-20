@@ -1,64 +1,18 @@
-# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+# EditorConfig - https://editorconfig.org
 
-###############################
-# Core EditorConfig Options   #
-###############################
 root = true
 
-# All files
 [*]
 indent_style = tab
 indent_size = 4
-end_of_line = crlf
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
 insert_final_newline = true
 
-###############################
-# Json Formatting Rules       #
-###############################
-[*.json]
+[*.{json,yml,yaml}]
 indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
+indent_size = 2
 
-###############################
-# Html Formatting Rules       #
-###############################
-[*.html]
-indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
-
-###############################
-# Markdown Formatting Rules   #
-###############################
 [*.md]
-indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
-
-###############################
-# Styles Formatting Rules     #
-###############################
-[*.scss]
-indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
-
-###############################
-# Typescript Formatting Rules #
-###############################
-[*.ts]
-indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
-
-[*.tsx]
-indent_style = tab
-indent_size = 4
-end_of_line = crlf
-insert_final_newline = true
+trim_trailing_whitespace = false

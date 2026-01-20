@@ -1,0 +1,75 @@
+@import './variables.css';
+
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: var(--font-sans);
+	font-size: var(--text-base);
+	line-height: 1.5;
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-secondary);
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+button {
+	font-family: inherit;
+	font-size: inherit;
+	cursor: pointer;
+}
+
+input, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--color-text-primary);
+}
+
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+code, pre {
+	font-family: var(--font-mono);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--color-bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-text-muted);
+	border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-text-secondary);
+}

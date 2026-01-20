@@ -6,12 +6,12 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 | Epic # | Title | Status | Issues | Progress |
 |--------|-------|--------|--------|----------|
-| #1 | Foundation Infrastructure | 🟡 In Progress | 15 | 20% |
-| #2 | DAT Provider Integration | ⚪ Not Started | 12 | 0% |
-| #3 | ROM Scanning Engine | ⚪ Not Started | 14 | 0% |
+| #1 | Foundation Infrastructure | 🟡 In Progress | 15 | 60% |
+| #2 | DAT Provider Integration | 🟡 In Progress | 12 | 10% |
+| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 40% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
-| #6 | Web UI | ⚪ Not Started | 20 | 0% |
+| #6 | Web UI Rebuild | 🟡 In Progress | 25 | 0% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
 
 ---
@@ -29,14 +29,14 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | Define domain models for DAT files | ✅ Done | - |
 | #11 | Implement Hash value types (Crc, Md5, Sha1) | ✅ Done | - |
 | #12 | Create HashService for parallel hashing | ✅ Done | - |
-| #13 | Implement XML DAT file parser | 🔄 In Progress | - |
-| #14 | Implement ClrMame Pro DAT parser | ⬜ Todo | - |
-| #15 | Design database schema | ⬜ Todo | - |
-| #16 | Implement EF Core DbContext | ⬜ Todo | - |
-| #17 | Create database migrations | ⬜ Todo | - |
-| #18 | Implement basic file scanner | ⬜ Todo | - |
+| #13 | Implement XML DAT file parser | ✅ Done | - |
+| #14 | Implement ClrMame Pro DAT parser | ✅ Done | - |
+| #15 | Design database schema | ✅ Done | - |
+| #16 | Implement EF Core DbContext | ✅ Done | - |
+| #17 | Create database migrations | ✅ Done | - |
+| #18 | Implement basic file scanner | ✅ Done | - |
 | #19 | Create CLI project structure | ⬜ Todo | - |
-| #20 | Add logging infrastructure | ⬜ Todo | - |
+| #20 | Add logging infrastructure | ✅ Done | - |
 | #21 | Implement configuration system | ⬜ Todo | - |
 | #22 | Add unit test project | ⬜ Todo | - |
 | #23 | Set up CI/CD pipeline | ⬜ Todo | - |
@@ -79,20 +79,20 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 | # | Title | Status | Assignee |
 |---|-------|--------|----------|
-| #50 | Implement recursive folder scanner | ⬜ Todo | - |
+| #50 | Implement recursive folder scanner | ✅ Done | - |
 | #51 | Add ZIP archive support | ⬜ Todo | - |
 | #52 | Add 7z archive support | ⬜ Todo | - |
 | #53 | Add RAR archive support | ⬜ Todo | - |
 | #54 | Implement ROM header detection | ⬜ Todo | - |
 | #55 | Create header removal service | ⬜ Todo | - |
-| #56 | Build hash database with indexing | ⬜ Todo | - |
-| #57 | Implement ROM verification against DATs | ⬜ Todo | - |
-| #58 | Create missing ROM detection | ⬜ Todo | - |
+| #56 | Build hash database with indexing | ✅ Done | - |
+| #57 | Implement ROM verification against DATs | ✅ Done | - |
+| #58 | Create missing ROM detection | ✅ Done | - |
 | #59 | Implement duplicate detection | ⬜ Todo | - |
 | #60 | Add bad dump identification | ⬜ Todo | - |
-| #61 | Implement scan progress tracking | ⬜ Todo | - |
+| #61 | Implement scan progress tracking | ✅ Done | - |
 | #62 | Add scan resumability | ⬜ Todo | - |
-| #63 | Create scan result reporting | ⬜ Todo | - |
+| #63 | Create scan result reporting | ✅ Done | - |
 
 ---
 
@@ -140,36 +140,79 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ---
 
-## Epic #6: Web UI
+## Epic #6: Web UI Rebuild
 
-**Goal:** Modern React-based web interface
+**Goal:** Complete rebuild of React frontend with modern Vite tooling and best practices
 
-**Labels:** `epic`, `ui`, `priority-medium`
+**Labels:** `epic`, `ui`, `priority-high`
 
-### Issues
+**Parent:** Epic #6
 
-| # | Title | Status | Assignee |
-|---|-------|--------|----------|
-| #90 | Set up React project with TypeScript | ⬜ Todo | - |
-| #91 | Configure TailwindCSS | ⬜ Todo | - |
-| #92 | Create component library (Button, Input, etc.) | ⬜ Todo | - |
-| #93 | Implement navigation and routing | ⬜ Todo | - |
-| #94 | Create Dashboard page | ⬜ Todo | - |
-| #95 | Create DAT File Manager page | ⬜ Todo | - |
-| #96 | Create ROM Collection Browser | ⬜ Todo | - |
-| #97 | Implement system tree navigation | ⬜ Todo | - |
-| #98 | Create Scan Progress visualization | ⬜ Todo | - |
-| #99 | Create Drive Manager page | ⬜ Todo | - |
-| #100 | Create Settings page | ⬜ Todo | - |
-| #101 | Implement search functionality | ⬜ Todo | - |
-| #102 | Add filtering and sorting | ⬜ Todo | - |
-| #103 | Implement dark/light theme | ⬜ Todo | - |
-| #104 | Add responsive design | ⬜ Todo | - |
-| #105 | Create toast notifications | ⬜ Todo | - |
-| #106 | Implement WebSocket for real-time updates | ⬜ Todo | - |
-| #107 | Add keyboard shortcuts | ⬜ Todo | - |
-| #108 | Implement drag and drop | ⬜ Todo | - |
-| #109 | Add accessibility features | ⬜ Todo | - |
+### Sub-Epic #6.1: Project Setup
+
+**Parent:** #6
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #200 | Create new Vite + React 19 project | ⬜ Todo | #6.1 |
+| #201 | Configure TypeScript 5.9 with strict mode | ⬜ Todo | #6.1 |
+| #202 | Set up .editorconfig (tabs, K&R braces) | ⬜ Todo | #6.1 |
+| #203 | Configure path aliases (@/ imports) | ⬜ Todo | #6.1 |
+| #204 | Create CSS variables and theme system | ⬜ Todo | #6.1 |
+| #205 | Set up Yarn 4 with node-modules linker | ⬜ Todo | #6.1 |
+
+### Sub-Epic #6.2: Core Components
+
+**Parent:** #6
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #210 | Create Layout component (sidebar, header) | ⬜ Todo | #6.2 |
+| #211 | Create DataTable with sort/filter/pagination | ⬜ Todo | #6.2 |
+| #212 | Create Modal dialog component | ⬜ Todo | #6.2 |
+| #213 | Create FileUpload component | ⬜ Todo | #6.2 |
+| #214 | Create ProgressBar component | ⬜ Todo | #6.2 |
+| #215 | Create Button, Input, Select components | ⬜ Todo | #6.2 |
+| #216 | Create Toast notification system | ⬜ Todo | #6.2 |
+
+### Sub-Epic #6.3: API Integration
+
+**Parent:** #6
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #220 | Create fetch wrapper with error handling | ⬜ Todo | #6.3 |
+| #221 | Implement DAT files API client | ⬜ Todo | #6.3 |
+| #222 | Implement ROM files API client | ⬜ Todo | #6.3 |
+| #223 | Implement scan API client | ⬜ Todo | #6.3 |
+| #224 | Implement verification API client | ⬜ Todo | #6.3 |
+| #225 | Set up SignalR connection for real-time | ⬜ Todo | #6.3 |
+| #226 | Create useApi and useScanProgress hooks | ⬜ Todo | #6.3 |
+
+### Sub-Epic #6.4: Pages
+
+**Parent:** #6
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #230 | Create Dashboard page with stats | ⬜ Todo | #6.4 |
+| #231 | Create DAT Manager page with import | ⬜ Todo | #6.4 |
+| #232 | Create ROM Files browser page | ⬜ Todo | #6.4 |
+| #233 | Create Verification results page | ⬜ Todo | #6.4 |
+| #234 | Create Settings page | ⬜ Todo | #6.4 |
+| #235 | Implement React Router navigation | ⬜ Todo | #6.4 |
+
+### Sub-Epic #6.5: Polish & UX
+
+**Parent:** #6
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #240 | Implement dark/light theme toggle | ⬜ Todo | #6.5 |
+| #241 | Add responsive design breakpoints | ⬜ Todo | #6.5 |
+| #242 | Add loading skeletons | ⬜ Todo | #6.5 |
+| #243 | Implement error boundaries | ⬜ Todo | #6.5 |
+| #244 | Add keyboard shortcuts | ⬜ Todo | #6.5 |
 
 ---
 
