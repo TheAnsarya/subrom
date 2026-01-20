@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Subrom.Domain.Aggregates.DatFiles;
-using Subrom.Domain.ValueObjects;
 
 namespace Subrom.Infrastructure.Persistence.Configurations;
 
@@ -137,35 +136,21 @@ public class RomEntryConfiguration : IEntityTypeConfiguration<RomEntry> {
 			.HasConversion<string>()
 			.HasMaxLength(20);
 
-		// Hash value object mapping using ComplexProperty for struct
-		builder.ComplexProperty(r => r.Hashes, hashes => {
-			hashes.Property(h => h.Crc)
-				.HasColumnName("Crc")
-				.HasMaxLength(8)
-				.HasConversion(
-					v => v.Value,
-					v => Crc.Create(v));
+		// Hash columns as simple strings
+		builder.Property(r => r.Crc)
+			.HasMaxLength(8);
 
-			hashes.Property(h => h.Md5)
-				.HasColumnName("Md5")
-				.HasMaxLength(32)
-				.HasConversion(
-					v => v.Value,
-					v => Md5.Create(v));
+		builder.Property(r => r.Md5)
+			.HasMaxLength(32);
 
-			hashes.Property(h => h.Sha1)
-				.HasColumnName("Sha1")
-				.HasMaxLength(40)
-				.HasConversion(
-					v => v.Value,
-					v => Sha1.Create(v));
-		});
+		builder.Property(r => r.Sha1)
+			.HasMaxLength(40);
 
 		// Indexes
 		builder.HasIndex(r => r.GameId);
 		builder.HasIndex(r => r.Size);
-		builder.HasIndex("Crc");
-		builder.HasIndex("Sha1");
+		builder.HasIndex(r => r.Crc);
+		builder.HasIndex(r => r.Sha1);
 
 		// Relationship with GameEntry
 		builder.HasOne<GameEntry>()

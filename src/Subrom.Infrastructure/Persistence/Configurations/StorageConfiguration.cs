@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Subrom.Domain.Aggregates.Storage;
-using Subrom.Domain.ValueObjects;
 
 namespace Subrom.Infrastructure.Persistence.Configurations;
 
@@ -32,11 +32,17 @@ public class DriveConfiguration : IEntityTypeConfiguration<Drive> {
 			.HasConversion<string>()
 			.HasMaxLength(20);
 
-		// ScanPaths stored as JSON
+		// ScanPaths stored as pipe-delimited string with proper value comparer
+		var scanPathsComparer = new ValueComparer<List<string>>(
+			(c1, c2) => c1!.SequenceEqual(c2!),
+			c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+			c => c.ToList());
+
 		builder.Property(d => d.ScanPaths)
 			.HasConversion(
 				v => string.Join("|", v),
-				v => v.Split('|', StringSplitOptions.RemoveEmptyEntries).ToList());
+				v => v.Split('|', StringSplitOptions.RemoveEmptyEntries).ToList())
+			.Metadata.SetValueComparer(scanPathsComparer);
 
 		// Indexes
 		builder.HasIndex(d => d.RootPath).IsUnique();

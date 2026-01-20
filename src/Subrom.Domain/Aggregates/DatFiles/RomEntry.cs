@@ -18,9 +18,29 @@ public class RomEntry : Entity<int> {
 	public required long Size { get; init; }
 
 	/// <summary>
-	/// Hash values for verification.
+	/// CRC32 hash as lowercase hex string.
 	/// </summary>
-	public required RomHashes Hashes { get; init; }
+	public string? Crc { get; init; }
+
+	/// <summary>
+	/// MD5 hash as lowercase hex string.
+	/// </summary>
+	public string? Md5 { get; init; }
+
+	/// <summary>
+	/// SHA1 hash as lowercase hex string.
+	/// </summary>
+	public string? Sha1 { get; init; }
+
+	/// <summary>
+	/// Gets all hashes as a value object (computed property, not stored).
+	/// </summary>
+	public RomHashes? GetHashes() {
+		if (RomHashes.TryCreate(Crc, Md5, Sha1, out var hashes)) {
+			return hashes;
+		}
+		return null;
+	}
 
 	/// <summary>
 	/// ROM status (good, baddump, nodump, verified).
