@@ -5,8 +5,8 @@ namespace Subrom.Infrastructure.Providers;
 
 /// <summary>
 /// DAT provider for No-Intro.
-/// Note: No-Intro requires authentication via Datomatic.
-/// This provider returns metadata but cannot auto-download without credentials.
+/// ⚠️ WARNING: Automated downloads are DISABLED due to IP ban from datomatic.no-intro.org
+/// Ban occurred from automated scraping attempts. Manual download required.
 /// </summary>
 public sealed class NoIntroProvider : IDatProvider {
 	public DatProvider ProviderType => DatProvider.NoIntro;
@@ -34,8 +34,9 @@ public sealed class NoIntroProvider : IDatProvider {
 
 	public Task<Stream> DownloadDatAsync(string identifier, CancellationToken cancellationToken = default) {
 		throw new NotSupportedException(
-			"No-Intro requires Datomatic authentication. " +
-			"Please download DATs manually from https://datomatic.no-intro.org/");
+			"⚠️ No-Intro downloads DISABLED. " +
+			"IP banned from datomatic.no-intro.org due to automated scraping. " +
+			"Please download DATs manually from https://datomatic.no-intro.org/ or contact shippa6@hotmail.com to lift ban.");
 	}
 
 	public bool SupportsIdentifier(string identifier) =>
