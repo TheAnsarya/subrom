@@ -27,11 +27,52 @@ public sealed class DriveService {
 		ArgumentException.ThrowIfNullOrWhiteSpace(label);
 		ArgumentException.ThrowIfNullOrWhiteSpace(rootPath);
 
+		// Validate path exists (may fail for network paths that are offline)
 		if (!Directory.Exists(rootPath)) {
-			throw new DirectoryNotFoundException($"Root path does not exist: {rootPath}");
+			// For network paths, we allow registration even if currently offline
+			if (!IsNetworkPath(rootPath)) {
+				throw new DirectoryNotFoundException($"Root path does not exist: {rootPath}");
+			}
 		}
 
 		var drive = Drive.Create(label, rootPath, driveType);
+
+		// Try to get initial stats
+		if (Directory.Exists(rootPath)) {
+			try {
+				var (totalSize, freeSpace) = GetDriveStats(rootPath);
+				drive.MarkOnline(totalSize, freeSpace);
+			} catch {
+				drive.MarkOnline();
+			}
+		} else {
+			drive.MarkOffline();
+		}
+
+		await _driveRepository.AddAsync(drive, cancellationToken);
+		await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+		return drive;
+	}
+
+	/// <summary>
+	/// Registers a network drive with UNC path.
+	/// </summary>
+	public async Task<Drive> RegisterNetworkDriveAsync(
+		string label,
+		string uncPath,
+		CancellationToken cancellationToken = default) {
+		ArgumentException.ThrowIfNullOrWhiteSpace(label);
+		ArgumentException.ThrowIfNullOrWhiteSpace(uncPath);
+
+		var drive = Drive.CreateNetworkDrive(label, uncPath);
+
+		// Network drives may be offline at registration
+		if (Directory.Exists(uncPath)) {
+			drive.MarkOnline();
+		} else {
+			drive.MarkOffline();
+		}
 
 		await _driveRepository.AddAsync(drive, cancellationToken);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -165,5 +206,50 @@ public sealed class DriveService {
 
 		await _driveRepository.RemoveAsync(drive, cancellationToken);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
+	}
+
+	/// <summary>
+	/// Checks if a path is a network path (UNC or mapped network drive).
+	/// </summary>
+	private static bool IsNetworkPath(string path) {
+		// UNC path
+		if (path.StartsWith(@"\\", StringComparison.Ordinal)) {
+			return true;
+		}
+
+		// Check if it's a mapped network drive
+		try {
+			var root = Path.GetPathRoot(path);
+			if (!string.IsNullOrEmpty(root)) {
+				var driveInfo = new DriveInfo(root);
+				return driveInfo.DriveType == System.IO.DriveType.Network;
+			}
+		} catch {
+			// Ignore errors
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Gets drive statistics (total size, free space).
+	/// </summary>
+	private static (long? TotalSize, long? FreeSpace) GetDriveStats(string path) {
+		try {
+			// For UNC paths, we can't easily get space info without P/Invoke
+			if (path.StartsWith(@"\\", StringComparison.Ordinal)) {
+				return (null, null);
+			}
+
+			var root = Path.GetPathRoot(path);
+			if (!string.IsNullOrEmpty(root)) {
+				var driveInfo = new DriveInfo(root);
+				return (driveInfo.TotalSize, driveInfo.AvailableFreeSpace);
+			}
+		} catch {
+			// Ignore errors
+		}
+
+		return (null, null);
 	}
 }

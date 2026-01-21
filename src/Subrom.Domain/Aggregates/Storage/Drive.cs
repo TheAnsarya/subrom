@@ -69,17 +69,42 @@ public class Drive : AggregateRoot {
 	public List<string> ScanPaths { get; init; } = [];
 
 	/// <summary>
+	/// Whether this is a network path (UNC or mapped).
+	/// </summary>
+	public bool IsNetworkPath => DriveType == DriveType.Network ||
+		RootPath.StartsWith(@"\\", StringComparison.Ordinal);
+
+	/// <summary>
 	/// Creates a new drive registration.
 	/// </summary>
 	public static Drive Create(string label, string rootPath, DriveType driveType = DriveType.Fixed) {
+		// Normalize the path
+		var normalizedPath = rootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+		// Auto-detect network drives
+		if (driveType == DriveType.Fixed && normalizedPath.StartsWith(@"\\", StringComparison.Ordinal)) {
+			driveType = DriveType.Network;
+		}
+
 		var drive = new Drive {
 			Label = label,
-			RootPath = rootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
+			RootPath = normalizedPath,
 			DriveType = driveType
 		};
 
-		drive.AddDomainEvent(new DriveRegisteredEvent(drive.Id, label, rootPath));
+		drive.AddDomainEvent(new DriveRegisteredEvent(drive.Id, label, normalizedPath));
 		return drive;
+	}
+
+	/// <summary>
+	/// Creates a network drive registration.
+	/// </summary>
+	public static Drive CreateNetworkDrive(string label, string uncPath) {
+		if (!uncPath.StartsWith(@"\\", StringComparison.Ordinal)) {
+			throw new ArgumentException("Network path must start with \\\\", nameof(uncPath));
+		}
+
+		return Create(label, uncPath, DriveType.Network);
 	}
 
 	/// <summary>
