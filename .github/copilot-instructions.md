@@ -9,6 +9,16 @@
 
 **Home Folder:** `C:\Users\me\source\repos\subrom`
 
+## ⛔ CRITICAL RESTRICTIONS
+
+### No-Intro Website - DO NOT SCRAPE
+**NEVER attempt to scrape or automate downloads from datomatic.no-intro.org**
+- We were **INSTANTLY IP BANNED** when we attempted automated scraping
+- The NoIntroProvider is currently DISABLED for downloads
+- Users must manually download No-Intro DATs from the website
+- Alternative methods needed: consider DAT-o-Matic API (requires auth), or community DAT packs
+- Contact: shippa6@hotmail.com to request ban lift
+
 ## Key Architecture Concepts
 
 ### Technology Stack
@@ -61,12 +71,16 @@
 
 ```
 Subrom.sln                 # Main .NET solution
-├── Subrom/                # Web API project
-├── Domain/                # Domain models (DAT files, ROMs, Games)
-├── Services/              # Business logic services
-├── Infrastructure/        # Shared utilities
-├── Compression/           # 7-Zip compression support
-└── ConsoleTesting/        # Console test harness
+├── src/
+│   ├── Subrom.Domain/         # Domain models, value objects, aggregates
+│   ├── Subrom.Application/    # Interfaces, DTOs, use cases
+│   ├── Subrom.Infrastructure/ # EF Core, parsers, providers, services
+│   └── Subrom.Server/         # ASP.NET Core Web API + SignalR
+├── tests/
+│   └── Subrom.Tests.Unit/     # Unit tests (xUnit)
+├── scripts/                   # PowerShell automation scripts
+├── docs/                      # User documentation
+└── ~docs/                     # Development documentation
 
 subrom-ui/                 # React + Vite frontend
 ├── src/
@@ -83,7 +97,7 @@ subrom-ui/                 # React + Vite frontend
 ```bash
 # Backend (.NET)
 dotnet build Subrom.sln
-dotnet run --project Subrom
+dotnet run --project src/Subrom.Server
 
 # Frontend (Vite + Yarn)
 cd subrom-ui

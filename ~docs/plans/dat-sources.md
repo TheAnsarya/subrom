@@ -16,10 +16,22 @@ This document catalogs all known ROM/ISO DAT file sources for the Subrom project
 
 **Quality:** ⭐⭐⭐⭐⭐ Gold standard for cartridge ROMs
 
+> ⛔ **CRITICAL WARNING: DO NOT SCRAPE**
+> 
+> We were **INSTANTLY IP BANNED** from datomatic.no-intro.org when we attempted
+> automated scraping/downloading. The NoIntroProvider is DISABLED for downloads.
+> 
+> **Alternatives needed:**
+> - Manual download by users (requires free registration)
+> - Authenticated API access (investigate DAT-o-Matic API)
+> - Community DAT pack distributions
+> - Contact shippa6@hotmail.com to discuss lifting ban
+
 **Access Method:**
+- ~~Automated download~~ **BANNED**
 - Manual download via Datomatic (requires registration)
 - Daily updated packs
-- XML API: `https://datomatic.no-intro.org/stuff/datinfo_xml.php`
+- XML API: `https://datomatic.no-intro.org/stuff/datinfo_xml.php` (requires auth)
 
 **Systems Covered (60+):**
 - Nintendo: NES, SNES, N64, GC, Wii, GB, GBC, GBA, DS, 3DS
