@@ -166,6 +166,64 @@ public static class OrganizationEndpoints {
 			}));
 		});
 
+		// Get organization statistics
+		group.MapGet("/stats", async (IOrganizationLogRepository logRepo, CancellationToken ct) => {
+			var stats = await logRepo.GetStatisticsAsync(ct);
+			return Results.Ok(stats);
+		});
+
+		// Get detailed operation log
+		group.MapGet("/{operationId:guid}", async (Guid operationId, IOrganizationLogRepository logRepo, CancellationToken ct) => {
+			var log = await logRepo.GetWithEntriesAsync(operationId, ct);
+			if (log is null) {
+				return Results.NotFound(new { Message = $"Operation {operationId} not found" });
+			}
+
+			return Results.Ok(new {
+				log.Id,
+				log.PerformedAt,
+				log.SourcePath,
+				log.DestinationPath,
+				log.TemplateName,
+				log.WasMoveOperation,
+				log.IsRolledBack,
+				log.RolledBackAt,
+				log.Success,
+				log.ErrorsJson,
+				log.FilesProcessed,
+				log.FilesFailed,
+				log.FilesSkipped,
+				EntryCount = log.Entries.Count,
+				TotalBytes = log.Entries.Sum(e => e.Size),
+				Entries = log.Entries.Take(200).Select(e => new {
+					e.Id,
+					e.SourcePath,
+					e.DestinationPath,
+					e.OperationType,
+					e.Size,
+					e.Success,
+					e.ErrorMessage,
+					e.Crc
+				})
+			});
+		});
+
+		// Get rollbackable operations
+		group.MapGet("/rollbackable", async (IOrganizationLogRepository logRepo, CancellationToken ct) => {
+			var logs = await logRepo.GetRollbackableAsync(ct);
+			return Results.Ok(logs.Select(h => new OrganizationHistoryDto {
+				Id = h.Id,
+				PerformedAt = h.PerformedAt,
+				SourcePath = h.SourcePath,
+				DestinationPath = h.DestinationPath,
+				TemplateName = h.TemplateName,
+				WasMoveOperation = h.WasMoveOperation,
+				FileCount = h.Entries.Count,
+				TotalBytes = h.Entries.Sum(e => e.Size),
+				CanRollback = true
+			}));
+		});
+
 		return endpoints;
 	}
 

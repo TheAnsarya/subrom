@@ -209,6 +209,78 @@ public static class DatFileEndpoints {
 			});
 		});
 
+		// Get parent/clone analysis for a DAT file
+		group.MapGet("/{id:guid}/parent-clone", async (
+			Guid id,
+			int limit,
+			SubromDbContext db,
+			IParentCloneService parentCloneService,
+			CancellationToken ct) => {
+			limit = Math.Clamp(limit, 1, 200);
+
+			var datFile = await db.DatFiles
+				.AsNoTracking()
+				.FirstOrDefaultAsync(d => d.Id == id, ct);
+
+			if (datFile is null) {
+				return Results.NotFound(new { Message = $"DAT file {id} not found" });
+			}
+
+			// Build parent/clone index from DAT
+			var index = await parentCloneService.BuildIndexFromDatAsync(id, ct);
+			var groups = index.GetAllGroups();
+
+			return Results.Ok(new {
+				DatFileId = datFile.Id,
+				DatFileName = datFile.Name,
+				TotalGames = datFile.GameCount,
+				ParentCount = index.ParentCount,
+				CloneCount = index.CloneCount,
+				StandaloneCount = datFile.GameCount - index.ParentCount - index.CloneCount,
+				BuiltAt = index.BuiltAt,
+				Groups = groups
+					.OrderByDescending(g => g.Clones.Count)
+					.Take(limit)
+					.Select(g => new {
+						Parent = g.Parent,
+						CloneCount = g.Clones.Count,
+						Clones = g.Clones.Take(10) // Limit clones per group
+					})
+			});
+		});
+
+		// Look up parent for a specific game
+		group.MapGet("/{id:guid}/parent-clone/{gameName}", async (
+			Guid id,
+			string gameName,
+			SubromDbContext db,
+			IParentCloneService parentCloneService,
+			CancellationToken ct) => {
+			var datFile = await db.DatFiles
+				.AsNoTracking()
+				.FirstOrDefaultAsync(d => d.Id == id, ct);
+
+			if (datFile is null) {
+				return Results.NotFound(new { Message = $"DAT file {id} not found" });
+			}
+
+			var parent = await parentCloneService.GetParentAsync(gameName, id, ct);
+			var clones = await parentCloneService.GetClonesAsync(gameName, id, ct);
+
+			var isClone = parent is not null;
+			var isParent = clones.Count > 0;
+
+			return Results.Ok(new {
+				GameName = gameName,
+				IsClone = isClone,
+				IsParent = isParent,
+				IsStandalone = !isClone && !isParent,
+				Parent = parent,
+				Clones = clones.Take(50),
+				TotalClones = clones.Count
+			});
+		});
+
 		return endpoints;
 	}
 
