@@ -47,6 +47,7 @@ public static class DependencyInjection {
 		services.AddScoped<IOrganizationService, OrganizationService>();
 		services.AddSingleton<IOneGameOneRomService, OneGameOneRomService>();
 		services.AddScoped<IParentCloneService, ParentCloneService>();
+		services.AddScoped<IStorageMonitorService, StorageMonitorService>();
 
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();
