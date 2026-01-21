@@ -1,21 +1,19 @@
 # Download No-Intro DAT files
 # Downloads all available No-Intro DAT files by scraping the download page
 #
-# ⚠️ AUTHENTICATION REQUIRED:
-# This script currently receives HTML error pages instead of actual DAT files.
-# No-Intro requires authentication to download DAT files.
+# ⚠️⚠️⚠️ SCRIPT SHELVED - BANNED FROM NO-INTRO ⚠️⚠️⚠️
+# Automated scraping attempts resulted in IP ban from datomatic.no-intro.org
+# Error: "Something went wrong with your client or another client on your network"
+# Ban requires manual email contact to shippa6@hotmail.com to lift
 #
-# KNOWN ISSUE:
-# - All download URLs return HTML instead of DAT files
-# - Site requires "Staff login" credentials visible at top of page
-# - Individual DAT URLs work: ?page=download&op=dat&s={systemId}
-# - But without authentication, they return error pages
+# THIS SCRIPT IS NO LONGER FUNCTIONAL AND SHOULD NOT BE USED
 #
-# MANUAL WORKAROUND:
-# Visit https://datomatic.no-intro.org/index.php?page=download&s=64
-# and download DAT files manually if you have credentials.
+# ALTERNATIVE APPROACHES:
+# - Manual download from No-Intro website (requires credentials)
+# - Use other DAT sources: TOSEC, Redump, GoodTools, MAME
+# - Contact No-Intro for API access or bulk download permissions
 #
-# TODO: Implement authentication support with username/password parameters
+# STATUS: SHELVED - DO NOT USE
 
 param(
 	[string]$OutputPath = "C:\~reference-roms\dats\nointro",
