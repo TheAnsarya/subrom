@@ -2,14 +2,14 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 2026
+**Last Updated:** January 21, 2026
 
 ## Epic Overview
 
 | Epic # | Title | Status | Issues | Progress |
 |--------|-------|--------|--------|----------|
 | #1 | Foundation Infrastructure | ✅ Complete | 15 | 100% |
-| #2 | DAT Provider Integration | 🟡 In Progress | 12 | 25% |
+| #2 | DAT Provider Integration | 🟡 In Progress | 12 | 30% |
 | #3 | ROM Scanning Engine | ✅ Complete | 14 | 100% |
 | #4 | File Organization | 🟡 In Progress | 10 | 70% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
@@ -19,6 +19,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
+| #12 | Base Feature Completion | 🟡 In Progress | 10 | 40% |
 
 ---
 
@@ -628,6 +629,63 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #531 | Add log viewer dialog | ⬜ Todo | #10.4 |
 | #532 | Implement crash reporting | ⬜ Todo | #10.4 |
 | #533 | Add diagnostic endpoint | ⬜ Todo | #10.4 |
+
+---
+
+## Epic #12: Base Feature Completion (NEW)
+
+**Goal:** Complete core ROM scanner functionality before adding advanced features
+
+**Labels:** `epic`, `core`, `priority-high`
+
+**Status:** 🟡 In Progress (40%)
+
+**Created:** January 21, 2026
+
+**Reference:** See [base-features-analysis.md](../plans/base-features-analysis.md) for gap analysis
+
+### Sub-Epic #12.1: DAT Parsing
+
+**Parent:** #12 | **Status:** ✅ Complete
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #700 | Implement ClrMamePro DAT parser | ✅ Done | #12.1 |
+| #701 | Add parser unit tests | ⬜ Todo | #12.1 |
+
+### Sub-Epic #12.2: Verification API
+
+**Parent:** #12 | **Status:** ✅ Complete
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #710 | Create verification endpoints | ✅ Done | #12.2 |
+| #711 | Add hash lookup endpoint | ✅ Done | #12.2 |
+| #712 | Add verification stats endpoint | ✅ Done | #12.2 |
+| #713 | Add verification service tests | ⬜ Todo | #12.2 |
+
+### Sub-Epic #12.3: Scan Execution
+
+**Parent:** #12 | **Status:** ✅ Complete
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #720 | Create ScanJobProcessor background service | ✅ Done | #12.3 |
+| #721 | Wire scan endpoints to processor | ✅ Done | #12.3 |
+| #722 | Add SignalR progress streaming | ✅ Done | #12.3 |
+| #723 | Add cache invalidation on scan complete | ✅ Done | #12.3 |
+
+### Sub-Epic #12.4: Additional Endpoints (Pending)
+
+**Parent:** #12 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #730 | Add duplicate detection endpoint | ⬜ Todo | #12.4 |
+| #731 | Add bad dump detection endpoint | ⬜ Todo | #12.4 |
+| #732 | Add 1G1R filtering endpoint | ⬜ Todo | #12.4 |
+| #733 | Add parent/clone endpoint | ⬜ Todo | #12.4 |
+| #734 | Add organization log endpoints | ⬜ Todo | #12.4 |
 
 ---
 
