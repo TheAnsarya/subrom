@@ -19,11 +19,20 @@ public sealed class HashService : IHashService {
 		_archiveService = archiveService;
 	}
 
-	public async Task<RomHashes> ComputeHashesAsync(
+	public Task<RomHashes> ComputeHashesAsync(
 		string filePath,
 		IProgress<HashProgress>? progress = null,
 		CancellationToken cancellationToken = default) {
+		return ComputeHashesAsync(filePath, skipBytes: 0, progress, cancellationToken);
+	}
+
+	public async Task<RomHashes> ComputeHashesAsync(
+		string filePath,
+		int skipBytes,
+		IProgress<HashProgress>? progress = null,
+		CancellationToken cancellationToken = default) {
 		ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+		ArgumentOutOfRangeException.ThrowIfNegative(skipBytes);
 
 		var fileInfo = new FileInfo(filePath);
 		if (!fileInfo.Exists) {
@@ -38,26 +47,70 @@ public sealed class HashService : IHashService {
 			bufferSize: ChunkSize,
 			FileOptions.Asynchronous | FileOptions.SequentialScan);
 
-		return await ComputeHashesInternalAsync(stream, fileInfo.Length, progress, cancellationToken);
+		// Skip header bytes if specified
+		if (skipBytes > 0) {
+			if (stream.Length <= skipBytes) {
+				throw new ArgumentException($"File is smaller than header size ({skipBytes} bytes)", nameof(skipBytes));
+			}
+			stream.Position = skipBytes;
+		}
+
+		var effectiveLength = fileInfo.Length - skipBytes;
+		return await ComputeHashesInternalAsync(stream, effectiveLength, progress, cancellationToken);
+	}
+
+	public Task<RomHashes> ComputeHashesAsync(
+		Stream stream,
+		IProgress<HashProgress>? progress = null,
+		CancellationToken cancellationToken = default) {
+		return ComputeHashesAsync(stream, skipBytes: 0, progress, cancellationToken);
 	}
 
 	public async Task<RomHashes> ComputeHashesAsync(
 		Stream stream,
+		int skipBytes,
 		IProgress<HashProgress>? progress = null,
 		CancellationToken cancellationToken = default) {
 		ArgumentNullException.ThrowIfNull(stream);
+		ArgumentOutOfRangeException.ThrowIfNegative(skipBytes);
 
-		var length = stream.CanSeek ? stream.Length : -1;
+		// Skip header bytes if specified
+		if (skipBytes > 0) {
+			if (!stream.CanSeek) {
+				// For non-seekable streams, read and discard header bytes
+				var skipBuffer = new byte[skipBytes];
+				var totalRead = 0;
+				while (totalRead < skipBytes) {
+					var read = await stream.ReadAsync(skipBuffer.AsMemory(totalRead, skipBytes - totalRead), cancellationToken);
+					if (read == 0) throw new EndOfStreamException("Stream ended before header could be skipped");
+					totalRead += read;
+				}
+			} else {
+				stream.Position = skipBytes;
+			}
+		}
+
+		var length = stream.CanSeek ? stream.Length - skipBytes : -1;
 		return await ComputeHashesInternalAsync(stream, length, progress, cancellationToken);
+	}
+
+	public Task<RomHashes> ComputeArchiveEntryHashesAsync(
+		string archivePath,
+		string entryPath,
+		IProgress<HashProgress>? progress = null,
+		CancellationToken cancellationToken = default) {
+		return ComputeArchiveEntryHashesAsync(archivePath, entryPath, skipBytes: 0, progress, cancellationToken);
 	}
 
 	public async Task<RomHashes> ComputeArchiveEntryHashesAsync(
 		string archivePath,
 		string entryPath,
+		int skipBytes,
 		IProgress<HashProgress>? progress = null,
 		CancellationToken cancellationToken = default) {
 		ArgumentException.ThrowIfNullOrWhiteSpace(archivePath);
 		ArgumentException.ThrowIfNullOrWhiteSpace(entryPath);
+		ArgumentOutOfRangeException.ThrowIfNegative(skipBytes);
 
 		var extension = Path.GetExtension(archivePath).ToLowerInvariant();
 
@@ -68,7 +121,19 @@ public sealed class HashService : IHashService {
 				?? throw new FileNotFoundException($"Entry not found in archive: {entryPath}", entryPath);
 
 			await using var stream = entry.Open();
-			return await ComputeHashesInternalAsync(stream, entry.Length, progress, cancellationToken);
+
+			// Skip header bytes for non-seekable zip streams
+			if (skipBytes > 0) {
+				var skipBuffer = new byte[skipBytes];
+				var totalRead = 0;
+				while (totalRead < skipBytes) {
+					var read = await stream.ReadAsync(skipBuffer.AsMemory(totalRead, skipBytes - totalRead), cancellationToken);
+					if (read == 0) throw new EndOfStreamException("Stream ended before header could be skipped");
+					totalRead += read;
+				}
+			}
+
+			return await ComputeHashesInternalAsync(stream, entry.Length - skipBytes, progress, cancellationToken);
 		}
 
 		// Use SharpCompress for all other supported formats (7z, RAR, TAR, etc.)
@@ -77,7 +142,18 @@ public sealed class HashService : IHashService {
 			var entries = await _archiveService.ListEntriesAsync(archivePath, cancellationToken);
 			var entry = entries.FirstOrDefault(e =>
 				string.Equals(e.Path, entryPath, StringComparison.OrdinalIgnoreCase));
-			var length = entry?.UncompressedSize ?? -1;
+			var length = (entry?.UncompressedSize ?? 0) - skipBytes;
+
+			// Skip header bytes
+			if (skipBytes > 0) {
+				var skipBuffer = new byte[skipBytes];
+				var totalRead = 0;
+				while (totalRead < skipBytes) {
+					var read = await stream.ReadAsync(skipBuffer.AsMemory(totalRead, skipBytes - totalRead), cancellationToken);
+					if (read == 0) throw new EndOfStreamException("Stream ended before header could be skipped");
+					totalRead += read;
+				}
+			}
 
 			return await ComputeHashesInternalAsync(stream, length, progress, cancellationToken);
 		}

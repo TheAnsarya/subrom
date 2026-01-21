@@ -38,6 +38,7 @@ public static class DependencyInjection {
 
 		// Register Services (order matters - ArchiveService first, HashService depends on it)
 		services.AddSingleton<IArchiveService, SharpCompressArchiveService>();
+		services.AddSingleton<IRomHeaderService, RomHeaderService>();
 		services.AddSingleton<IHashService, HashService>();
 
 		// Register DAT Providers
