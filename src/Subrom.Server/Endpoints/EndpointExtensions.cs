@@ -20,6 +20,9 @@ public static class EndpointExtensions {
 		// DAT files endpoints
 		api.MapDatFileEndpoints();
 
+		// DAT provider endpoints
+		api.MapDatProviderEndpoints();
+
 		// Drives endpoints
 		api.MapDriveEndpoints();
 

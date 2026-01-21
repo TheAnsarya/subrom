@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Subrom.Application.Interfaces;
 using Subrom.Application.Services;
 
 namespace Subrom.Application;
@@ -15,6 +16,7 @@ public static class DependencyInjection {
 	public static IServiceCollection AddApplication(this IServiceCollection services) {
 		// Register Application Services
 		services.AddScoped<DatFileService>();
+		services.AddScoped<IDatCollectionService, DatCollectionService>();
 		services.AddScoped<DriveService>();
 		services.AddScoped<ScanService>();
 		services.AddScoped<VerificationService>();

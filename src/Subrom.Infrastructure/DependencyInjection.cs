@@ -4,6 +4,7 @@ using Subrom.Application.Interfaces;
 using Subrom.Infrastructure.Parsing;
 using Subrom.Infrastructure.Persistence;
 using Subrom.Infrastructure.Persistence.Repositories;
+using Subrom.Infrastructure.Providers;
 using Subrom.Infrastructure.Services;
 
 namespace Subrom.Infrastructure;
@@ -37,6 +38,10 @@ public static class DependencyInjection {
 
 		// Register Services
 		services.AddSingleton<IHashService, HashService>();
+
+		// Register DAT Providers
+		services.AddSingleton<IDatProvider, NoIntroProvider>();
+		services.AddSingleton<IDatProvider, TosecProvider>();
 
 		// Register Parsers
 		services.AddSingleton<IDatParser, LogiqxDatParser>();
