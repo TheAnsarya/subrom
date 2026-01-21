@@ -44,6 +44,29 @@ public class SubromHub : Hub {
 	public async Task SubscribeToDatImport(Guid importId) {
 		await Groups.AddToGroupAsync(Context.ConnectionId, $"import-{importId}");
 	}
+
+	/// <summary>
+	/// Subscribes to hash progress updates for a scan job.
+	/// </summary>
+	public async Task SubscribeToHashProgress(Guid jobId) {
+		await Groups.AddToGroupAsync(Context.ConnectionId, $"hash-{jobId}");
+		_logger.LogDebug("Client {ConnectionId} subscribed to hash progress for job {JobId}", Context.ConnectionId, jobId);
+	}
+
+	/// <summary>
+	/// Subscribes to cache invalidation events.
+	/// </summary>
+	public async Task SubscribeToCacheInvalidation() {
+		await Groups.AddToGroupAsync(Context.ConnectionId, "cache-invalidation");
+		_logger.LogDebug("Client {ConnectionId} subscribed to cache invalidation", Context.ConnectionId);
+	}
+
+	/// <summary>
+	/// Unsubscribes from cache invalidation events.
+	/// </summary>
+	public async Task UnsubscribeFromCacheInvalidation() {
+		await Groups.RemoveFromGroupAsync(Context.ConnectionId, "cache-invalidation");
+	}
 }
 
 /// <summary>
@@ -64,6 +87,12 @@ public interface ISubromHubClient {
 	// Drive events
 	Task DriveOnline(DriveStatusMessage message);
 	Task DriveOffline(DriveStatusMessage message);
+
+	// Hash progress events (for large files)
+	Task HashProgress(HashProgressMessage message);
+
+	// Cache invalidation events
+	Task CacheInvalidated(CacheInvalidationMessage message);
 
 	// General notifications
 	Task Notification(NotificationMessage message);
@@ -109,3 +138,37 @@ public record DatImportCompletedMessage(
 public record DriveStatusMessage(Guid DriveId, string Label, string RootPath);
 
 public record NotificationMessage(string Type, string Title, string Message, object? Data = null);
+
+// Cache invalidation events
+public record CacheInvalidationMessage(
+	string CacheKey,
+	InvalidationType Type,
+	Guid? EntityId = null,
+	string? EntityType = null);
+
+/// <summary>
+/// Hash progress events for large file hashing.
+/// </summary>
+public record HashProgressMessage(
+	Guid JobId,
+	string FileName,
+	long ProcessedBytes,
+	long TotalBytes,
+	double Percentage,
+	double BytesPerSecond);
+
+/// <summary>
+/// Types of cache invalidation.
+/// </summary>
+public enum InvalidationType {
+	/// <summary>Single entity was created.</summary>
+	Created,
+	/// <summary>Single entity was updated.</summary>
+	Updated,
+	/// <summary>Single entity was deleted.</summary>
+	Deleted,
+	/// <summary>Multiple entities were modified (bulk operation).</summary>
+	BulkModified,
+	/// <summary>Entire cache should be cleared.</summary>
+	ClearAll
+}

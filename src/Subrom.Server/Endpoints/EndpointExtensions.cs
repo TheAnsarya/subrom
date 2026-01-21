@@ -35,6 +35,12 @@ public static class EndpointExtensions {
 		// Organization endpoints
 		api.MapOrganizationEndpoints();
 
+		// Storage monitor endpoints
+		api.MapStorageEndpoints();
+
+		// Streaming/cursor-based pagination endpoints
+		endpoints.MapStreamingEndpoints();
+
 		return endpoints;
 	}
 }
