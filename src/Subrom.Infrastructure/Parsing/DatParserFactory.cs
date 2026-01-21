@@ -13,7 +13,7 @@ public sealed class DatParserFactory : IDatParserFactory {
 		_parsers = parsers;
 	}
 
-	public IDatParser GetParser(string filePath) {
+	public IDatParser? GetParser(string filePath) {
 		ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
 
 		foreach (var parser in _parsers) {
@@ -22,16 +22,19 @@ public sealed class DatParserFactory : IDatParserFactory {
 			}
 		}
 
-		throw new NotSupportedException($"No parser available for file: {Path.GetFileName(filePath)}");
+		return null; // No parser found
 	}
 
-	public IDatParser GetParser(DatFormat format) {
-		var parser = _parsers.FirstOrDefault(p => p.Format == format);
-		if (parser is null) {
-			throw new NotSupportedException($"No parser available for format: {format}");
-		}
+	public IDatParser? GetParser(DatFormat format) {
+		return _parsers.FirstOrDefault(p => p.Format == format);
+	}
 
-		return parser;
+	public IDatParser? GetParser(Stream stream) {
+		ArgumentNullException.ThrowIfNull(stream);
+
+		// For streams, we'll default to Logiqx XML parser
+		// TODO: Implement stream peeking to detect format
+		return GetParser(DatFormat.LogiqxXml);
 	}
 
 	public IReadOnlyList<DatFormat> GetSupportedFormats() =>

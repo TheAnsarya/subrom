@@ -52,12 +52,17 @@ public interface IDatParserFactory {
 	/// <summary>
 	/// Gets a parser for the given file.
 	/// </summary>
-	IDatParser GetParser(string filePath);
+	IDatParser? GetParser(string filePath);
 
 	/// <summary>
 	/// Gets a parser for the given format.
 	/// </summary>
-	IDatParser GetParser(DatFormat format);
+	IDatParser? GetParser(DatFormat format);
+
+	/// <summary>
+	/// Gets a parser for the given stream (peeks content to determine format).
+	/// </summary>
+	IDatParser? GetParser(Stream stream);
 }
 
 /// <summary>
