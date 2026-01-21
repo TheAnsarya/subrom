@@ -49,6 +49,11 @@ public static class DependencyInjection {
 		services.AddScoped<IParentCloneService, ParentCloneService>();
 		services.AddScoped<IStorageMonitorService, StorageMonitorService>();
 
+		// Large Dataset Services (Epic #8)
+		services.AddSingleton<IHashJobService, HashJobService>();
+		services.AddScoped<IIncrementalScanService, IncrementalScanService>();
+		services.AddScoped<IBatchDatabaseService, BatchDatabaseService>();
+
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();
 		services.AddSingleton<IDatProvider, TosecProvider>();
