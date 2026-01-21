@@ -15,9 +15,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
-| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 60% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 57 | 50% |
 | #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
-| #10 | System Tray & Service | ⚪ Not Started | 15 | 0% |
+| #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 
 ---
@@ -327,16 +327,17 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ## Epic #8: Large Dataset Handling
 
-**Goal:** Handle DAT files with 60K+ entries, 4K+ DAT file collections, and ROM files ranging from KB to GB
+**Goal:** Handle DAT files with 60K+ entries, 4K+ DAT file collections, and ROM files ranging from KB to GB with efficient display and scanning
 
 **Labels:** `epic`, `performance`, `priority-high`
 
-**Status:** 🟡 In Progress (30%)
+**Status:** 🟡 In Progress (50%)
 
 **Reference Data:**
 - TOSEC Pack: 4,743 DAT files, ~100MB compressed
 - Largest single DAT: 61,454 entries (18MB XML)
 - File sizes: KB (NES ROMs) to GB (disc images)
+- Typical ROM collection: 500K-1M files across multiple drives
 
 ### Sub-Epic #8.1: SignalR Streaming
 
@@ -346,8 +347,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 |---|-------|--------|--------|
 | #300 | Add SignalR streaming event types | ✅ Done | #8.1 |
 | #301 | Enhance useSignalR hook with streaming | ✅ Done | #8.1 |
-| #302 | Add large file hashing progress events | ⬜ Todo | #8.1 |
-| #303 | Implement cache invalidation events | ⬜ Todo | #8.1 |
+| #302 | Add large file hashing progress events | ✅ Done | #8.1 |
+| #303 | Implement cache invalidation events | ✅ Done | #8.1 |
 | #304 | Add connection state recovery | ⬜ Todo | #8.1 |
 
 ### Sub-Epic #8.2: Virtual Data Tables
@@ -359,7 +360,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #310 | Add react-window for virtualization | ✅ Done | #8.2 |
 | #311 | Create VirtualTable component | ✅ Done | #8.2 |
 | #312 | Implement infinite scroll loading | ✅ Done | #8.2 |
-| #313 | Add cursor-based pagination support | ⬜ Todo | #8.2 |
+| #313 | Add cursor-based pagination support | ✅ Done | #8.2 |
 | #314 | Optimize row rendering performance | ⬜ Todo | #8.2 |
 
 ### Sub-Epic #8.3: Client-Side Caching
@@ -371,18 +372,18 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #320 | Create LRU cache store | ✅ Done | #8.3 |
 | #321 | Implement memory monitoring | ✅ Done | #8.3 |
 | #322 | Add TTL-based expiration | ✅ Done | #8.3 |
-| #323 | Implement cache invalidation handlers | ⬜ Todo | #8.3 |
+| #323 | Implement cache invalidation handlers | ✅ Done | #8.3 |
 | #324 | Add visibility-based cache cleanup | ⬜ Todo | #8.3 |
 
 ### Sub-Epic #8.4: Server-Side Streaming
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #330 | Add streaming XML parser | ⬜ Todo | #8.4 |
+| #330 | Add streaming XML parser | ✅ Done | #8.4 |
 | #331 | Implement batch database inserts | ⬜ Todo | #8.4 |
-| #332 | Add cursor-based API endpoints | ⬜ Todo | #8.4 |
+| #332 | Add cursor-based API endpoints | ✅ Done | #8.4 |
 | #333 | Implement chunked file hashing | ⬜ Todo | #8.4 |
 
 ### Sub-Epic #8.5: DAT Hierarchy
@@ -405,6 +406,77 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #350 | Create OperationProgress component | ✅ Done | #8.6 |
 | #351 | Add multi-stage progress support | ✅ Done | #8.6 |
 | #352 | Implement progress streaming | ✅ Done | #8.6 |
+
+### Sub-Epic #8.7: Large Dataset Display (NEW)
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+**Goal:** Efficiently display 100K+ rows in file browsers and game lists
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #360 | Create VirtualizedFileTree component | ⬜ Todo | #8.7 |
+| #361 | Implement windowed row rendering | ⬜ Todo | #8.7 |
+| #362 | Add column resizing with memory | ⬜ Todo | #8.7 |
+| #363 | Implement server-side filtering | ⬜ Todo | #8.7 |
+| #364 | Add multi-column sorting backend | ⬜ Todo | #8.7 |
+| #365 | Create search index for fast text search | ⬜ Todo | #8.7 |
+| #366 | Implement grouped view (by folder/system) | ⬜ Todo | #8.7 |
+| #367 | Add row selection state management | ⬜ Todo | #8.7 |
+| #368 | Optimize re-render on filter changes | ⬜ Todo | #8.7 |
+| #369 | Add export selected (CSV/JSON) | ⬜ Todo | #8.7 |
+
+### Sub-Epic #8.8: Large File Scanning (NEW)
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+**Goal:** Scan collections with 500K+ files across multiple drives efficiently
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #370 | Implement chunked file enumeration | ⬜ Todo | #8.8 |
+| #371 | Add parallel folder scanning with throttling | ⬜ Todo | #8.8 |
+| #372 | Create scan queue with priority levels | ⬜ Todo | #8.8 |
+| #373 | Implement incremental scan (changed files only) | ⬜ Todo | #8.8 |
+| #374 | Add file watcher for real-time updates | ⬜ Todo | #8.8 |
+| #375 | Create scan checkpoint/resume system | ⬜ Todo | #8.8 |
+| #376 | Implement background scan service | ⬜ Todo | #8.8 |
+| #377 | Add scan statistics and ETA calculation | ⬜ Todo | #8.8 |
+| #378 | Create scan exclusion patterns | ⬜ Todo | #8.8 |
+| #379 | Implement multi-drive parallel scanning | ⬜ Todo | #8.8 |
+
+### Sub-Epic #8.9: Large File Hashing (NEW)
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+**Goal:** Hash large disc images (4GB+) without blocking UI
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #380 | Implement chunked hashing with progress | ⬜ Todo | #8.9 |
+| #381 | Add memory-mapped file hashing for large files | ⬜ Todo | #8.9 |
+| #382 | Create hash job queue with priority | ⬜ Todo | #8.9 |
+| #383 | Implement hash caching by file path/mtime | ⬜ Todo | #8.9 |
+| #384 | Add parallel multi-file hashing | ⬜ Todo | #8.9 |
+| #385 | Create cancellable hash operations | ⬜ Todo | #8.9 |
+| #386 | Implement hash verification mode | ⬜ Todo | #8.9 |
+| #387 | Add hash progress SignalR streaming | ⬜ Todo | #8.9 |
+
+### Sub-Epic #8.10: Database Optimization (NEW)
+
+**Parent:** #8 | **Status:** ⬜ Not Started
+
+**Goal:** Optimize SQLite for 1M+ file records
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #390 | Add composite indexes for common queries | ⬜ Todo | #8.10 |
+| #391 | Implement query pagination with EF Core | ⬜ Todo | #8.10 |
+| #392 | Add database vacuum scheduling | ⬜ Todo | #8.10 |
+| #393 | Create read-replica connection for queries | ⬜ Todo | #8.10 |
+| #394 | Implement bulk insert with batching | ⬜ Todo | #8.10 |
+| #395 | Add query plan analysis logging | ⬜ Todo | #8.10 |
+| #396 | Create database statistics endpoint | ⬜ Todo | #8.10 |
 
 ---
 
@@ -503,56 +575,56 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `desktop`, `windows`, `priority-high`
 
-**Status:** ⚪ Not Started
+**Status:** 🟡 In Progress (60%)
 
 **Reference:** See [plex-like-architecture.md](../plans/plex-like-architecture.md) for detailed design
 
 ### Sub-Epic #10.1: System Tray Application
 
-**Parent:** #10 | **Status:** ⚪ Not Started
+**Parent:** #10 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #500 | Create Subrom.Tray Windows Forms project | ⬜ Todo | #10.1 |
-| #501 | Implement NotifyIcon with context menu | ⬜ Todo | #10.1 |
-| #502 | Add server process management | ⬜ Todo | #10.1 |
-| #503 | Implement icon state indicators | ⬜ Todo | #10.1 |
-| #504 | Add notification support | ⬜ Todo | #10.1 |
+| #500 | Create Subrom.Tray Windows Forms project | ✅ Done | #10.1 |
+| #501 | Implement NotifyIcon with context menu | ✅ Done | #10.1 |
+| #502 | Add server process management | ✅ Done | #10.1 |
+| #503 | Implement icon state indicators | ✅ Done | #10.1 |
+| #504 | Add notification support | ✅ Done | #10.1 |
 | #505 | Create quick actions menu | ⬜ Todo | #10.1 |
-| #506 | Implement "Open in Browser" action | ⬜ Todo | #10.1 |
-| #507 | Add single-instance enforcement | ⬜ Todo | #10.1 |
+| #506 | Implement "Open in Browser" action | ✅ Done | #10.1 |
+| #507 | Add single-instance enforcement | ✅ Done | #10.1 |
 
 ### Sub-Epic #10.2: Windows Service
 
-**Parent:** #10 | **Status:** ⚪ Not Started
+**Parent:** #10 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #510 | Create Subrom.Service project | ⬜ Todo | #10.2 |
-| #511 | Implement WindowsService hosting | ⬜ Todo | #10.2 |
-| #512 | Add service installer | ⬜ Todo | #10.2 |
-| #513 | Configure service recovery options | ⬜ Todo | #10.2 |
+| #510 | Create Subrom.Service project | ✅ Done | #10.2 |
+| #511 | Implement WindowsService hosting | ✅ Done | #10.2 |
+| #512 | Add service installer | ✅ Done | #10.2 |
+| #513 | Configure service recovery options | ✅ Done | #10.2 |
 | #514 | Add service control from tray app | ⬜ Todo | #10.2 |
 
 ### Sub-Epic #10.3: Settings & Configuration
 
-**Parent:** #10 | **Status:** ⚪ Not Started
+**Parent:** #10 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #520 | Design settings.json schema | ⬜ Todo | #10.3 |
-| #521 | Implement IOptions configuration | ⬜ Todo | #10.3 |
+| #520 | Design settings.json schema | ✅ Done | #10.3 |
+| #521 | Implement IOptions configuration | ✅ Done | #10.3 |
 | #522 | Add settings persistence | ⬜ Todo | #10.3 |
-| #523 | Create settings dialog in tray app | ⬜ Todo | #10.3 |
+| #523 | Create settings dialog in tray app | ✅ Done | #10.3 |
 | #524 | Implement startup registration | ⬜ Todo | #10.3 |
 
 ### Sub-Epic #10.4: Logging & Diagnostics
 
-**Parent:** #10 | **Status:** ⚪ Not Started
+**Parent:** #10 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #530 | Configure Serilog file rolling | ⬜ Todo | #10.4 |
+| #530 | Configure Serilog file rolling | ✅ Done | #10.4 |
 | #531 | Add log viewer dialog | ⬜ Todo | #10.4 |
 | #532 | Implement crash reporting | ⬜ Todo | #10.4 |
 | #533 | Add diagnostic endpoint | ⬜ Todo | #10.4 |
