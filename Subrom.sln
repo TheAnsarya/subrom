@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subrom.Infrastructure", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subrom.Server", "src\Subrom.Server\Subrom.Server.csproj", "{0644AF6B-9D10-4422-8A43-734D27F3F5BE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subrom.Tests.Unit", "tests\Subrom.Tests.Unit\Subrom.Tests.Unit.csproj", "{E78E5985-A881-461A-A27A-76B2894B68B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +169,18 @@ Global
 		{0644AF6B-9D10-4422-8A43-734D27F3F5BE}.Release|x64.Build.0 = Release|Any CPU
 		{0644AF6B-9D10-4422-8A43-734D27F3F5BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{0644AF6B-9D10-4422-8A43-734D27F3F5BE}.Release|x86.Build.0 = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|x64.Build.0 = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{E78E5985-A881-461A-A27A-76B2894B68B1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +190,7 @@ Global
 		{659F6243-6045-4054-9F3F-2EF6746967E8} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{9422CBD0-F693-44E2-94D0-4D549986CF32} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{0644AF6B-9D10-4422-8A43-734D27F3F5BE} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{E78E5985-A881-461A-A27A-76B2894B68B1} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20F90E84-E631-4859-9641-EFC93BDE1623}
