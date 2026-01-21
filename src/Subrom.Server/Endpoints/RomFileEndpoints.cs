@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Subrom.Application.Interfaces;
 using Subrom.Domain.Aggregates.Storage;
+using Subrom.Domain.ValueObjects;
 using Subrom.Infrastructure.Persistence;
 
 namespace Subrom.Server.Endpoints;
@@ -165,6 +167,148 @@ public static class RomFileEndpoints {
 
 			var files = await query.Take(100).ToListAsync(ct);
 			return Results.Ok(files);
+		});
+
+		// Find duplicates by hash
+		group.MapGet("/duplicates", async (
+			Guid? driveId,
+			int limit,
+			SubromDbContext db,
+			IDuplicateDetectionService duplicateService,
+			CancellationToken ct) => {
+			limit = Math.Clamp(limit, 1, 100);
+
+			// Get all hashed ROM files
+			var query = db.RomFiles
+				.AsNoTracking()
+				.Where(f => f.Crc != null && f.Md5 != null && f.Sha1 != null);
+
+			if (driveId.HasValue) {
+				query = query.Where(f => f.DriveId == driveId.Value);
+			}
+
+			var files = await query.ToListAsync(ct);
+
+			// Convert to ScannedRomEntry for duplicate service
+			var entries = files.Select(f => new ScannedRomEntry(
+				Path: f.RelativePath,
+				EntryPath: f.PathInArchive,
+				Hashes: new RomHashes(
+					Crc.Create(f.Crc!),
+					Md5.Create(f.Md5!),
+					Sha1.Create(f.Sha1!)),
+				Size: f.Size,
+				FileName: f.FileName)).ToList();
+
+			var duplicates = await duplicateService.FindDuplicatesAsync(entries, ct);
+
+			return Results.Ok(new {
+				TotalGroups = duplicates.Count,
+				TotalDuplicates = duplicates.Sum(g => g.Count - 1), // Exclude originals
+				WastedSpace = duplicates.Sum(g => g.WastedSpace),
+				Groups = duplicates.Take(limit).Select(g => new {
+					g.Count,
+					g.TotalSize,
+					g.WastedSpace,
+					Crc = g.Hashes.Crc.Value,
+					Sha1 = g.Hashes.Sha1.Value,
+					Files = g.Entries.Select(e => new { e.FileName, e.Path, e.Size })
+				})
+			});
+		});
+
+		// Check for bad dumps
+		group.MapGet("/baddumps", async (
+			Guid? driveId,
+			int limit,
+			SubromDbContext db,
+			IBadDumpService badDumpService,
+			CancellationToken ct) => {
+			limit = Math.Clamp(limit, 1, 100);
+
+			// Get all hashed ROM files
+			var query = db.RomFiles
+				.AsNoTracking()
+				.Where(f => f.Crc != null && f.Md5 != null && f.Sha1 != null);
+
+			if (driveId.HasValue) {
+				query = query.Where(f => f.DriveId == driveId.Value);
+			}
+
+			var files = await query.ToListAsync(ct);
+
+			// Convert to ScannedRomEntry for bad dump service
+			var entries = files.Select(f => new ScannedRomEntry(
+				Path: f.RelativePath,
+				EntryPath: f.PathInArchive,
+				Hashes: new RomHashes(
+					Crc.Create(f.Crc!),
+					Md5.Create(f.Md5!),
+					Sha1.Create(f.Sha1!)),
+				Size: f.Size,
+				FileName: f.FileName)).ToList();
+
+			var results = await badDumpService.CheckBatchAsync(entries, ct);
+
+			// Filter to only bad dumps or suspected bad dumps
+			var badDumps = results
+				.Where(r => r.Value.IsBadDump || r.Value.FileNameFlags != FileNameFlags.None)
+				.Take(limit)
+				.Select(r => new {
+					File = new { r.Key.FileName, r.Key.Path, r.Key.Size },
+					r.Value.IsBadDump,
+					r.Value.Status,
+					r.Value.Source,
+					Flags = r.Value.FileNameFlags.ToString(),
+					DatFileName = r.Value.DatFile?.Name,
+					GameName = r.Value.MatchedGameEntry?.Name,
+					RomName = r.Value.MatchedRomEntry?.Name
+				})
+				.ToList();
+
+			return Results.Ok(new {
+				TotalChecked = files.Count,
+				BadDumpsFound = badDumps.Count(b => b.IsBadDump),
+				SuspectFiles = badDumps.Count(b => !b.IsBadDump && b.Flags != FileNameFlags.None.ToString()),
+				Results = badDumps
+			});
+		});
+
+		// Check single file for bad dump
+		group.MapGet("/{id:guid}/baddump", async (
+			Guid id,
+			SubromDbContext db,
+			IBadDumpService badDumpService,
+			CancellationToken ct) => {
+			var file = await db.RomFiles
+				.AsNoTracking()
+				.FirstOrDefaultAsync(f => f.Id == id, ct);
+
+			if (file is null) {
+				return Results.NotFound();
+			}
+
+			if (file.Crc is null || file.Md5 is null || file.Sha1 is null) {
+				return Results.BadRequest(new { Message = "File has not been hashed yet" });
+			}
+
+			var hashes = new RomHashes(
+				Crc.Create(file.Crc),
+				Md5.Create(file.Md5),
+				Sha1.Create(file.Sha1));
+
+			var result = await badDumpService.CheckByHashAsync(hashes, ct);
+
+			return Results.Ok(new {
+				File = new { file.Id, file.FileName, file.RelativePath, file.Size },
+				result.IsBadDump,
+				result.Status,
+				result.Source,
+				Flags = result.FileNameFlags.ToString(),
+				DatFileName = result.DatFile?.Name,
+				GameName = result.MatchedGameEntry?.Name,
+				RomName = result.MatchedRomEntry?.Name
+			});
 		});
 
 		return endpoints;

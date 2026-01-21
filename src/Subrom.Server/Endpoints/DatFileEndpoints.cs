@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Subrom.Application.Interfaces;
+using Subrom.Domain.Aggregates.Organization;
 using Subrom.Infrastructure.Persistence;
 
 namespace Subrom.Server.Endpoints;
@@ -134,6 +136,79 @@ public static class DatFileEndpoints {
 			return Results.Ok(new { datFile.Id, datFile.IsEnabled });
 		});
 
+		// Apply 1G1R filter to a DAT file
+		group.MapPost("/{id:guid}/1g1r", async (
+			Guid id,
+			OneGameOneRomRequest? request,
+			SubromDbContext db,
+			IOneGameOneRomService ogService,
+			CancellationToken ct) => {
+			// Load DAT with games and ROMs
+			var datFile = await db.DatFiles
+				.Include(d => d.Games)
+				.ThenInclude(g => g.Roms)
+				.FirstOrDefaultAsync(d => d.Id == id, ct);
+
+			if (datFile is null) {
+				return Results.NotFound(new { Message = $"DAT file {id} not found" });
+			}
+
+			// Build options from request
+			var options = new OneGameOneRomOptions {
+				RegionPriority = request?.RegionPriority ?? ["USA", "Europe", "Japan", "World"],
+				LanguagePriority = request?.LanguagePriority ?? ["En", "De", "Fr", "Es", "It", "Ja"],
+				PreferParent = request?.PreferParent ?? true,
+				PreferLatestRevision = request?.PreferLatestRevision ?? true,
+				PreferVerified = request?.PreferVerified ?? true,
+				ExcludeCategories = request?.ExcludeCategories ?? ["Beta", "Proto", "Sample", "Demo", "Program"]
+			};
+
+			// Convert games to RomCandidate
+			var candidates = datFile.Games.Select(g => new RomCandidate {
+				FilePath = g.Roms.FirstOrDefault()?.Name ?? g.Name,
+				Name = g.Name,
+				CleanName = ExtractCleanName(g.Name),
+				Region = g.Region,
+				Languages = g.Languages,
+				Categories = ExtractCategories(g.Name),
+				Revision = ExtractRevision(g.Name),
+				Parent = g.CloneOf,
+				IsVerified = true, // DAT entries are always verified
+				Size = g.TotalSize,
+				Crc = g.Roms.FirstOrDefault()?.Crc
+			}).ToList();
+
+			// Apply 1G1R filter
+			var groups = ogService.GroupAndSelect(candidates, options);
+
+			// Build response
+			var filtered = groups.Select(g => new {
+				GameName = g.GameName,
+				SelectedGame = new {
+					g.Selected.Name,
+					g.Selected.Region,
+					g.Selected.Languages,
+					Score = ogService.ScoreRom(g.Selected, options)
+				},
+				Alternatives = g.AllRoms.Where(r => r != g.Selected).Take(5).Select(a => new {
+					a.Name,
+					a.Region,
+					Score = ogService.ScoreRom(a, options)
+				}),
+				AlternativeCount = g.AllRoms.Count - 1
+			}).ToList();
+
+			return Results.Ok(new {
+				DatFileId = datFile.Id,
+				DatFileName = datFile.Name,
+				TotalGames = datFile.GameCount,
+				FilteredGames = filtered.Count,
+				ExcludedGames = datFile.GameCount - filtered.Count,
+				Options = options,
+				Games = filtered.Take(100) // Limit response
+			});
+		});
+
 		return endpoints;
 	}
 
@@ -162,9 +237,49 @@ public static class DatFileEndpoints {
 		return root.Values.OrderBy(n => n.Name).ToList();
 	}
 
+	private static string ExtractCleanName(string name) {
+		// Remove region, version, and other tags like "(USA) (Rev 1)"
+		var clean = System.Text.RegularExpressions.Regex.Replace(name, @"\s*\([^)]+\)", "").Trim();
+		return clean;
+	}
+
+	private static List<string> ExtractCategories(string name) {
+		var cats = new List<string>();
+		var matches = System.Text.RegularExpressions.Regex.Matches(name, @"\(([^)]+)\)");
+		foreach (System.Text.RegularExpressions.Match m in matches) {
+			var tag = m.Groups[1].Value;
+			// Common category markers
+			if (tag.StartsWith("Beta", StringComparison.OrdinalIgnoreCase) ||
+				tag.StartsWith("Proto", StringComparison.OrdinalIgnoreCase) ||
+				tag.StartsWith("Sample", StringComparison.OrdinalIgnoreCase) ||
+				tag.StartsWith("Demo", StringComparison.OrdinalIgnoreCase) ||
+				tag.Equals("Unl", StringComparison.OrdinalIgnoreCase) ||
+				tag.StartsWith("Pirate", StringComparison.OrdinalIgnoreCase)) {
+				cats.Add(tag);
+			}
+		}
+		return cats;
+	}
+
+	private static int ExtractRevision(string name) {
+		var match = System.Text.RegularExpressions.Regex.Match(name, @"\(Rev\s*(\d+)\)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+		if (match.Success && int.TryParse(match.Groups[1].Value, out var rev)) {
+			return rev;
+		}
+		return 0;
+	}
+
 	private class CategoryNode {
 		public required string Name { get; init; }
 		public required string Path { get; init; }
 		public Dictionary<string, CategoryNode> Children { get; init; } = [];
 	}
 }
+
+public record OneGameOneRomRequest(
+	List<string>? RegionPriority = null,
+	List<string>? LanguagePriority = null,
+	bool? PreferParent = null,
+	bool? PreferLatestRevision = null,
+	bool? PreferVerified = null,
+	List<string>? ExcludeCategories = null);
