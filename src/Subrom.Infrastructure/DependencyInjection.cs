@@ -54,6 +54,7 @@ public static class DependencyInjection {
 		services.AddScoped<IIncrementalScanService, IncrementalScanService>();
 		services.AddScoped<IBatchDatabaseService, BatchDatabaseService>();
 		services.AddSingleton<IMemoryPressureMonitor, MemoryPressureMonitor>();
+		services.AddSingleton<IFileWatcherService, FileWatcherService>();
 
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();
