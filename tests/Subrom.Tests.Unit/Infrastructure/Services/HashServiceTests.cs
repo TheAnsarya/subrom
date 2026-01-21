@@ -9,7 +9,8 @@ public class HashServiceTests : IDisposable {
 	private readonly HashService _hashService;
 
 	public HashServiceTests() {
-		_hashService = new HashService();
+		var archiveService = new SharpCompressArchiveService();
+		_hashService = new HashService(archiveService);
 		_tempFilePath = Path.GetTempFileName();
 	}
 

@@ -19,9 +19,15 @@ do the "next steps" using modern coding standards and practices; update all chat
 
 make a `nointro` download script `https://no-intro.org/` to get all of the dats to use for reference, download to `C:\~reference-roms\dats\nointro\` for all systems, and implement it and run it; use these new dats as reference and tests; create test projects and a bunch of tests for the backend and frontend, update issues and lists and docs; fix all the warnings; continue; make a service to collect all the rom dats it can find: mame, mess, tosec, goodtools, nointro, redump, and list all the the rom/iso dats available you know about, and sync and download those dats on a schedule, make plans and todolists, and issues and documents; continue;
 
+website is at `https://datomatic.no-intro.org/index.php?page=download&s=64`? dat is at? `https://datomatic.no-intro.org/index.php?page=download&op=dat&s=17`;use those locations and references to download nointro; continue;
 
+the `https://datomatic.no-intro.org/index.php?page=manager&s=17&download=751` page has a `Download!` link button and you can get nointro dats from there, use that in the the script and service; continue;
 
+we are banned from nointro for trying to scrape it; shelve all that work (the nointro stuff) and work on the other dat sources; and continue all the other work; continue;
 
+the compression/sevenzip project stuff is causing issues, analyze how it's used and why something like it would be need then overhaul is, toss out othe old code and build new compression stuff; make plans, issues, todo lists, etc; actually review all legacy code and modernize the code and architecture; continue;
+
+This is big picture analysis work, so use claude opus instead of claude sonnet;
 
 
 

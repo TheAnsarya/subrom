@@ -39,11 +39,11 @@ try {
 	Write-Host "Checking latest MAME version..." -ForegroundColor Cyan
 	$response = Invoke-WebRequest -Uri $DownloadsUrl -UseBasicParsing
 	$html = $response.Content
-	
+
 	# Look for version number
 	$versionPattern = 'MAME (\d+\.\d+)'
 	$versionMatch = [regex]::Match($html, $versionPattern)
-	
+
 	if ($versionMatch.Success) {
 		$latestVersion = $versionMatch.Groups[1].Value
 		Write-Host "✓ Latest MAME version: $latestVersion" -ForegroundColor Green
@@ -55,7 +55,7 @@ try {
 		Write-Host "  3. Copy the 'hash' folder to: $OutputPath" -ForegroundColor Gray
 		Write-Host ""
 	}
-	
+
 } catch {
 	Write-Host "⚠️  Could not fetch MAME version automatically" -ForegroundColor Yellow
 	Write-Host "   Visit: https://www.mamedev.org/release.html" -ForegroundColor Gray

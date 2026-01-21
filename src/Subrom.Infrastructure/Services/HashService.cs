@@ -13,6 +13,11 @@ namespace Subrom.Infrastructure.Services;
 /// </summary>
 public sealed class HashService : IHashService {
 	private const int ChunkSize = 64 * 1024; // 64KB chunks for better throughput
+	private readonly IArchiveService _archiveService;
+
+	public HashService(IArchiveService archiveService) {
+		_archiveService = archiveService;
+	}
 
 	public async Task<RomHashes> ComputeHashesAsync(
 		string filePath,
@@ -54,20 +59,29 @@ public sealed class HashService : IHashService {
 		ArgumentException.ThrowIfNullOrWhiteSpace(archivePath);
 		ArgumentException.ThrowIfNullOrWhiteSpace(entryPath);
 
-		// Support .zip archives using built-in ZipFile
 		var extension = Path.GetExtension(archivePath).ToLowerInvariant();
+
+		// Use built-in ZipFile for .zip (slightly more efficient than SharpCompress)
 		if (extension == ".zip") {
 			using var archive = ZipFile.OpenRead(archivePath);
 			var entry = archive.GetEntry(entryPath)
 				?? throw new FileNotFoundException($"Entry not found in archive: {entryPath}", entryPath);
 
 			await using var stream = entry.Open();
-
-			// ZipArchiveEntry streams may not be seekable, pass length from entry
 			return await ComputeHashesInternalAsync(stream, entry.Length, progress, cancellationToken);
 		}
 
-		// TODO: Add support for 7z and other formats using SharpCompress or native 7z
+		// Use SharpCompress for all other supported formats (7z, RAR, TAR, etc.)
+		if (_archiveService.SupportsFormat(extension)) {
+			await using var stream = await _archiveService.OpenEntryAsync(archivePath, entryPath, cancellationToken);
+			var entries = await _archiveService.ListEntriesAsync(archivePath, cancellationToken);
+			var entry = entries.FirstOrDefault(e =>
+				string.Equals(e.Path, entryPath, StringComparison.OrdinalIgnoreCase));
+			var length = entry?.UncompressedSize ?? -1;
+
+			return await ComputeHashesInternalAsync(stream, length, progress, cancellationToken);
+		}
+
 		throw new NotSupportedException($"Archive format not supported: {extension}");
 	}
 
