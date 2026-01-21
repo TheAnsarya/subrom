@@ -638,7 +638,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `core`, `priority-high`
 
-**Status:** 🟡 In Progress (40%)
+**Status:** � Near Complete (85%)
 
 **Created:** January 21, 2026
 
@@ -651,7 +651,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
 | #700 | Implement ClrMamePro DAT parser | ✅ Done | #12.1 |
-| #701 | Add parser unit tests | ⬜ Todo | #12.1 |
+| #701 | Add parser unit tests | ✅ Done | #12.1 |
 
 ### Sub-Epic #12.2: Verification API
 
@@ -675,17 +675,28 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #722 | Add SignalR progress streaming | ✅ Done | #12.3 |
 | #723 | Add cache invalidation on scan complete | ✅ Done | #12.3 |
 
-### Sub-Epic #12.4: Additional Endpoints (Pending)
+### Sub-Epic #12.4: Additional Endpoints
 
-**Parent:** #12 | **Status:** ⬜ Not Started
+**Parent:** #12 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #730 | Add duplicate detection endpoint | ⬜ Todo | #12.4 |
-| #731 | Add bad dump detection endpoint | ⬜ Todo | #12.4 |
-| #732 | Add 1G1R filtering endpoint | ⬜ Todo | #12.4 |
-| #733 | Add parent/clone endpoint | ⬜ Todo | #12.4 |
-| #734 | Add organization log endpoints | ⬜ Todo | #12.4 |
+| #730 | Add duplicate detection endpoint | ✅ Done | #12.4 |
+| #731 | Add bad dump detection endpoint | ✅ Done | #12.4 |
+| #732 | Add 1G1R filtering endpoint | ✅ Done | #12.4 |
+| #733 | Add parent/clone endpoint | ✅ Done | #12.4 |
+| #734 | Add organization log endpoints | ✅ Done | #12.4 |
+
+### Sub-Epic #12.5: Unit Tests
+
+**Parent:** #12 | **Status:** 🔄 In Progress
+
+| # | Title | Status | Parent |
+|---|-------|--------|--------|
+| #740 | Add ClrMameProDatParser tests | ✅ Done | #12.5 |
+| #741 | Add VerificationService tests | ⬜ Todo | #12.5 |
+| #742 | Add ScanService tests | ⬜ Todo | #12.5 |
+| #743 | Add OrganizationService tests | ⬜ Todo | #12.5 |
 
 ---
 
