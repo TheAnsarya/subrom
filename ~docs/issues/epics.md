@@ -10,7 +10,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 |--------|-------|--------|--------|----------|
 | #1 | Foundation Infrastructure | ✅ Complete | 15 | 100% |
 | #2 | DAT Provider Integration | 🟡 In Progress | 12 | 25% |
-| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 60% |
+| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 78% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
@@ -116,6 +116,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `scanning`, `priority-high`
 
+**Status:** 🟡 In Progress (78%)
+
 ### Issues
 
 | # | Title | Status | Assignee |
@@ -124,12 +126,12 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #51 | Add ZIP archive support | ✅ Done | - |
 | #52 | Add 7z archive support | ✅ Done | - |
 | #53 | Add RAR archive support | ✅ Done | - |
-| #54 | Implement ROM header detection | ⬜ Todo | - |
-| #55 | Create header removal service | ⬜ Todo | - |
+| #54 | Implement ROM header detection | ✅ Done | - |
+| #55 | Create header removal service | ✅ Done | - |
 | #56 | Build hash database with indexing | ✅ Done | - |
 | #57 | Implement ROM verification against DATs | ✅ Done | - |
 | #58 | Create missing ROM detection | ✅ Done | - |
-| #59 | Implement duplicate detection | ⬜ Todo | - |
+| #59 | Implement duplicate detection | ✅ Done | - |
 | #60 | Add bad dump identification | ⬜ Todo | - |
 | #61 | Implement scan progress tracking | ✅ Done | - |
 | #62 | Add scan resumability | ⬜ Todo | - |
