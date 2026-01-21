@@ -53,6 +53,7 @@ public static class DependencyInjection {
 		services.AddSingleton<IHashJobService, HashJobService>();
 		services.AddScoped<IIncrementalScanService, IncrementalScanService>();
 		services.AddScoped<IBatchDatabaseService, BatchDatabaseService>();
+		services.AddSingleton<IMemoryPressureMonitor, MemoryPressureMonitor>();
 
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();
