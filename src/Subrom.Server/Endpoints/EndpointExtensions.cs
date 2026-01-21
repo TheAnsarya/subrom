@@ -32,6 +32,9 @@ public static class EndpointExtensions {
 		// ROM files endpoints
 		api.MapRomFileEndpoints();
 
+		// Organization endpoints
+		api.MapOrganizationEndpoints();
+
 		return endpoints;
 	}
 }
