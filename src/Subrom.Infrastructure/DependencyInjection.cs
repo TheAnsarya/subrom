@@ -40,6 +40,7 @@ public static class DependencyInjection {
 		services.AddSingleton<IArchiveService, SharpCompressArchiveService>();
 		services.AddSingleton<IRomHeaderService, RomHeaderService>();
 		services.AddSingleton<IHashService, HashService>();
+		services.AddSingleton<IDuplicateDetectionService, DuplicateDetectionService>();
 
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();
