@@ -2,20 +2,58 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
+**Last Updated:** January 2026
+
 ## Epic Overview
 
 | Epic # | Title | Status | Issues | Progress |
 |--------|-------|--------|--------|----------|
-| #1 | Foundation Infrastructure | 🟡 In Progress | 15 | 60% |
-| #2 | DAT Provider Integration | 🟡 In Progress | 12 | 10% |
-| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 40% |
+| #1 | Foundation Infrastructure | ✅ Complete | 15 | 100% |
+| #2 | DAT Provider Integration | 🟡 In Progress | 12 | 25% |
+| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 60% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
-| #6 | Web UI Rebuild | 🟢 Near Complete | 25 | 92% |
+| #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
-| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 30% |
-| #9 | Backend Rebuild | 🟡 In Progress | 35 | 75% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 20 | 60% |
+| #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
 | #10 | System Tray & Service | ⚪ Not Started | 15 | 0% |
+| #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
+
+---
+
+## Epic #11: Legacy Code Cleanup (NEW - COMPLETED)
+
+**Goal:** Remove legacy duplicate code and modernize architecture
+
+**Labels:** `epic`, `refactor`, `priority-critical`
+
+**Status:** ✅ Complete
+
+**Completed:** January 2026
+
+### Issues
+
+| # | Title | Status | Notes |
+|---|-------|--------|-------|
+| #600 | Analyze Compression/SevenZip project | ✅ Done | Unused LZMA SDK from 2008 |
+| #601 | Remove Compression project from solution | ✅ Done | 149 warnings eliminated |
+| #602 | Create IArchiveService interface | ✅ Done | Multi-format archive support |
+| #603 | Implement SharpCompressArchiveService | ✅ Done | ZIP, 7z, RAR, TAR, GZip support |
+| #604 | Remove legacy Domain project | ✅ Done | Duplicate of src/Subrom.Domain |
+| #605 | Remove legacy Services project | ✅ Done | Duplicate of src/Subrom.Application |
+| #606 | Remove legacy Infrastructure project | ✅ Done | Duplicate of src/Subrom.Infrastructure |
+| #607 | Remove legacy SubromAPI project | ✅ Done | Replaced by src/Subrom.Server |
+| #608 | Remove ConsoleTesting project | ✅ Done | Scratch pad, not needed |
+| #609 | Remove subrom-ui-old folder | ✅ Done | Old UI replaced |
+| #610 | Update HashService for multi-format | ✅ Done | Uses IArchiveService now |
+| #611 | Create architecture documentation | ✅ Done | ~docs/plans/current-architecture.md |
+
+**Results:**
+- 160 files changed, 16,866 lines deleted
+- Warnings reduced from 152 to 0
+- All 31 unit tests passing
+- Clean project structure achieved
 
 ---
 
@@ -83,9 +121,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | # | Title | Status | Assignee |
 |---|-------|--------|----------|
 | #50 | Implement recursive folder scanner | ✅ Done | - |
-| #51 | Add ZIP archive support | ⬜ Todo | - |
-| #52 | Add 7z archive support | ⬜ Todo | - |
-| #53 | Add RAR archive support | ⬜ Todo | - |
+| #51 | Add ZIP archive support | ✅ Done | - |
+| #52 | Add 7z archive support | ✅ Done | - |
+| #53 | Add RAR archive support | ✅ Done | - |
 | #54 | Implement ROM header detection | ⬜ Todo | - |
 | #55 | Create header removal service | ⬜ Todo | - |
 | #56 | Build hash database with indexing | ✅ Done | - |
@@ -422,7 +460,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #425 | Add XML/ClrMamePro DAT parsers | ✅ Done | #9.3 |
 | #426 | Implement streaming XML parser | ⬜ Todo | #9.3 |
 | #427 | Create file system abstraction | ⬜ Todo | #9.3 |
-| #428 | Add 7-Zip compression support | ✅ Done | #9.3 |
+| #428 | Add multi-format archive support (SharpCompress) | ✅ Done | #9.3 |
 
 ### Sub-Epic #9.4: Web API Layer
 
@@ -442,14 +480,14 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #9.5: Testing
 
-**Parent:** #9 | **Status:** ⚪ Not Started
+**Parent:** #9 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #440 | Create Subrom.Tests.Unit project | ⬜ Todo | #9.5 |
+| #440 | Create Subrom.Tests.Unit project | ✅ Done | #9.5 |
 | #441 | Create Subrom.Tests.Integration project | ⬜ Todo | #9.5 |
-| #442 | Add domain model unit tests | ⬜ Todo | #9.5 |
-| #443 | Add service layer unit tests | ⬜ Todo | #9.5 |
+| #442 | Add domain model unit tests | ✅ Done | #9.5 |
+| #443 | Add service layer unit tests | ✅ Done | #9.5 |
 | #444 | Add API integration tests | ⬜ Todo | #9.5 |
 | #445 | Add DAT parser tests with sample files | ⬜ Todo | #9.5 |
 
