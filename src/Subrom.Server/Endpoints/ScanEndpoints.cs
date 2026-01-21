@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Subrom.Application.Services;
 using Subrom.Domain.Aggregates.Scanning;
 using Subrom.Infrastructure.Persistence;
 
@@ -13,24 +14,14 @@ public static class ScanEndpoints {
 			.WithTags("Scanning");
 
 		// Get all scan jobs
-		group.MapGet("/", async (SubromDbContext db, CancellationToken ct) => {
-			var jobs = await db.ScanJobs
-				.AsNoTracking()
-				.OrderByDescending(j => j.QueuedAt)
-				.Take(50)
-				.ToListAsync(ct);
-
-			return Results.Ok(jobs);
+		group.MapGet("/", async (ScanService scanService, CancellationToken ct) => {
+			var jobs = await scanService.GetJobsAsync(cancellationToken: ct);
+			return Results.Ok(jobs.Take(50));
 		});
 
 		// Get active scan jobs
-		group.MapGet("/active", async (SubromDbContext db, CancellationToken ct) => {
-			var jobs = await db.ScanJobs
-				.AsNoTracking()
-				.Where(j => j.Status == ScanStatus.Running || j.Status == ScanStatus.Queued)
-				.OrderByDescending(j => j.QueuedAt)
-				.ToListAsync(ct);
-
+		group.MapGet("/active", async (ScanService scanService, CancellationToken ct) => {
+			var jobs = await scanService.GetActiveJobsAsync(ct);
 			return Results.Ok(jobs);
 		});
 
@@ -46,47 +37,32 @@ public static class ScanEndpoints {
 		});
 
 		// Start a new scan
-		group.MapPost("/", async (StartScanRequest request, SubromDbContext db, CancellationToken ct) => {
-			// Check if there's already an active scan for this drive
-			var hasActive = await db.ScanJobs
-				.AnyAsync(j =>
-					j.DriveId == request.DriveId &&
-					(j.Status == ScanStatus.Running || j.Status == ScanStatus.Queued), ct);
+		group.MapPost("/", async (StartScanRequest request, ScanService scanService, CancellationToken ct) => {
+			try {
+				var job = await scanService.StartScanAsync(
+					request.DriveId ?? Guid.Empty,
+					request.Type,
+					request.TargetPath,
+					ct);
 
-			if (hasActive) {
-				return Results.Conflict(new { Message = "A scan is already running for this drive" });
+				// TODO: Queue the job for background execution via ExecuteScanAsync
+
+				return Results.Created($"/api/scans/{job.Id}", job);
+			} catch (KeyNotFoundException ex) {
+				return Results.NotFound(new { Message = ex.Message });
+			} catch (InvalidOperationException ex) {
+				return Results.Conflict(new { Message = ex.Message });
 			}
-
-			var job = ScanJob.Create(
-				request.Type,
-				request.DriveId,
-				request.TargetPath);
-
-			db.ScanJobs.Add(job);
-			await db.SaveChangesAsync(ct);
-
-			// TODO: Queue the job for processing
-
-			return Results.Created($"/api/scans/{job.Id}", job);
 		});
 
 		// Cancel a scan
-		group.MapPost("/{id:guid}/cancel", async (Guid id, SubromDbContext db, CancellationToken ct) => {
-			var job = await db.ScanJobs.FindAsync([id], ct);
-			if (job is null) {
+		group.MapPost("/{id:guid}/cancel", async (Guid id, ScanService scanService, CancellationToken ct) => {
+			try {
+				await scanService.CancelScanAsync(id, ct);
+				return Results.Ok(new { Message = "Scan cancellation requested" });
+			} catch (KeyNotFoundException) {
 				return Results.NotFound();
 			}
-
-			if (job.Status != ScanStatus.Running && job.Status != ScanStatus.Queued) {
-				return Results.BadRequest(new { Message = "Scan is not running" });
-			}
-
-			job.Cancel();
-			await db.SaveChangesAsync(ct);
-
-			// TODO: Signal cancellation to the processing task
-
-			return Results.Ok(job);
 		});
 
 		// Delete old scan jobs

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Subrom.Application.Services;
 using Subrom.Domain.Aggregates.Storage;
 using Subrom.Infrastructure.Persistence;
 
@@ -13,55 +14,35 @@ public static class DriveEndpoints {
 			.WithTags("Drives");
 
 		// Get all drives
-		group.MapGet("/", async (SubromDbContext db, CancellationToken ct) => {
-			var drives = await db.Drives
-				.AsNoTracking()
-				.OrderBy(d => d.Label)
-				.ToListAsync(ct);
-
+		group.MapGet("/", async (DriveService driveService, CancellationToken ct) => {
+			var drives = await driveService.GetAllAsync(ct);
 			return Results.Ok(drives);
 		});
 
 		// Get drive by ID
-		group.MapGet("/{id:guid}", async (Guid id, SubromDbContext db, CancellationToken ct) => {
-			var drive = await db.Drives
-				.AsNoTracking()
-				.FirstOrDefaultAsync(d => d.Id == id, ct);
-
+		group.MapGet("/{id:guid}", async (Guid id, DriveService driveService, CancellationToken ct) => {
+			var drive = await driveService.GetByIdAsync(id, ct);
 			return drive is null
 				? Results.NotFound()
 				: Results.Ok(drive);
 		});
 
 		// Register new drive
-		group.MapPost("/", async (RegisterDriveRequest request, SubromDbContext db, CancellationToken ct) => {
-			// Check if path already registered
-			var existing = await db.Drives
-				.AnyAsync(d => d.RootPath == request.RootPath, ct);
+		group.MapPost("/", async (RegisterDriveRequest request, DriveService driveService, CancellationToken ct) => {
+			try {
+				var driveInfo = new DriveInfo(Path.GetPathRoot(request.RootPath) ?? request.RootPath);
+				var driveType = ConvertDriveType(driveInfo.DriveType);
 
-			if (existing) {
-				return Results.Conflict(new { Message = "Drive path already registered" });
+				var drive = await driveService.RegisterAsync(
+					request.Label,
+					request.RootPath,
+					driveType,
+					ct);
+
+				return Results.Created($"/api/drives/{drive.Id}", drive);
+			} catch (DirectoryNotFoundException ex) {
+				return Results.BadRequest(new { Message = ex.Message });
 			}
-
-			// Validate path exists
-			if (!Directory.Exists(request.RootPath)) {
-				return Results.BadRequest(new { Message = "Path does not exist" });
-			}
-
-			var driveInfo = new DriveInfo(Path.GetPathRoot(request.RootPath) ?? request.RootPath);
-			var drive = Drive.Create(
-				request.Label,
-				request.RootPath,
-				ConvertDriveType(driveInfo.DriveType));
-
-			drive.VolumeLabel = driveInfo.IsReady ? driveInfo.VolumeLabel : null;
-			drive.TotalSize = driveInfo.IsReady ? driveInfo.TotalSize : null;
-			drive.FreeSpace = driveInfo.IsReady ? driveInfo.AvailableFreeSpace : null;
-
-			db.Drives.Add(drive);
-			await db.SaveChangesAsync(ct);
-
-			return Results.Created($"/api/drives/{drive.Id}", drive);
 		});
 
 		// Update drive
@@ -79,39 +60,23 @@ public static class DriveEndpoints {
 		});
 
 		// Delete drive
-		group.MapDelete("/{id:guid}", async (Guid id, SubromDbContext db, CancellationToken ct) => {
-			var drive = await db.Drives.FindAsync([id], ct);
-			if (drive is null) {
+		group.MapDelete("/{id:guid}", async (Guid id, DriveService driveService, CancellationToken ct) => {
+			try {
+				await driveService.DeleteAsync(id, ct);
+				return Results.NoContent();
+			} catch (KeyNotFoundException) {
 				return Results.NotFound();
 			}
-
-			db.Drives.Remove(drive);
-			await db.SaveChangesAsync(ct);
-
-			return Results.NoContent();
 		});
 
 		// Refresh drive status
-		group.MapPost("/{id:guid}/refresh", async (Guid id, SubromDbContext db, CancellationToken ct) => {
-			var drive = await db.Drives.FindAsync([id], ct);
-			if (drive is null) {
+		group.MapPost("/{id:guid}/refresh", async (Guid id, DriveService driveService, CancellationToken ct) => {
+			try {
+				var drive = await driveService.RefreshStatusAsync(id, ct);
+				return Results.Ok(drive);
+			} catch (KeyNotFoundException) {
 				return Results.NotFound();
 			}
-
-			if (Directory.Exists(drive.RootPath)) {
-				var driveInfo = new DriveInfo(Path.GetPathRoot(drive.RootPath) ?? drive.RootPath);
-				if (driveInfo.IsReady) {
-					drive.MarkOnline(driveInfo.TotalSize, driveInfo.AvailableFreeSpace);
-					drive.VolumeLabel = driveInfo.VolumeLabel;
-				} else {
-					drive.MarkOffline();
-				}
-			} else {
-				drive.MarkOffline();
-			}
-
-			await db.SaveChangesAsync(ct);
-			return Results.Ok(drive);
 		});
 
 		// Get drive statistics
