@@ -41,6 +41,7 @@ public static class DependencyInjection {
 		services.AddSingleton<IRomHeaderService, RomHeaderService>();
 		services.AddSingleton<IHashService, HashService>();
 		services.AddSingleton<IDuplicateDetectionService, DuplicateDetectionService>();
+		services.AddScoped<IBadDumpService, BadDumpService>();
 
 		// Register DAT Providers
 		services.AddSingleton<IDatProvider, NoIntroProvider>();

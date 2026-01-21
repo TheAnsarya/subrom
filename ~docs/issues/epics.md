@@ -10,7 +10,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 |--------|-------|--------|--------|----------|
 | #1 | Foundation Infrastructure | ✅ Complete | 15 | 100% |
 | #2 | DAT Provider Integration | 🟡 In Progress | 12 | 25% |
-| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 78% |
+| #3 | ROM Scanning Engine | 🟡 In Progress | 14 | 93% |
 | #4 | File Organization | ⚪ Not Started | 10 | 0% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
@@ -116,7 +116,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `scanning`, `priority-high`
 
-**Status:** 🟡 In Progress (78%)
+**Status:** 🟡 In Progress (93%)
 
 ### Issues
 
@@ -132,7 +132,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #57 | Implement ROM verification against DATs | ✅ Done | - |
 | #58 | Create missing ROM detection | ✅ Done | - |
 | #59 | Implement duplicate detection | ✅ Done | - |
-| #60 | Add bad dump identification | ⬜ Todo | - |
+| #60 | Add bad dump identification | ✅ Done | - |
 | #61 | Implement scan progress tracking | ✅ Done | - |
 | #62 | Add scan resumability | ⬜ Todo | - |
 | #63 | Create scan result reporting | ✅ Done | - |

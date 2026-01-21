@@ -1,4 +1,5 @@
 using Subrom.Domain.Aggregates.DatFiles;
+using Subrom.Domain.ValueObjects;
 
 namespace Subrom.Application.Interfaces;
 
@@ -60,4 +61,28 @@ public interface IDatFileRepository {
 	/// Gets all unique category paths for tree navigation.
 	/// </summary>
 	Task<IReadOnlyList<string>> GetCategoryPathsAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Finds ROM entries matching the given hashes across all DAT files.
+	/// Returns matches with their parent game and DAT file information.
+	/// </summary>
+	Task<IReadOnlyList<DatRomMatch>> FindRomsByHashAsync(RomHashes hashes, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Finds ROM entries matching any of the given hashes (batch lookup).
+	/// Returns matches with their parent game and DAT file information.
+	/// </summary>
+	Task<IReadOnlyList<DatRomMatch>> FindRomsByHashesAsync(IEnumerable<RomHashes> hashes, CancellationToken cancellationToken = default);
 }
+
+/// <summary>
+/// Represents a ROM match found in a DAT file.
+/// </summary>
+/// <param name="RomEntry">The matched ROM entry</param>
+/// <param name="GameEntry">The parent game containing this ROM</param>
+/// <param name="DatFile">The DAT file containing this entry</param>
+public sealed record DatRomMatch(
+	RomEntry RomEntry,
+	GameEntry GameEntry,
+	DatFile DatFile);
+
