@@ -15,7 +15,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
-| #8 | Large Dataset Handling | 🟡 In Progress | 57 | 50% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 57 | 65% |
 | #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
@@ -382,9 +382,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
 | #330 | Add streaming XML parser | ✅ Done | #8.4 |
-| #331 | Implement batch database inserts | ⬜ Todo | #8.4 |
+| #331 | Implement batch database inserts | ✅ Done | #8.4 |
 | #332 | Add cursor-based API endpoints | ✅ Done | #8.4 |
-| #333 | Implement chunked file hashing | ⬜ Todo | #8.4 |
+| #333 | Implement chunked file hashing | ✅ Done | #8.4 |
 
 ### Sub-Epic #8.5: DAT Hierarchy
 
@@ -428,55 +428,55 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #8.8: Large File Scanning (NEW)
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** 🟡 In Progress
 
 **Goal:** Scan collections with 500K+ files across multiple drives efficiently
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #370 | Implement chunked file enumeration | ⬜ Todo | #8.8 |
-| #371 | Add parallel folder scanning with throttling | ⬜ Todo | #8.8 |
-| #372 | Create scan queue with priority levels | ⬜ Todo | #8.8 |
-| #373 | Implement incremental scan (changed files only) | ⬜ Todo | #8.8 |
+| #370 | Implement chunked file enumeration | ✅ Done | #8.8 |
+| #371 | Add parallel folder scanning with throttling | ✅ Done | #8.8 |
+| #372 | Create scan queue with priority levels | ✅ Done | #8.8 |
+| #373 | Implement incremental scan (changed files only) | ✅ Done | #8.8 |
 | #374 | Add file watcher for real-time updates | ⬜ Todo | #8.8 |
-| #375 | Create scan checkpoint/resume system | ⬜ Todo | #8.8 |
-| #376 | Implement background scan service | ⬜ Todo | #8.8 |
+| #375 | Create scan checkpoint/resume system | ✅ Done | #8.8 |
+| #376 | Implement background scan service | ✅ Done | #8.8 |
 | #377 | Add scan statistics and ETA calculation | ⬜ Todo | #8.8 |
-| #378 | Create scan exclusion patterns | ⬜ Todo | #8.8 |
+| #378 | Create scan exclusion patterns | ✅ Done | #8.8 |
 | #379 | Implement multi-drive parallel scanning | ⬜ Todo | #8.8 |
 
 ### Sub-Epic #8.9: Large File Hashing (NEW)
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** 🟡 In Progress
 
 **Goal:** Hash large disc images (4GB+) without blocking UI
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #380 | Implement chunked hashing with progress | ⬜ Todo | #8.9 |
+| #380 | Implement chunked hashing with progress | ✅ Done | #8.9 |
 | #381 | Add memory-mapped file hashing for large files | ⬜ Todo | #8.9 |
-| #382 | Create hash job queue with priority | ⬜ Todo | #8.9 |
-| #383 | Implement hash caching by file path/mtime | ⬜ Todo | #8.9 |
-| #384 | Add parallel multi-file hashing | ⬜ Todo | #8.9 |
-| #385 | Create cancellable hash operations | ⬜ Todo | #8.9 |
-| #386 | Implement hash verification mode | ⬜ Todo | #8.9 |
-| #387 | Add hash progress SignalR streaming | ⬜ Todo | #8.9 |
+| #382 | Create hash job queue with priority | ✅ Done | #8.9 |
+| #383 | Implement hash caching by file path/mtime | ✅ Done | #8.9 |
+| #384 | Add parallel multi-file hashing | ✅ Done | #8.9 |
+| #385 | Create cancellable hash operations | ✅ Done | #8.9 |
+| #386 | Implement memory pressure monitoring | ✅ Done | #8.9 |
+| #387 | Add hash progress SignalR streaming | ✅ Done | #8.9 |
 
 ### Sub-Epic #8.10: Database Optimization (NEW)
 
-**Parent:** #8 | **Status:** ⬜ Not Started
+**Parent:** #8 | **Status:** 🟡 In Progress
 
 **Goal:** Optimize SQLite for 1M+ file records
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
-| #390 | Add composite indexes for common queries | ⬜ Todo | #8.10 |
-| #391 | Implement query pagination with EF Core | ⬜ Todo | #8.10 |
+| #390 | Add composite indexes for common queries | ✅ Done | #8.10 |
+| #391 | Implement query pagination with EF Core | ✅ Done | #8.10 |
 | #392 | Add database vacuum scheduling | ⬜ Todo | #8.10 |
 | #393 | Create read-replica connection for queries | ⬜ Todo | #8.10 |
-| #394 | Implement bulk insert with batching | ⬜ Todo | #8.10 |
+| #394 | Implement bulk insert with batching | ✅ Done | #8.10 |
 | #395 | Add query plan analysis logging | ⬜ Todo | #8.10 |
-| #396 | Create database statistics endpoint | ⬜ Todo | #8.10 |
+| #396 | Create database statistics endpoint | ✅ Done | #8.10 |
 
 ---
 
