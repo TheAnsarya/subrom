@@ -31,7 +31,9 @@ This is big picture analysis work, so use claude opus instead of claude sonnet;
 
 Make sure there is a directive that we DO NOT scrape the no-intro website as we were insta-banned we we tried it, we'll need another method to get the no-into dats; continue working through the issues;
 
+continue working, but make sure epics and issues are pushed to github issues;
 
+continue; keep updating and creating plans, github issues, epics, todolists, documentation, chat/session logs; work a bunch of issues, updating everything; continue;
 
 
 
