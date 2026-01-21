@@ -62,6 +62,7 @@ public static class DependencyInjection {
 
 		// Register Parsers
 		services.AddSingleton<IDatParser, LogiqxDatParser>();
+		services.AddSingleton<IDatParser, ClrMameProDatParser>();
 		services.AddSingleton<IDatParserFactory, DatParserFactory>();
 
 		return services;
