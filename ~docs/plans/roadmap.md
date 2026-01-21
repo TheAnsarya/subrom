@@ -97,23 +97,32 @@ Build a modern, efficient ROM management system that rivals RomVault and ClrMame
 
 ---
 
-### Phase 5: Storage Management (Q3-Q4 2026) 💾
+### Phase 5: Storage Management (Q3-Q4 2026) ✅ COMPLETE
 
 **Goal:** Multi-drive and offline storage support
 
 **Timeline:** Q3-Q4 2026
 
-**Deliverables:**
-- [ ] Multi-drive ROM storage
-- [ ] Drive registration and tracking
-- [ ] Offline drive handling (don't drop files!)
-- [ ] Drive space monitoring
-- [ ] ROM location database
-- [ ] Missing drive notifications
-- [ ] Automatic relocation suggestions
-- [ ] Network drive support
+**Status:** Completed (8/8 issues)
 
-**GitHub Epic:** #5 - Storage Management
+**Deliverables:**
+- [x] Multi-drive ROM storage (Drive entity)
+- [x] Drive registration and tracking (DriveRepository)
+- [x] Offline drive handling (IsOnline, MarkOffline/MarkOnline)
+- [x] Drive space monitoring (TotalSize, FreeSpace)
+- [x] ROM location database (RomFile linked to Drive)
+- [x] Missing drive notifications (DriveStatusChangedEventArgs)
+- [x] Automatic relocation suggestions (GetRelocationSuggestionsAsync)
+- [x] Network drive support (UNC paths, auto-detection)
+
+**Key Components:**
+- `Drive` - Aggregate root with online/offline tracking
+- `RomFile` - ROM entity linked to drives
+- `DriveService` - Application service for drive CRUD
+- `IStorageMonitorService` - Monitoring interface
+- `StorageMonitorService` - Implementation with duplicates/relocation
+
+**GitHub Epic:** #36 (Closed)
 
 ---
 
