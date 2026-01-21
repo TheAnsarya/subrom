@@ -108,6 +108,39 @@ public sealed record IncrementalScanProgress {
 	public long BytesScanned { get; init; }
 	public TimeSpan Elapsed { get; init; }
 	public double FilesPerSecond => Elapsed.TotalSeconds > 0 ? FilesScanned / Elapsed.TotalSeconds : 0;
+
+	/// <summary>
+	/// Estimated time remaining based on current progress and rate.
+	/// </summary>
+	public TimeSpan? EstimatedTimeRemaining {
+		get {
+			if (TotalFiles is null || TotalFiles == 0 || FilesPerSecond <= 0) return null;
+			var remaining = TotalFiles.Value - FilesScanned;
+			if (remaining <= 0) return TimeSpan.Zero;
+			return TimeSpan.FromSeconds(remaining / FilesPerSecond);
+		}
+	}
+
+	/// <summary>
+	/// Estimated completion time.
+	/// </summary>
+	public DateTime? EstimatedCompletionTime {
+		get {
+			var remaining = EstimatedTimeRemaining;
+			if (remaining is null) return null;
+			return DateTime.UtcNow.Add(remaining.Value);
+		}
+	}
+
+	/// <summary>
+	/// Progress percentage (0-100).
+	/// </summary>
+	public double? ProgressPercentage {
+		get {
+			if (TotalFiles is null || TotalFiles == 0) return null;
+			return (double)FilesScanned / TotalFiles.Value * 100.0;
+		}
+	}
 }
 
 /// <summary>

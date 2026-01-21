@@ -130,6 +130,22 @@ public sealed record HashQueueStats {
 	public required long TotalBytesQueued { get; init; }
 	public required long TotalBytesProcessed { get; init; }
 	public required int MaxConcurrency { get; init; }
+
+	/// <summary>
+	/// Average bytes per second based on recent processing.
+	/// </summary>
+	public double BytesPerSecond { get; init; }
+
+	/// <summary>
+	/// Estimated time to process all queued bytes.
+	/// </summary>
+	public TimeSpan? EstimatedTimeRemaining {
+		get {
+			if (BytesPerSecond <= 0 || TotalBytesQueued <= TotalBytesProcessed) return null;
+			var remaining = TotalBytesQueued - TotalBytesProcessed;
+			return TimeSpan.FromSeconds(remaining / BytesPerSecond);
+		}
+	}
 }
 
 /// <summary>
@@ -153,4 +169,20 @@ public sealed class HashJobProgressEventArgs : EventArgs {
 	public required long BytesProcessed { get; init; }
 	public required long TotalBytes { get; init; }
 	public double ProgressPercent => TotalBytes > 0 ? (double)BytesProcessed / TotalBytes * 100 : 0;
+
+	/// <summary>
+	/// Current processing rate in bytes per second.
+	/// </summary>
+	public double BytesPerSecond { get; init; }
+
+	/// <summary>
+	/// Estimated time remaining for this job.
+	/// </summary>
+	public TimeSpan? EstimatedTimeRemaining {
+		get {
+			if (BytesPerSecond <= 0 || TotalBytes <= BytesProcessed) return null;
+			var remaining = TotalBytes - BytesProcessed;
+			return TimeSpan.FromSeconds(remaining / BytesPerSecond);
+		}
+	}
 }

@@ -15,7 +15,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
-| #8 | Large Dataset Handling | 🟡 In Progress | 57 | 65% |
+| #8 | Large Dataset Handling | 🟡 In Progress | 57 | 70% |
 | #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
@@ -428,7 +428,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #8.8: Large File Scanning (NEW)
 
-**Parent:** #8 | **Status:** 🟡 In Progress
+**Parent:** #8 | **Status:** ✅ Complete (90%)
 
 **Goal:** Scan collections with 500K+ files across multiple drives efficiently
 
@@ -438,10 +438,10 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #371 | Add parallel folder scanning with throttling | ✅ Done | #8.8 |
 | #372 | Create scan queue with priority levels | ✅ Done | #8.8 |
 | #373 | Implement incremental scan (changed files only) | ✅ Done | #8.8 |
-| #374 | Add file watcher for real-time updates | ⬜ Todo | #8.8 |
+| #374 | Add file watcher for real-time updates | ✅ Done | #8.8 |
 | #375 | Create scan checkpoint/resume system | ✅ Done | #8.8 |
 | #376 | Implement background scan service | ✅ Done | #8.8 |
-| #377 | Add scan statistics and ETA calculation | ⬜ Todo | #8.8 |
+| #377 | Add scan statistics and ETA calculation | ✅ Done | #8.8 |
 | #378 | Create scan exclusion patterns | ✅ Done | #8.8 |
 | #379 | Implement multi-drive parallel scanning | ⬜ Todo | #8.8 |
 
