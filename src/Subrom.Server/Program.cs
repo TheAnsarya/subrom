@@ -3,6 +3,7 @@ using Serilog;
 using Subrom.Application;
 using Subrom.Infrastructure;
 using Subrom.Infrastructure.Persistence;
+using Subrom.Server.BackgroundServices;
 using Subrom.Server.Endpoints;
 using Subrom.Server.Hubs;
 
@@ -82,6 +83,10 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 	// Health checks
 	services.AddHealthChecks()
 		.AddDbContextCheck<SubromDbContext>();
+
+	// Background services
+	services.AddSingleton<ScanJobProcessor>();
+	services.AddHostedService(sp => sp.GetRequiredService<ScanJobProcessor>());
 }
 
 static void ConfigureApp(WebApplication app) {

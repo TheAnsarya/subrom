@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Subrom.Application.Services;
 using Subrom.Domain.Aggregates.Scanning;
 using Subrom.Infrastructure.Persistence;
+using Subrom.Server.BackgroundServices;
 
 namespace Subrom.Server.Endpoints;
 
@@ -37,7 +38,11 @@ public static class ScanEndpoints {
 		});
 
 		// Start a new scan
-		group.MapPost("/", async (StartScanRequest request, ScanService scanService, CancellationToken ct) => {
+		group.MapPost("/", async (
+			StartScanRequest request,
+			ScanService scanService,
+			ScanJobProcessor scanJobProcessor,
+			CancellationToken ct) => {
 			try {
 				var job = await scanService.StartScanAsync(
 					request.DriveId ?? Guid.Empty,
@@ -45,7 +50,8 @@ public static class ScanEndpoints {
 					request.TargetPath,
 					ct);
 
-				// TODO: Queue the job for background execution via ExecuteScanAsync
+				// Queue the job for background execution
+				await scanJobProcessor.EnqueueJobAsync(job.Id);
 
 				return Results.Created($"/api/scans/{job.Id}", job);
 			} catch (KeyNotFoundException ex) {
