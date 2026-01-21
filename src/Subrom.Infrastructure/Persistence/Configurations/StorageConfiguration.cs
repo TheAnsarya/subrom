@@ -91,7 +91,7 @@ public class RomFileConfiguration : IEntityTypeConfiguration<RomFile> {
 		builder.Property(r => r.Sha1)
 			.HasMaxLength(40);
 
-		// Indexes
+		// Indexes for fast lookups
 		builder.HasIndex(r => r.DriveId);
 		builder.HasIndex(r => new { r.DriveId, r.RelativePath }).IsUnique();
 		builder.HasIndex(r => r.Size);
@@ -99,6 +99,11 @@ public class RomFileConfiguration : IEntityTypeConfiguration<RomFile> {
 		builder.HasIndex(r => r.MatchedDatFileId);
 		builder.HasIndex(r => r.Crc);
 		builder.HasIndex(r => r.Sha1);
+
+		// Composite indexes for verification matching (Epic #8)
+		builder.HasIndex(r => new { r.Size, r.Crc }).HasDatabaseName("IX_RomFiles_Size_Crc");
+		builder.HasIndex(r => new { r.Size, r.Sha1 }).HasDatabaseName("IX_RomFiles_Size_Sha1");
+		builder.HasIndex(r => new { r.DriveId, r.VerificationStatus }).HasDatabaseName("IX_RomFiles_Drive_Status");
 
 		// Ignore computed property
 		builder.Ignore(r => r.HasHashes);

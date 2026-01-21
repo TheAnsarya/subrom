@@ -146,11 +146,13 @@ public class RomEntryConfiguration : IEntityTypeConfiguration<RomEntry> {
 		builder.Property(r => r.Sha1)
 			.HasMaxLength(40);
 
-		// Indexes
+		// Indexes for hash-based verification lookups
 		builder.HasIndex(r => r.GameId);
 		builder.HasIndex(r => r.Size);
 		builder.HasIndex(r => r.Crc);
 		builder.HasIndex(r => r.Sha1);
+		builder.HasIndex(r => new { r.Size, r.Crc }).HasDatabaseName("IX_RomEntries_Size_Crc");
+		builder.HasIndex(r => new { r.Size, r.Sha1 }).HasDatabaseName("IX_RomEntries_Size_Sha1");
 
 		// Relationship with GameEntry
 		builder.HasOne<GameEntry>()
