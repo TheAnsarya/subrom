@@ -93,6 +93,31 @@ public class ScanJob : AggregateRoot {
 	public string? InitiatedBy { get; init; }
 
 	/// <summary>
+	/// Last file path that was fully processed (for resume).
+	/// </summary>
+	public string? LastProcessedPath { get; private set; }
+
+	/// <summary>
+	/// Timestamp when the job was last paused.
+	/// </summary>
+	public DateTime? PausedAt { get; private set; }
+
+	/// <summary>
+	/// Timestamp when the job was last resumed.
+	/// </summary>
+	public DateTime? ResumedAt { get; private set; }
+
+	/// <summary>
+	/// Number of times this job has been resumed.
+	/// </summary>
+	public int ResumeCount { get; private set; }
+
+	/// <summary>
+	/// Whether this job can be resumed.
+	/// </summary>
+	public bool CanResume => Status == ScanStatus.Paused || Status == ScanStatus.Failed;
+
+	/// <summary>
 	/// Progress percentage (0-100).
 	/// </summary>
 	public double Progress =>
@@ -191,6 +216,39 @@ public class ScanJob : AggregateRoot {
 		CompletedAt = DateTime.UtcNow;
 		AddDomainEvent(new ScanJobCancelledEvent(Id));
 	}
+
+	/// <summary>
+	/// Pauses the scan for later resumption.
+	/// </summary>
+	public void Pause(string? lastProcessedPath = null) {
+		if (Status != ScanStatus.Running) return;
+
+		Status = ScanStatus.Paused;
+		PausedAt = DateTime.UtcNow;
+		if (lastProcessedPath != null) LastProcessedPath = lastProcessedPath;
+		AddDomainEvent(new ScanJobPausedEvent(Id, LastProcessedPath, ProcessedItems, TotalItems));
+	}
+
+	/// <summary>
+	/// Resumes a paused or failed scan.
+	/// </summary>
+	public void Resume() {
+		if (!CanResume) return;
+
+		Status = ScanStatus.Running;
+		ResumedAt = DateTime.UtcNow;
+		ResumeCount++;
+		AddDomainEvent(new ScanJobResumedEvent(Id, ResumeCount, LastProcessedPath));
+	}
+
+	/// <summary>
+	/// Updates the last processed path checkpoint.
+	/// </summary>
+	public void SetCheckpoint(string lastProcessedPath, int processedItems = 0, long processedBytes = 0) {
+		LastProcessedPath = lastProcessedPath;
+		if (processedItems > 0) ProcessedItems = processedItems;
+		if (processedBytes > 0) ProcessedBytes = processedBytes;
+	}
 }
 
 /// <summary>
@@ -209,6 +267,7 @@ public enum ScanType {
 public enum ScanStatus {
 	Queued,
 	Running,
+	Paused,
 	Completed,
 	Failed,
 	Cancelled
@@ -223,3 +282,5 @@ public sealed record ScanJobItemErrorEvent(Guid JobId, string Item, string Error
 public sealed record ScanJobCompletedEvent(Guid JobId, int ProcessedItems, int SkippedItems, int ErrorItems) : DomainEvent;
 public sealed record ScanJobFailedEvent(Guid JobId, string ErrorMessage) : DomainEvent;
 public sealed record ScanJobCancelledEvent(Guid JobId) : DomainEvent;
+public sealed record ScanJobPausedEvent(Guid JobId, string? LastProcessedPath, int ProcessedItems, int TotalItems) : DomainEvent;
+public sealed record ScanJobResumedEvent(Guid JobId, int ResumeCount, string? ResumeFromPath) : DomainEvent;

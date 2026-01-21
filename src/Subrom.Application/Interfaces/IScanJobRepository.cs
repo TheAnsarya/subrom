@@ -40,4 +40,14 @@ public interface IScanJobRepository {
 	/// Updates an existing scan job.
 	/// </summary>
 	Task UpdateAsync(ScanJob scanJob, CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Gets scan jobs that can be resumed (paused or failed).
+	/// </summary>
+	Task<IReadOnlyList<ScanJob>> GetResumableAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Gets the most recent resumable scan job for a specific path.
+	/// </summary>
+	Task<ScanJob?> GetResumableForPathAsync(string targetPath, CancellationToken cancellationToken = default);
 }

@@ -49,4 +49,18 @@ public sealed class ScanJobRepository : IScanJobRepository {
 		_context.ScanJobs.Update(scanJob);
 		return Task.CompletedTask;
 	}
+
+	public async Task<IReadOnlyList<ScanJob>> GetResumableAsync(CancellationToken cancellationToken = default) =>
+		await _context.ScanJobs
+			.Where(s => s.Status == ScanStatus.Paused || s.Status == ScanStatus.Failed)
+			.OrderByDescending(s => s.PausedAt ?? s.CompletedAt)
+			.ToListAsync(cancellationToken);
+
+	public async Task<ScanJob?> GetResumableForPathAsync(string targetPath, CancellationToken cancellationToken = default) =>
+		await _context.ScanJobs
+			.Where(s =>
+				(s.Status == ScanStatus.Paused || s.Status == ScanStatus.Failed) &&
+				s.TargetPath == targetPath)
+			.OrderByDescending(s => s.PausedAt ?? s.CompletedAt)
+			.FirstOrDefaultAsync(cancellationToken);
 }
