@@ -11,7 +11,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #1 | Foundation Infrastructure | ✅ Complete | 15 | 100% |
 | #2 | DAT Provider Integration | 🟡 In Progress | 12 | 25% |
 | #3 | ROM Scanning Engine | ✅ Complete | 14 | 100% |
-| #4 | File Organization | 🟡 In Progress | 10 | 50% |
+| #4 | File Organization | 🟡 In Progress | 10 | 70% |
 | #5 | Storage Management | ⚪ Not Started | 8 | 0% |
 | #6 | Web UI Rebuild | ✅ Complete | 25 | 100% |
 | #7 | Advanced Features | ⚪ Not Started | 15 | 0% |
@@ -145,7 +145,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `organization`, `priority-medium`
 
-**Status:** 🟡 In Progress (50%)
+**Status:** 🟡 In Progress (70%)
 
 ### Issues
 
@@ -154,7 +154,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #70 | Design folder structure templates | ✅ Done | - |
 | #71 | Implement template parser | ✅ Done | - |
 | #72 | Create ROM renaming engine | ✅ Done | - |
-| #73 | Implement 1G1R support | 🔵 Partial | - |
+| #73 | Implement 1G1R support | ✅ Done | - |
 | #74 | Add region/language prioritization | ✅ Done | - |
 | #75 | Implement parent/clone organization | ⬜ Todo | - |
 | #76 | Create move/copy operations with rollback | ✅ Done | - |

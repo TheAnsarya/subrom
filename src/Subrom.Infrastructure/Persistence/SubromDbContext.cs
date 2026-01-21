@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Subrom.Domain.Aggregates.DatFiles;
+using Subrom.Domain.Aggregates.Organization;
 using Subrom.Domain.Aggregates.Scanning;
 using Subrom.Domain.Aggregates.Storage;
 
@@ -17,6 +18,8 @@ public class SubromDbContext : DbContext {
 	public DbSet<Drive> Drives => Set<Drive>();
 	public DbSet<RomFile> RomFiles => Set<RomFile>();
 	public DbSet<ScanJob> ScanJobs => Set<ScanJob>();
+	public DbSet<OrganizationOperationLog> OrganizationOperationLogs => Set<OrganizationOperationLog>();
+	public DbSet<OrganizationOperationEntry> OrganizationOperationEntries => Set<OrganizationOperationEntry>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
