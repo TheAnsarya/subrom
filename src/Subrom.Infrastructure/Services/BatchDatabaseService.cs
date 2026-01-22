@@ -329,7 +329,7 @@ public class BatchDatabaseService : IBatchDatabaseService {
 		// Use parameterized batch insert for safety and performance
 		var sql = """
 			INSERT INTO RomFiles (Id, RelativePath, FileName, Size, Crc, Md5, Sha1, DriveId, ScannedAt, HashedAt, LastModified, IsArchived, ArchivePath, PathInArchive, VerificationStatus)
-			VALUES 
+			VALUES
 			""";
 
 		var parameters = new List<SqliteParameter>();
@@ -364,7 +364,7 @@ public class BatchDatabaseService : IBatchDatabaseService {
 	private async Task InsertRomEntryBatchAsync(List<RomEntry> batch, CancellationToken cancellationToken) {
 		var sql = """
 			INSERT INTO Roms (Id, Name, Size, Crc, Md5, Sha1, Status, Serial, IsBios, Merge, GameId)
-			VALUES 
+			VALUES
 			""";
 
 		var parameters = new List<SqliteParameter>();
@@ -395,7 +395,7 @@ public class BatchDatabaseService : IBatchDatabaseService {
 	private async Task InsertGameBatchAsync(List<GameEntry> batch, CancellationToken cancellationToken) {
 		var sql = """
 			INSERT INTO Games (Id, Name, Description, Year, Publisher, Region, Languages, CloneOf, RomOf, SampleOf, IsBios, IsDevice, IsMechanical, Category, DatFileId)
-			VALUES 
+			VALUES
 			""";
 
 		var parameters = new List<SqliteParameter>();
@@ -433,7 +433,7 @@ public class BatchDatabaseService : IBatchDatabaseService {
 		foreach (var update in batch) {
 			await _context.Database.ExecuteSqlRawAsync(
 				"""
-				UPDATE RomFiles 
+				UPDATE RomFiles
 				SET Crc = @crc, Md5 = @md5, Sha1 = @sha1, HashedAt = @hashedAt
 				WHERE Id = @id
 				""",
