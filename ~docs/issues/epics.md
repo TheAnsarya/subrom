@@ -19,7 +19,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #9 | Backend Rebuild | ✅ Complete | 35 | 100% |
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
-| #12 | Base Feature Completion | 🟡 In Progress | 10 | 40% |
+| #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
 
 ---
 
@@ -557,7 +557,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #9.5: Testing
 
-**Parent:** #9 | **Status:** 🟡 In Progress
+**Parent:** #9 | **Status:** 🟡 In Progress (80%)
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
@@ -566,7 +566,14 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #442 | Add domain model unit tests | ✅ Done | #9.5 |
 | #443 | Add service layer unit tests | ✅ Done | #9.5 |
 | #444 | Add API integration tests | ⬜ Todo | #9.5 |
-| #445 | Add DAT parser tests with sample files | ⬜ Todo | #9.5 |
+| #445 | Add DAT parser tests with sample files | ✅ Done | #9.5 |
+
+**Test Coverage:**
+- Total tests: 332
+- Domain tests: 47
+- Service tests: 150+
+- Infrastructure tests: 100+
+- Parser tests: 21
 
 ---
 
@@ -638,7 +645,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `core`, `priority-high`
 
-**Status:** � Near Complete (85%)
+**Status:** ✅ Complete (100%)
 
 **Created:** January 21, 2026
 
@@ -689,14 +696,16 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #12.5: Unit Tests
 
-**Parent:** #12 | **Status:** 🔄 In Progress
+**Parent:** #12 | **Status:** ✅ Complete
 
 | # | Title | Status | Parent |
 |---|-------|--------|--------|
 | #740 | Add ClrMameProDatParser tests | ✅ Done | #12.5 |
-| #741 | Add VerificationService tests | ⬜ Todo | #12.5 |
-| #742 | Add ScanService tests | ⬜ Todo | #12.5 |
-| #743 | Add OrganizationService tests | ⬜ Todo | #12.5 |
+| #741 | Add VerificationService tests | ✅ Done | #12.5 |
+| #742 | Add ScanService tests | ✅ Done | #12.5 |
+| #743 | Add OrganizationService tests | ✅ Done | #12.5 |
+| #744 | Add DatCollectionService tests | ✅ Done | #12.5 |
+| #745 | Add DriveService tests | ✅ Done | #12.5 |
 
 ---
 
