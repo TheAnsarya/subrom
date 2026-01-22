@@ -1,162 +1,248 @@
 # Subrom
 
-**ROM Manager made as an efficient alternative to RomVault**
+**Modern ROM Collection Manager - A feature-rich alternative to RomVault and ClrMame Pro**
 
-[![GitHub Issues](https://img.shields.io/github/issues/TheAnsarya/subrom)](https://github.com/TheAnsarya/subrom/issues)
+[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-332%20passing-brightgreen)](tests/)
 
 ## Overview
 
-Subrom is a modern ROM collection management tool designed to be a fast, cross-platform alternative to RomVault and ClrMame Pro. It features a web-based UI, intelligent DAT file management, and most importantly - **never loses track of your ROMs when drives go offline**.
+Subrom is a modern ROM collection management tool with a beautiful web UI, real-time progress updates, and intelligent offline drive support. Built with .NET 10 and React 19, it provides professional-grade ROM verification and organization.
 
-## Key Features
+### Key Differentiators
 
-### Current
-- ✅ Multi-hash computation (CRC32, MD5, SHA1) in parallel
-- ✅ XML DAT file parsing (LogiqX/No-Intro format)
-- ✅ ClrMame Pro DAT format support
-- ✅ File scanning with progress reporting
-- ✅ Hash verification against DAT files
-- ✅ 7-Zip compression support
+| Feature | RomVault | ClrMame Pro | Subrom |
+|---------|----------|-------------|--------|
+| Web-based UI | ❌ | ❌ | ✅ |
+| Real-time Progress | ❌ | ❌ | ✅ SignalR |
+| Offline Drive Support | ❌ | ❌ | ✅ |
+| Network Drives | ❌ | ❌ | ✅ UNC |
+| Modern Architecture | ❌ | ❌ | ✅ |
 
-### Planned
-- 🔄 Web-based UI with React
-- 🔄 Multi-drive storage management
-- 🔄 **Offline drive resilience** (ROMs never "lost" when drives disconnect)
-- 🔄 DAT providers (No-Intro, TOSEC, Redump, GoodSets)
-- 🔄 1G1R (1 Game 1 ROM) filtering
-- 🔄 Intelligent ROM organization
-- 🔄 RetroArch/EmulationStation playlist generation
+## Features
 
-## Architecture
+### ✅ Complete & Working
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Subrom UI                                │
-│                    (React + TypeScript)                          │
-├─────────────────────────────────────────────────────────────────┤
-│                        REST API                                  │
-│                   (ASP.NET Core Web API)                        │
-├─────────────────────────────────────────────────────────────────┤
-│                     Service Layer                                │
-│  DatService │ ScanService │ DriveService │ VerificationService  │
-├─────────────────────────────────────────────────────────────────┤
-│                     Domain Layer                                 │
-│        Datfiles │ Hash │ Storage                                │
-├─────────────────────────────────────────────────────────────────┤
-│                   Infrastructure                                 │
-│      Database │ DAT Parsers │ File System                       │
-└─────────────────────────────────────────────────────────────────┘
-```
+- **DAT File Support**
+  - Logiqx XML parser (No-Intro, Redump, MAME)
+  - ClrMamePro DAT parser (TOSEC, legacy)
+  - Streaming parser for 60K+ entry files
+  - Category browser
+
+- **ROM Scanning**
+  - Recursive folder scanning
+  - Archive support (ZIP, 7z, RAR, TAR, GZip)
+  - Parallel hash computation (CRC32, MD5, SHA1)
+  - ROM header detection and removal
+  - Scan resume/checkpoint
+  - Background job processing
+
+- **Verification**
+  - Hash-based verification
+  - Duplicate detection
+  - Bad dump identification
+  - 1G1R filtering
+  - Parent/clone detection
+
+- **Organization**
+  - 5 built-in templates
+  - Custom placeholders
+  - Move/copy with rollback
+  - Dry-run preview
+  - Operation undo
+
+- **Storage Management**
+  - Multi-drive support
+  - Online/offline tracking
+  - Network drives (UNC)
+  - Space monitoring
+
+- **Web UI**
+  - Dashboard with stats
+  - DAT manager
+  - ROM browser (virtualized for 60K+ rows)
+  - Verification results
+  - Settings page
+  - Dark/light themes
+
+- **Desktop**
+  - System tray application
+  - Windows service
+  - Auto-start support
 
 ## Quick Start
 
 ### Prerequisites
-- .NET 8.0 SDK or later
-- Node.js 18+ (for UI development)
 
-### Build
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- [Node.js 20+](https://nodejs.org/) with Yarn
+- Windows 10/11 (for tray app and service)
+
+### Installation
+
+#### Option 1: From Source
 
 ```bash
-# Build the solution
+# Clone the repository
+git clone https://github.com/TheAnsarya/subrom.git
+cd subrom
+
+# Build backend
 dotnet build Subrom.sln
 
-# Run the API
-dotnet run --project Subrom/SubromAPI.csproj
+# Build frontend
+cd subrom-ui
+yarn install
+yarn build
+cd ..
+
+# Run the server
+dotnet run --project src/Subrom.Server
 ```
 
-### UI Development
+The server will start at `http://localhost:52100`
+
+#### Option 2: Development Mode
 
 ```bash
+# Terminal 1 - Backend
+dotnet run --project src/Subrom.Server
+
+# Terminal 2 - Frontend (hot reload)
 cd subrom-ui
-npm install
-npm start
+yarn dev
 ```
+
+Frontend dev server: `http://localhost:5173`
+
+#### Option 3: System Tray (Windows)
+
+```bash
+# Build and run tray application
+dotnet run --project src/Subrom.Tray
+```
+
+Right-click the tray icon to access:
+- Open in Browser
+- Start/Stop Server
+- Settings
+- Exit
+
+### First Steps
+
+1. **Import a DAT file**
+   - Go to DAT Manager page
+   - Click "Import DAT"
+   - Upload a No-Intro, TOSEC, or other DAT file
+
+2. **Register a drive**
+   - Go to Settings → Drives
+   - Add your ROM storage drive(s)
+
+3. **Scan for ROMs**
+   - Go to Dashboard
+   - Click "Scan" on a registered drive
+   - Watch real-time progress
+
+4. **View Results**
+   - Browse verified ROMs
+   - See duplicates, missing, bad dumps
+   - Apply 1G1R filtering
 
 ## Project Structure
 
 ```
 Subrom.sln
-├── Domain/              # Core domain models
-│   ├── Datfiles/       # DAT file models (Datafile, Game, Rom)
-│   ├── Hash/           # Hash value types (Crc, Md5, Sha1)
-│   └── Storage/        # Storage models (Drive, RomFile, ScanJob)
-├── Services/           # Business logic services
-│   ├── HashService     # Multi-hash computation
-│   ├── DatService      # DAT file management
-│   ├── DriveService    # Storage drive management
-│   └── Verification    # ROM verification
-├── Infrastructure/     # External concerns
-│   ├── Parsers/        # DAT file parsers
-│   └── Extensions/     # Extension methods
-├── Compression/        # Archive handling (7-Zip)
-├── Subrom/            # Web API project
-└── subrom-ui/         # React frontend
+├── src/
+│   ├── Subrom.Domain/         # Domain models, value objects
+│   ├── Subrom.Application/    # Service interfaces, DTOs
+│   ├── Subrom.Infrastructure/ # EF Core, parsers, services
+│   ├── Subrom.Server/         # ASP.NET Core Web API
+│   ├── Subrom.Tray/           # Windows tray application
+│   └── Subrom.Service/        # Windows service
+├── tests/
+│   └── Subrom.Tests.Unit/     # 332+ unit tests
+├── subrom-ui/                 # React + TypeScript + Vite
+└── ~docs/                     # Documentation
 ```
+
+## API Reference
+
+API documentation available at `/scalar/v1` when running in development mode.
+
+Key endpoints:
+- `GET /api/datfiles` - List DAT files
+- `POST /api/datfiles/import` - Import DAT file
+- `GET /api/drives` - List drives
+- `POST /api/scans` - Start scan
+- `GET /api/romfiles` - Browse ROMs
+- `POST /api/verify` - Verify ROM
+
+See [API Reference](~docs/api-reference.md) for full documentation.
+
+## Configuration
+
+Settings in `appsettings.json`:
+
+```json
+{
+  "Kestrel": {
+    "Endpoints": {
+      "Http": { "Url": "http://localhost:52100" }
+    }
+  }
+}
+```
+
+Data stored in `%LOCALAPPDATA%/Subrom/`:
+- `subrom.db` - SQLite database
+- `logs/` - Application logs
 
 ## Documentation
 
-Detailed documentation is available in the `~docs/` folder:
+- [Release Plan](~docs/plans/release-1.0.0-plan.md)
+- [Architecture](~docs/plans/current-architecture.md)
+- [API Design](~docs/plans/api-design.md)
+- [Roadmap](~docs/plans/roadmap.md)
+- [Changelog](CHANGELOG.md)
 
-- [Project Roadmap](~docs/plans/roadmap.md) - Development phases and timeline
-- [Architecture](~docs/plans/architecture.md) - System design and data flow
-- [UI Design](~docs/plans/ui-plans.md) - UI mockups and component plans
-- [API Design](~docs/plans/api-design.md) - REST API specification
-- [GitHub Epics](~docs/issues/epics.md) - Issue tracking and epics
+## Technology Stack
 
-### Research
-- [DAT Formats](~docs/research/dat-formats.md) - DAT file format documentation
-- [Providers](~docs/research/providers.md) - ROM set provider analysis
-- [Competitors](~docs/research/competitors.md) - RomVault/ClrMame analysis
+**Backend:**
+- .NET 10 / C# 14
+- ASP.NET Core Minimal APIs
+- Entity Framework Core + SQLite
+- SignalR for real-time updates
+- Serilog structured logging
 
-## Offline Drive Resilience
+**Frontend:**
+- React 19 + TypeScript 5.8
+- Vite build tool
+- Zustand state management
+- react-window virtualization
+- CSS Modules
 
-**This is a key differentiator for Subrom.**
-
-Unlike other ROM managers, Subrom **never loses track of your ROMs** when drives go offline:
-
-1. When you register a drive, all ROM locations are tracked in the database
-2. If a drive goes offline, ROM records are marked as "offline" - **not deleted**
-3. When the drive comes back online, everything is automatically restored
-4. You always know what ROMs you have, even if they're on a disconnected drive
-
-## Supported DAT Formats
-
-| Format | Status | Notes |
-|--------|--------|-------|
-| XML/LogiqX | ✅ Supported | No-Intro, Redump, MAME |
-| ClrMame Pro | ✅ Supported | Plain text format |
-| TOSEC | 🔄 Planned | Uses XML with TOSEC naming |
-
-## Supported Archive Formats
-
-| Format | Status |
-|--------|--------|
-| ZIP | ✅ Supported |
-| 7z | ✅ Supported |
-| RAR | 🔄 Planned |
+**Testing:**
+- xUnit
+- Moq
+- 332+ unit tests
 
 ## Contributing
 
-Contributions are welcome! Please check our [GitHub Issues](https://github.com/TheAnsarya/subrom/issues) for current tasks.
-
-### Commit Convention
-
-All commits should reference an issue:
-
-```
-feat(#8): implement XML DAT parser
-fix(#20): handle offline drive reconnection
-docs(#24): update README
-```
+1. Check [GitHub Issues](https://github.com/TheAnsarya/subrom/issues)
+2. Fork and create a feature branch
+3. Follow commit conventions: `feat(#issue): description`
+4. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- [No-Intro](https://www.no-intro.org) - ROM verification standards
-- [TOSEC](https://www.tosecdev.org) - Comprehensive ROM preservation
-- [Redump](http://redump.org) - Disc image verification
-- [RomVault](https://www.romvault.com) - Inspiration for features
+- [No-Intro](https://www.no-intro.org)
+- [TOSEC](https://www.tosecdev.org)
+- [Redump](http://redump.org)
+- [SharpCompress](https://github.com/adamhathcock/sharpcompress)

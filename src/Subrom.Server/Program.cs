@@ -90,10 +90,38 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 }
 
 static void ConfigureApp(WebApplication app) {
-	// Exception handling
-	if (!app.Environment.IsDevelopment()) {
-		app.UseExceptionHandler("/error");
-	}
+	// Exception handling - both dev and prod
+	app.UseExceptionHandler("/error");
+
+	// Error endpoint for ProblemDetails response
+	app.Map("/error", (HttpContext context) => {
+		var exceptionHandler = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+		var exception = exceptionHandler?.Error;
+
+		var problem = new Microsoft.AspNetCore.Mvc.ProblemDetails {
+			Title = "An error occurred",
+			Status = StatusCodes.Status500InternalServerError,
+			Detail = app.Environment.IsDevelopment() ? exception?.Message : "An unexpected error occurred.",
+			Instance = context.Request.Path
+		};
+
+		if (exception is KeyNotFoundException) {
+			problem.Status = StatusCodes.Status404NotFound;
+			problem.Title = "Not Found";
+		} else if (exception is InvalidOperationException) {
+			problem.Status = StatusCodes.Status400BadRequest;
+			problem.Title = "Bad Request";
+		} else if (exception is UnauthorizedAccessException) {
+			problem.Status = StatusCodes.Status403Forbidden;
+			problem.Title = "Forbidden";
+		} else if (exception is ArgumentException or ArgumentNullException) {
+			problem.Status = StatusCodes.Status400BadRequest;
+			problem.Title = "Invalid Argument";
+		}
+
+		context.Response.StatusCode = problem.Status ?? 500;
+		return Results.Problem(problem);
+	});
 
 	// CORS
 	app.UseCors("Development");

@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 21, 2026
+**Last Updated:** January 22, 2026
 
 ## Epic Overview
 
@@ -20,6 +20,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
+| #13 | Release 1.0.0 | 🟡 In Progress | 16 | 0% |
 
 ---
 
@@ -706,6 +707,64 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #743 | Add OrganizationService tests | ✅ Done | #12.5 |
 | #744 | Add DatCollectionService tests | ✅ Done | #12.5 |
 | #745 | Add DriveService tests | ✅ Done | #12.5 |
+
+---
+
+## Epic #13: Release 1.0.0 (NEW)
+
+**Goal:** Prepare and release Subrom version 1.0.0
+
+**Labels:** `epic`, `release`, `priority-critical`
+
+**Status:** 🟡 In Progress
+
+**Created:** January 22, 2026
+
+**Reference:** See [release-1.0.0-plan.md](../plans/release-1.0.0-plan.md) for detailed plan
+
+### Sub-Epic #13.1: Critical Fixes
+
+**Parent:** #13 | **Status:** 🟡 In Progress
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #800 | Add global error handling endpoint | ⬜ Todo | HIGH |
+| #801 | Create CHANGELOG.md | ⬜ Todo | HIGH |
+| #802 | Update README with installation guide | ⬜ Todo | HIGH |
+| #803 | Version bump to 1.0.0-rc1 | ⬜ Todo | HIGH |
+
+### Sub-Epic #13.2: Documentation
+
+**Parent:** #13 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #810 | Review and update API reference | ⬜ Todo | MEDIUM |
+| #811 | Create user guide | ⬜ Todo | MEDIUM |
+| #812 | Document build/deployment process | ⬜ Todo | MEDIUM |
+| #813 | Add inline code documentation | ⬜ Todo | LOW |
+
+### Sub-Epic #13.3: Testing & QA
+
+**Parent:** #13 | **Status:** 🟡 In Progress
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #820 | End-to-end workflow testing | ⬜ Todo | HIGH |
+| #821 | Performance benchmarks | ⬜ Todo | MEDIUM |
+| #822 | Cross-platform testing (Windows) | ⬜ Todo | MEDIUM |
+| #823 | UI accessibility review | ⬜ Todo | LOW |
+
+### Sub-Epic #13.4: Release Artifacts
+
+**Parent:** #13 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #830 | Create Windows x64 release build | ⬜ Todo | HIGH |
+| #831 | Create MSI installer | ⬜ Todo | MEDIUM |
+| #832 | Create portable ZIP release | ⬜ Todo | MEDIUM |
+| #833 | Set up GitHub release workflow | ⬜ Todo | HIGH |
 
 ---
 
