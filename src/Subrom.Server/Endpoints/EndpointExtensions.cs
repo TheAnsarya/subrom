@@ -41,6 +41,9 @@ public static class EndpointExtensions {
 		// Storage monitor endpoints
 		api.MapStorageEndpoints();
 
+		// Settings endpoints
+		api.MapSettingsEndpoints();
+
 		// Streaming/cursor-based pagination endpoints
 		endpoints.MapStreamingEndpoints();
 

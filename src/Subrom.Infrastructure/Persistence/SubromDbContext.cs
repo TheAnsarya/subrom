@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Subrom.Domain.Aggregates.DatFiles;
 using Subrom.Domain.Aggregates.Organization;
 using Subrom.Domain.Aggregates.Scanning;
+using Subrom.Domain.Aggregates.Settings;
 using Subrom.Domain.Aggregates.Storage;
 
 namespace Subrom.Infrastructure.Persistence;
@@ -20,6 +21,7 @@ public class SubromDbContext : DbContext {
 	public DbSet<ScanJob> ScanJobs => Set<ScanJob>();
 	public DbSet<OrganizationOperationLog> OrganizationOperationLogs => Set<OrganizationOperationLog>();
 	public DbSet<OrganizationOperationEntry> OrganizationOperationEntries => Set<OrganizationOperationEntry>();
+	public DbSet<AppSettings> AppSettings => Set<AppSettings>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);

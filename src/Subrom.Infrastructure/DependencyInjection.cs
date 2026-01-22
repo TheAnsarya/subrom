@@ -36,6 +36,7 @@ public static class DependencyInjection {
 		services.AddScoped<IRomFileRepository, RomFileRepository>();
 		services.AddScoped<IScanJobRepository, ScanJobRepository>();
 		services.AddScoped<IOrganizationLogRepository, OrganizationLogRepository>();
+		services.AddScoped<ISettingsRepository, SettingsRepository>();
 
 		// Register Services (order matters - ArchiveService first, HashService depends on it)
 		services.AddSingleton<IArchiveService, SharpCompressArchiveService>();

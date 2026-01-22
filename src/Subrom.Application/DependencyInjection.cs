@@ -20,6 +20,7 @@ public static class DependencyInjection {
 		services.AddScoped<DriveService>();
 		services.AddScoped<ScanService>();
 		services.AddScoped<VerificationService>();
+		services.AddScoped<SettingsService>();
 
 		return services;
 	}
