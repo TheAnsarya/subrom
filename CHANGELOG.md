@@ -7,9 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+- Performance benchmarks
+- Windows installer (MSI)
+- Docker image
+
+## [1.0.0-rc1] - 2026-01-22
+
 ### Added
-- Global error handling with ProblemDetails response format
-- 1.0.0 release planning documentation
+- **Settings Persistence**
+  - AppSettings domain entity with comprehensive configuration
+  - Settings API endpoints (GET, PUT, PATCH per category, POST reset)
+  - Scanning, organization, UI, storage, and verification settings
+  - Settings persist across server restarts
+  - 27 new unit tests for settings
+
+- **Global Error Handling**
+  - `/error` endpoint with ProblemDetails response format
+  - Exception type mapping (404 for KeyNotFoundException, 400 for InvalidOperation)
+  - Development vs production error detail levels
+
+- **Documentation**
+  - Comprehensive 1.0.0 release plan
+  - Manual testing guide (112 test cases)
+  - Updated README with installation guide
+  - Feature comparison with RomVault and ClrMame Pro
+
+### Changed
+- Test count increased from 332 to 359 (exceeded 350 target)
+- Epic #13 progress: 0% → 50%
+
+### Fixed
+- All critical blockers for 1.0.0 resolved
 
 ## [1.0.0-alpha] - 2026-01-22
 
@@ -96,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 1.0.0-rc1 | 2026-01-22 | Release candidate with settings, error handling, testing guide |
 | 1.0.0-alpha | 2026-01-22 | Initial alpha release |
 
 ## Links

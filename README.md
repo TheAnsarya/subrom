@@ -2,10 +2,11 @@
 
 **Modern ROM Collection Manager - A feature-rich alternative to RomVault and ClrMame Pro**
 
+[![Version](https://img.shields.io/badge/version-1.0.0--rc1-blue)](CHANGELOG.md)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-332%20passing-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-359%20passing-brightgreen)](tests/)
 
 ## Overview
 
@@ -227,7 +228,7 @@ Data stored in `%LOCALAPPDATA%/Subrom/`:
 **Testing:**
 - xUnit
 - Moq
-- 332+ unit tests
+- 359+ unit tests
 
 ## Contributing
 

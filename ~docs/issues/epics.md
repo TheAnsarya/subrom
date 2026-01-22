@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 22, 2026
+**Last Updated:** January 22, 2026 (RC1 Preparation)
 
 ## Epic Overview
 
@@ -20,7 +20,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
-| #13 | Release 1.0.0 | 🟡 In Progress | 16 | 0% |
+| #13 | Release 1.0.0 | 🟡 In Progress | 17 | 50% |
 
 ---
 
@@ -716,7 +716,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 **Labels:** `epic`, `release`, `priority-critical`
 
-**Status:** 🟡 In Progress
+**Status:** 🟡 In Progress (50% → RC1 Ready)
 
 **Created:** January 22, 2026
 
@@ -724,18 +724,18 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #13.1: Critical Fixes
 
-**Parent:** #13 | **Status:** 🟡 In Progress
+**Parent:** #13 | **Status:** ✅ Complete
 
 | # | Title | Status | Priority |
 |---|-------|--------|----------|
-| #800 | Add global error handling endpoint | ⬜ Todo | HIGH |
-| #801 | Create CHANGELOG.md | ⬜ Todo | HIGH |
-| #802 | Update README with installation guide | ⬜ Todo | HIGH |
-| #803 | Version bump to 1.0.0-rc1 | ⬜ Todo | HIGH |
+| #800 | Add global error handling endpoint | ✅ Done | HIGH |
+| #801 | Create CHANGELOG.md | ✅ Done | HIGH |
+| #802 | Update README with installation guide | ✅ Done | HIGH |
+| #803 | Version bump to 1.0.0-rc1 | 🟡 In Progress | HIGH |
 
 ### Sub-Epic #13.2: Documentation
 
-**Parent:** #13 | **Status:** ⬜ Not Started
+**Parent:** #13 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Priority |
 |---|-------|--------|----------|
@@ -743,6 +743,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #811 | Create user guide | ⬜ Todo | MEDIUM |
 | #812 | Document build/deployment process | ⬜ Todo | MEDIUM |
 | #813 | Add inline code documentation | ⬜ Todo | LOW |
+| #814 | Create manual testing guide | ✅ Done | HIGH |
 
 ### Sub-Epic #13.3: Testing & QA
 
@@ -750,7 +751,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 | # | Title | Status | Priority |
 |---|-------|--------|----------|
-| #820 | End-to-end workflow testing | ⬜ Todo | HIGH |
+| #820 | End-to-end workflow testing | 🟡 In Progress | HIGH |
 | #821 | Performance benchmarks | ⬜ Todo | MEDIUM |
 | #822 | Cross-platform testing (Windows) | ⬜ Todo | MEDIUM |
 | #823 | UI accessibility review | ⬜ Todo | LOW |
