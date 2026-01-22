@@ -67,8 +67,8 @@ A functional ROM management tool that can:
 
 | Feature | Component | Blocker | Priority |
 |---------|-----------|---------|----------|
-| Settings persistence | SettingsService | No implementation | HIGH |
-| Global error handling | ExceptionMiddleware | Not implemented | MEDIUM |
+| Settings persistence | SettingsService | ✅ RESOLVED | HIGH |
+| Global error handling | ExceptionMiddleware | ✅ RESOLVED | MEDIUM |
 | API documentation | Scalar/OpenAPI | Needs review | LOW |
 
 ### ❌ Deferred (Post 1.0.0)
@@ -91,8 +91,8 @@ A functional ROM management tool that can:
 
 | Issue | Description | Effort | Status |
 |-------|-------------|--------|--------|
-| Settings entity | No persistent settings | 4h | ⬜ Todo |
-| Error handling | No global exception handler | 2h | ⬜ Todo |
+| Settings entity | Persistent settings across sessions | 4h | ✅ Done |
+| Error handling | Global exception handler | 2h | ✅ Done |
 
 ### 🟡 High Priority (Should Fix)
 
@@ -113,17 +113,17 @@ A functional ROM management tool that can:
 
 ## Test Coverage Requirements
 
-**Current:** 332 unit tests passing
+**Current:** 359 unit tests passing ✅
 
-**Target for 1.0.0:** 350+ tests
+**Target for 1.0.0:** 350+ ✅ ACHIEVED
 
 | Category | Current | Target | Status |
 |----------|---------|--------|--------|
-| Domain | 47 | 50 | ✅ |
-| Application Services | 80 | 90 | ✅ |
+| Domain | 57 | 50 | ✅ |
+| Application Services | 97 | 90 | ✅ |
 | Infrastructure | 100 | 110 | ✅ |
 | Parsers | 21 | 25 | ✅ |
-| **Total** | **332** | **350** | ⚠️ |
+| **Total** | **359** | **350** | ✅ |
 
 ---
 
