@@ -35,6 +35,31 @@ continue working, but make sure epics and issues are pushed to github issues;
 
 continue; keep updating and creating plans, github issues, epics, todolists, documentation, chat/session logs; work a bunch of issues, updating everything; continue;
 
+Epic #4 did have it's issues create (#70-#79) according to you, make those issues, update them and then close them if done. Check all the other epics and create/update any sub-issues they have, not just in our documentation but in github issues itself; continue;
+
+update chat/session logs, implement `Epic #10: System Tray` and `Epic #8: Large Dataset`; continue;
+
+`large dataset handling` isn't just about dat loading, but more about dataset display and scanning files in large datasets, add issues and plans for that; continue working on the backlog; continue;
+
+continue working, focus on the base code and don't implement many advanced features until the entire base implementation is done; make analysis and plans and todolists and github issues and chat/session logs and documentation and make sure all behaviors we need for a rom scanner are complete; continue;
+
+continue working, focus on the base code; continue;
+
+continue working, focus on the base code; continue; work towards a 1.0.0 release, make a plan for that; create analysis and plans and todolists and github issues and chat/session logs and documentation; continue;
+
+Prepare for the 1.0.0-rc1 release updating the todolists and issues and epics and documentation and readmes and create a full manual testing documention; continue;
+
+create the release for github and then prepare for the release plan and then plan future improvements, like spreading the parallel processing to be accross drives  to spread to read/write load out, etc, that kind of performance and usabillity stuff, nothing outlandish (some of the current "advanced planned features" are like, what? why? what?); continue;
+
+Oh, the c# background services (like scanning files, processing) and webhosting and whole architecture of a "windows service" and the tray icon for accessing the service through a web ui and stuff , do those only work on windows? we want them to work on macd and linux or whatever; explain what is up then make plans and issues and stuff, we want this in the 1.0.0 release with parity for platform agnostic behavior, run anywhere; continue;
+
+The stuff we just planned? implement it! Make the 1.0.0 release, then do the service and tray changes for cross-platform and implement and document them, and when done plan for the 1.1.0 release and then do the 1.1.0 release; continue;
+
+for this release we want to make sure there is full cross platform support so we want an installer (like msi but cross-platform, or if we have to, an installer that works on each platform) that builds everything, sets up the services and the tray icon, and creates shortcuts, etc, make plans and todolists and issues and epics and documentation; then implement it; continue this and previous work, towards a release; continue;
+
+
+
+
 
 
 

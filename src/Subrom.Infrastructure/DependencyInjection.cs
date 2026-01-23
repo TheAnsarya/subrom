@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Subrom.Application.Interfaces;
+using Subrom.Application.Services;
 using Subrom.Infrastructure.Parsing;
 using Subrom.Infrastructure.Persistence;
 using Subrom.Infrastructure.Persistence.Repositories;
@@ -65,6 +66,11 @@ public static class DependencyInjection {
 		services.AddSingleton<IDatParser, LogiqxDatParser>();
 		services.AddSingleton<IDatParser, ClrMameProDatParser>();
 		services.AddSingleton<IDatParserFactory, DatParserFactory>();
+
+		// Register Application Services (Epic #14 - 1.1.0 features)
+		services.AddScoped<ExportService>();
+		services.AddScoped<ParallelScanService>();
+		services.AddSingleton<ScanQueueService>();
 
 		return services;
 	}

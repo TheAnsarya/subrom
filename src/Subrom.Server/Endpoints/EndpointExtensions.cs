@@ -12,7 +12,7 @@ public static class EndpointExtensions {
 
 		// Version endpoint
 		api.MapGet("/version", () => new {
-			Version = "1.0.0",
+			Version = "1.1.0",
 			DotNetVersion = Environment.Version.ToString(),
 			Os = Environment.OSVersion.ToString()
 		}).WithTags("System");
@@ -43,6 +43,12 @@ public static class EndpointExtensions {
 
 		// Settings endpoints
 		api.MapSettingsEndpoints();
+
+		// Export endpoints (v1.1.0)
+		api.MapExportEndpoints();
+
+		// Scan queue endpoints (v1.1.0)
+		api.MapScanQueueEndpoints();
 
 		// Streaming/cursor-based pagination endpoints
 		endpoints.MapStreamingEndpoints();

@@ -9,10 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Planned
 - Cross-platform tray app (Avalonia)
-- Multi-drive parallel scanning
 - Performance benchmarks
 - Windows installer (MSI)
 - Docker image
+
+## [1.1.0] - 2026-01-22
+
+### Added
+- **Multi-Drive Parallel Scanning** 🚀
+  - `ParallelScanService` for scanning multiple drives simultaneously
+  - Configurable concurrency limits (drives and hashes per drive)
+  - SSD drive prioritization option
+  - Multi-drive progress tracking with per-drive status
+
+- **Scan Queue Management** 📋
+  - `ScanQueueService` for priority-based scan scheduling
+  - Pause/resume queue processing
+  - Priority levels (Low, Normal, High)
+  - Move jobs to front/back of queue
+  - Job cancellation support
+  - Queue statistics endpoint
+
+- **Export Functionality** 📤
+  - `ExportService` for CSV and JSON export
+  - Export all ROMs or filter by drive
+  - Export by verification status (Verified, Unknown, BadDump)
+  - Collection summary export with statistics
+  - Download endpoint with Content-Disposition header
+
+- **New API Endpoints**
+  - `/api/export/roms/csv` - Export ROMs as CSV
+  - `/api/export/roms/json` - Export ROMs as JSON
+  - `/api/export/roms/by-status/{status}` - Export by verification status
+  - `/api/export/summary` - Collection statistics summary
+  - `/api/export/download/roms` - Download export as file
+  - `/api/scan-queue/` - Queue management endpoints
+  - `/api/scan-queue/stats` - Queue statistics
+  - `/api/scan-queue/pause` - Pause queue
+  - `/api/scan-queue/resume` - Resume queue
+  - `/api/scan-queue/{id}/priority` - Change job priority
+  - `/api/scan-queue/{id}/move-to-front` - Move to front
+  - `/api/scan-queue/{id}/move-to-back` - Move to back
+
+### Changed
+- API version updated to 1.1.0
+- Test count: 375 (maintained from 1.0.0)
 
 ## [1.0.0] - 2026-01-22
 
