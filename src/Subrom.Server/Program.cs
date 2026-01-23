@@ -3,9 +3,14 @@ using Serilog;
 using Subrom.Application;
 using Subrom.Infrastructure;
 using Subrom.Infrastructure.Persistence;
+using Subrom.Infrastructure.Platform;
 using Subrom.Server.BackgroundServices;
 using Subrom.Server.Endpoints;
 using Subrom.Server.Hubs;
+
+// Ensure data directories exist
+PlatformHelper.EnsureDataDirectoryExists();
+PlatformHelper.EnsureLogDirectoryExists();
 
 // Configure Serilog early for startup logging
 Log.Logger = new LoggerConfiguration()
@@ -13,7 +18,7 @@ Log.Logger = new LoggerConfiguration()
 	.CreateBootstrapLogger();
 
 try {
-	Log.Information("Starting Subrom server...");
+	Log.Information("Starting Subrom server on {Platform}...", PlatformHelper.PlatformName);
 
 	var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +29,7 @@ try {
 		.Enrich.FromLogContext()
 		.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
 		.WriteTo.File(
-			Path.Combine(GetDataPath(), "logs", "subrom-.log"),
+			Path.Combine(PlatformHelper.GetLogDirectory(), "subrom-.log"),
 			rollingInterval: RollingInterval.Day,
 			retainedFileCountLimit: 30));
 
@@ -51,8 +56,8 @@ finally {
 }
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration) {
-	// Database path
-	var dbPath = Path.Combine(GetDataPath(), "subrom.db");
+	// Database path - cross-platform
+	var dbPath = PlatformHelper.GetDefaultDatabasePath();
 	var connectionString = $"Data Source={dbPath};Cache=Shared";
 
 	// Add Infrastructure services (DbContext, repositories, services)
@@ -170,14 +175,6 @@ static async Task InitializeDatabaseAsync(WebApplication app) {
 	await db.Database.ExecuteSqlRawAsync("PRAGMA mmap_size = 268435456;"); // 256MB
 
 	Log.Information("Database initialized at {Path}", db.Database.GetDbConnection().DataSource);
-}
-
-static string GetDataPath() {
-	// Use %LOCALAPPDATA%/Subrom on Windows, ~/.local/share/subrom on Linux
-	var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-	var dataPath = Path.Combine(localAppData, "Subrom");
-	Directory.CreateDirectory(dataPath);
-	return dataPath;
 }
 
 /// <summary>

@@ -12,7 +12,7 @@ public static class EndpointExtensions {
 
 		// Version endpoint
 		api.MapGet("/version", () => new {
-			Version = "1.0.0-rc1",
+			Version = "1.0.0",
 			DotNetVersion = Environment.Version.ToString(),
 			Os = Environment.OSVersion.ToString()
 		}).WithTags("System");

@@ -1,0 +1,31 @@
+[Unit]
+Description=Subrom ROM Manager Server
+Documentation=https://github.com/TheAnsarya/subrom
+After=network.target
+
+[Service]
+Type=simple
+User=subrom
+Group=subrom
+WorkingDirectory=/opt/subrom
+ExecStart=/opt/subrom/Subrom.Server
+Restart=always
+RestartSec=10
+
+# Environment
+Environment=ASPNETCORE_URLS=http://localhost:52100
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/subrom/.config/subrom
+
+# Resource limits
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

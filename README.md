@@ -2,11 +2,12 @@
 
 **Modern ROM Collection Manager - A feature-rich alternative to RomVault and ClrMame Pro**
 
-[![Version](https://img.shields.io/badge/version-1.0.0--rc1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](CHANGELOG.md)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-359%20passing-brightgreen)](tests/)
+[![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)]()
 
 ## Overview
 
@@ -20,6 +21,7 @@ Subrom is a modern ROM collection management tool with a beautiful web UI, real-
 | Real-time Progress | ❌ | ❌ | ✅ SignalR |
 | Offline Drive Support | ❌ | ❌ | ✅ |
 | Network Drives | ❌ | ❌ | ✅ UNC |
+| Cross-Platform | ❌ | ❌ | ✅ Win/Linux/macOS |
 | Modern Architecture | ❌ | ❌ | ✅ |
 
 ## Features
@@ -78,10 +80,70 @@ Subrom is a modern ROM collection management tool with a beautiful web UI, real-
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 20+](https://nodejs.org/) with Yarn
-- Windows 10/11 (for tray app and service)
+- [Node.js 20+](https://nodejs.org/) with Yarn (for building from source)
+
+### Platform Support
+
+| Feature | Windows | Linux | macOS |
+|---------|---------|-------|-------|
+| Server | ✅ | ✅ | ✅ |
+| Web UI | ✅ | ✅ | ✅ |
+| System Tray App | ✅ | ❌ | ❌ |
+| System Service | ✅ | ✅ systemd | ✅ launchd |
 
 ### Installation
+
+<details>
+<summary><b>🪟 Windows</b></summary>
+
+#### Option 1: From Source
+
+```powershell
+# Clone the repository
+git clone https://github.com/TheAnsarya/subrom.git
+cd subrom
+
+# Build backend
+dotnet build Subrom.sln
+
+# Build frontend
+cd subrom-ui
+yarn install
+yarn build
+cd ..
+
+# Run the server
+dotnet run --project src/Subrom.Server
+```
+
+#### Option 2: System Tray Application
+
+```powershell
+# Build and run tray application
+dotnet run --project src/Subrom.Tray
+```
+
+Right-click the tray icon to access:
+- Open in Browser
+- Start/Stop Server  
+- Settings
+- Exit
+
+#### Option 3: Windows Service
+
+```powershell
+# Build the service
+dotnet publish src/Subrom.Service -c Release -o C:\Subrom
+
+# Install as Windows Service (Admin PowerShell)
+sc.exe create SubromService binPath="C:\Subrom\Subrom.Service.exe" start=auto
+sc.exe start SubromService
+```
+
+</details>
+
+<details>
+<summary><b>🐧 Linux</b></summary>
 
 #### Option 1: From Source
 
@@ -103,33 +165,97 @@ cd ..
 dotnet run --project src/Subrom.Server
 ```
 
+#### Option 2: Publish & Install as systemd Service
+
+```bash
+# Build self-contained release
+dotnet publish src/Subrom.Server -c Release -r linux-x64 --self-contained -o ./release
+
+# Copy to installation directory
+sudo cp -r ./release/* /opt/subrom/
+sudo cp scripts/linux/subrom.service /etc/systemd/system/
+
+# Create service user
+sudo useradd --system --no-create-home subrom
+
+# Set permissions
+sudo chown -R subrom:subrom /opt/subrom
+sudo chmod +x /opt/subrom/Subrom.Server
+
+# Enable and start service
+sudo systemctl daemon-reload
+sudo systemctl enable subrom
+sudo systemctl start subrom
+```
+
+#### Check Status
+
+```bash
+sudo systemctl status subrom
+sudo journalctl -u subrom -f
+```
+
+</details>
+
+<details>
+<summary><b>🍎 macOS</b></summary>
+
+#### Option 1: From Source
+
+```bash
+# Clone the repository
+git clone https://github.com/TheAnsarya/subrom.git
+cd subrom
+
+# Build backend
+dotnet build Subrom.sln
+
+# Build frontend
+cd subrom-ui
+yarn install
+yarn build
+cd ..
+
+# Run the server
+dotnet run --project src/Subrom.Server
+```
+
+#### Option 2: Publish & Install as launchd Service
+
+```bash
+# Build self-contained release (Apple Silicon)
+dotnet publish src/Subrom.Server -c Release -r osx-arm64 --self-contained -o ./release
+
+# Or for Intel Macs
+dotnet publish src/Subrom.Server -c Release -r osx-x64 --self-contained -o ./release
+
+# Copy to Applications
+sudo mkdir -p /Applications/Subrom
+sudo cp -r ./release/* /Applications/Subrom/
+sudo cp scripts/macos/com.subrom.server.plist ~/Library/LaunchAgents/
+
+# Start service
+launchctl load ~/Library/LaunchAgents/com.subrom.server.plist
+```
+
+#### Check Status
+
+```bash
+launchctl list | grep subrom
+tail -f /tmp/subrom.log
+```
+
+</details>
+
 The server will start at `http://localhost:52100`
 
-#### Option 2: Development Mode
+### Data Locations
 
-```bash
-# Terminal 1 - Backend
-dotnet run --project src/Subrom.Server
-
-# Terminal 2 - Frontend (hot reload)
-cd subrom-ui
-yarn dev
-```
-
-Frontend dev server: `http://localhost:5173`
-
-#### Option 3: System Tray (Windows)
-
-```bash
-# Build and run tray application
-dotnet run --project src/Subrom.Tray
-```
-
-Right-click the tray icon to access:
-- Open in Browser
-- Start/Stop Server
-- Settings
-- Exit
+| Platform | Data Directory | Logs |
+|----------|----------------|------|
+| Windows | `%LOCALAPPDATA%\Subrom\` | `%LOCALAPPDATA%\Subrom\logs\` |
+| Linux | `~/.config/subrom/` | `~/.config/subrom/logs/` |
+| macOS | `~/Library/Application Support/Subrom/` | `~/Library/Logs/Subrom/` |
 
 ### First Steps
 
@@ -185,7 +311,7 @@ See [API Reference](~docs/api-reference.md) for full documentation.
 
 ## Configuration
 
-Settings in `appsettings.json`:
+Settings stored in `appsettings.json` in the application directory:
 
 ```json
 {
@@ -197,9 +323,10 @@ Settings in `appsettings.json`:
 }
 ```
 
-Data stored in `%LOCALAPPDATA%/Subrom/`:
-- `subrom.db` - SQLite database
-- `logs/` - Application logs
+To change the port or bind address, set the environment variable:
+```bash
+ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
+```
 
 ## Documentation
 

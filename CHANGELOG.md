@@ -8,9 +8,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+- Cross-platform tray app (Avalonia)
+- Multi-drive parallel scanning
 - Performance benchmarks
 - Windows installer (MSI)
 - Docker image
+
+## [1.0.0] - 2026-01-22
+
+### Added
+- **Cross-Platform Support** 🎉
+  - Full Windows, Linux, and macOS support
+  - `PlatformHelper` utility class for cross-platform directory resolution
+  - Platform-specific data directories (XDG on Linux, Application Support on macOS)
+  - Linux systemd service configuration
+  - macOS launchd service configuration
+  - Installation scripts for Linux and macOS
+  - 16 new unit tests for platform utilities
+
+- **Settings Persistence**
+  - AppSettings domain entity with comprehensive configuration
+  - Settings API endpoints (GET, PUT, PATCH per category, POST reset)
+  - Scanning, organization, UI, storage, and verification settings
+  - Settings persist across server restarts
+  - 27 unit tests for settings
+
+- **Global Error Handling**
+  - `/error` endpoint with ProblemDetails response format
+  - Exception type mapping (404 for KeyNotFoundException, 400 for InvalidOperation)
+  - Development vs production error detail levels
+
+- **Documentation**
+  - Comprehensive platform-specific installation guides
+  - Manual testing guide (112 test cases)
+  - Cross-platform deployment documentation
+
+### Changed
+- Test count: 375 (up from 332)
+- Server now logs platform name on startup
+- Data/log directories use platform-appropriate locations
 
 ## [1.0.0-rc1] - 2026-01-22
 

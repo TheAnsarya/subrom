@@ -8,7 +8,7 @@ Build a modern, efficient ROM management system that rivals RomVault and ClrMame
 
 **Run Anywhere:** Windows, Linux, macOS
 
-## Current Status: 1.0.0-rc1 🎉
+## Current Status: 1.0.0 🎉
 
 **Released:** January 22, 2026
 
@@ -20,8 +20,9 @@ All core features complete:
 - ✅ File organization with templates
 - ✅ Multi-drive support
 - ✅ Web UI with real-time updates
+- ✅ Cross-platform (Windows, Linux, macOS)
 - ✅ System tray app (Windows)
-- ✅ 359 unit tests passing
+- ✅ 375 unit tests passing
 
 ---
 
@@ -29,39 +30,35 @@ All core features complete:
 
 | Version | Target | Status | Focus |
 |---------|--------|--------|-------|
-| 1.0.0-rc1 | Jan 2026 | ✅ Released | Core features, testing |
-| 1.0.0-rc2 | Jan 2026 | 🎯 Next | Cross-platform parity |
-| 1.0.0 | Feb 2026 | 📋 Planned | Stability, bug fixes |
-| 1.1.0 | Q2 2026 | 📋 Planned | Performance, UX polish |
+| 1.0.0 | Jan 2026 | ✅ Released | Cross-platform, core features |
+| 1.1.0 | Q2 2026 | 🎯 Next | Performance, UX polish |
 | 1.2.0 | Q3 2026 | 📋 Planned | Integration features |
 | 2.0.0 | Q4 2026 | 📋 Planned | Major enhancements |
 
 ---
 
-## 1.0.0 Final Release (February 2026)
+## 1.0.0 Final Release ✅ Complete
 
 **Goal:** Production-ready stable release with cross-platform support
 
-### Cross-Platform Support (REQUIRED for 1.0.0)
+### Cross-Platform Support ✅ DONE
 
 | Platform | Server | Web UI | Tray App | Service |
 |----------|--------|--------|----------|---------|
-| **Windows** | ✅ Ready | ✅ Ready | ✅ Ready | ✅ Ready |
-| **Linux** | ✅ Ready | ✅ Ready | ⏸️ 1.1.0 | 🔲 systemd |
-| **macOS** | ✅ Ready | ✅ Ready | ⏸️ 1.1.0 | 🔲 launchd |
-
-**Core server is already cross-platform!** Only service integration and documentation needed.
+| **Windows** | ✅ | ✅ | ✅ | ✅ |
+| **Linux** | ✅ | ✅ | ⏸️ 1.1.0 | ✅ systemd |
+| **macOS** | ✅ | ✅ | ⏸️ 1.1.0 | ✅ launchd |
 
 See [cross-platform-plan.md](cross-platform-plan.md) for full details.
 
-### Focus Areas
+### Completed Features
 
-- [ ] Cross-platform support (Linux, macOS)
-- [ ] Manual testing completion (112 test cases)
-- [ ] Bug fixes from rc1 testing
-- [ ] Windows installer (MSI)
-- [ ] Linux/macOS release packages
-- [ ] Final documentation review
+- ✅ Cross-platform support (Linux, macOS)
+- ✅ Platform-aware data directory resolution
+- ✅ systemd and launchd service configs
+- ✅ Installation scripts
+- ✅ Comprehensive documentation
+- ✅ 375 unit tests passing
 
 ---
 

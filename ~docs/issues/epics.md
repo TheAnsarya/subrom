@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 22, 2026 (Cross-Platform Planning)
+**Last Updated:** January 22, 2026 (1.0.0 Released!)
 
 ## Epic Overview
 
@@ -20,8 +20,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
-| #13 | Release 1.0.0 | 🟡 In Progress | 28 | 60% |
-| #14 | Performance & Polish | ⚪ Planned | 14 | 0% |
+| #13 | Release 1.0.0 | ✅ Complete | 28 | 100% |
+| #14 | Performance & Polish | 🎯 Next | 14 | 0% |
 
 ---
 

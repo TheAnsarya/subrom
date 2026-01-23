@@ -1,12 +1,12 @@
-# Subrom 1.0.0-rc1 Manual Testing Guide
+# Subrom 1.0.0 Manual Testing Guide
 
-**Version:** 1.0.0-rc1
+**Version:** 1.0.0
 **Date:** January 22, 2026
 **Tester:** _______________
 
 ## Overview
 
-This document provides comprehensive manual testing procedures for Subrom 1.0.0-rc1 release candidate. All tests should be completed before approving the release.
+This document provides comprehensive manual testing procedures for Subrom 1.0.0. All tests should be completed to verify the release quality.
 
 ## Test Environment Setup
 
