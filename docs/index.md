@@ -12,6 +12,7 @@ Welcome to Subrom - a ROM management and verification toolkit.
 ### For Developers
 - [API Reference](api-reference.md) - REST API documentation
 - [Architecture Overview](plans/current-architecture.md) - System design
+- [CI/CD Guide](ci-cd.md) - GitHub Actions workflows
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
 
 ### Downloads

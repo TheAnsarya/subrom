@@ -2,6 +2,7 @@
 
 **Modern ROM Collection Manager - A feature-rich alternative to RomVault and ClrMame Pro**
 
+[![CI](https://github.com/TheAnsarya/subrom/actions/workflows/ci.yml/badge.svg)](https://github.com/TheAnsarya/subrom/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-1.2.0-blue)](CHANGELOG.md)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
