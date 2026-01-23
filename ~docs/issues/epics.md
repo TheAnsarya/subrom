@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 22, 2026 (RC1 Preparation)
+**Last Updated:** January 22, 2026 (RC1 Released)
 
 ## Epic Overview
 
@@ -20,7 +20,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
-| #13 | Release 1.0.0 | 🟡 In Progress | 17 | 50% |
+| #13 | Release 1.0.0 | 🟡 In Progress | 20 | 70% |
+| #14 | Performance & Polish | ⚪ Planned | 14 | 0% |
 
 ---
 
@@ -710,17 +711,24 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ---
 
-## Epic #13: Release 1.0.0 (NEW)
+## Epic #13: Release 1.0.0
 
 **Goal:** Prepare and release Subrom version 1.0.0
 
 **Labels:** `epic`, `release`, `priority-critical`
 
-**Status:** 🟡 In Progress (50% → RC1 Ready)
+**Status:** 🟡 In Progress (RC1 Released)
 
 **Created:** January 22, 2026
 
 **Reference:** See [release-1.0.0-plan.md](../plans/release-1.0.0-plan.md) for detailed plan
+
+### Milestones
+
+| Milestone | Target | Status |
+|-----------|--------|--------|
+| 1.0.0-rc1 | Jan 22, 2026 | ✅ Released |
+| 1.0.0 Final | Feb 2026 | ⬜ Pending |
 
 ### Sub-Epic #13.1: Critical Fixes
 
@@ -731,7 +739,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #800 | Add global error handling endpoint | ✅ Done | HIGH |
 | #801 | Create CHANGELOG.md | ✅ Done | HIGH |
 | #802 | Update README with installation guide | ✅ Done | HIGH |
-| #803 | Version bump to 1.0.0-rc1 | 🟡 In Progress | HIGH |
+| #803 | Version bump to 1.0.0-rc1 | ✅ Done | HIGH |
+| #804 | Implement Settings persistence | ✅ Done | HIGH |
 
 ### Sub-Epic #13.2: Documentation
 
@@ -744,6 +753,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #812 | Document build/deployment process | ⬜ Todo | MEDIUM |
 | #813 | Add inline code documentation | ⬜ Todo | LOW |
 | #814 | Create manual testing guide | ✅ Done | HIGH |
+| #815 | Update roadmap for post-1.0 | ✅ Done | MEDIUM |
 
 ### Sub-Epic #13.3: Testing & QA
 
@@ -758,14 +768,57 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 
 ### Sub-Epic #13.4: Release Artifacts
 
-**Parent:** #13 | **Status:** ⬜ Not Started
+**Parent:** #13 | **Status:** 🟡 In Progress
 
 | # | Title | Status | Priority |
 |---|-------|--------|----------|
 | #830 | Create Windows x64 release build | ⬜ Todo | HIGH |
 | #831 | Create MSI installer | ⬜ Todo | MEDIUM |
 | #832 | Create portable ZIP release | ⬜ Todo | MEDIUM |
-| #833 | Set up GitHub release workflow | ⬜ Todo | HIGH |
+| #833 | Set up GitHub release workflow | ✅ Done | HIGH |
+| #834 | Create GitHub release v1.0.0-rc1 | ✅ Done | HIGH |
+
+---
+
+## Epic #14: Version 1.1.0 - Performance & Polish (PLANNED)
+
+**Goal:** Optimize performance and improve user experience
+
+**Labels:** `epic`, `performance`, `ux`, `priority-medium`
+
+**Status:** ⚪ Planned (Post 1.0.0)
+
+**Target:** Q2 2026
+
+**Reference:** See [roadmap.md](../plans/roadmap.md) for details
+
+### Sub-Epic #14.1: Performance Improvements
+
+| # | Title | Priority | Notes |
+|---|-------|----------|-------|
+| #840 | Multi-drive parallel scanning | HIGH | Distribute I/O across drives |
+| #841 | Memory-mapped file hashing | HIGH | For large files >100MB |
+| #842 | Database query optimization | MEDIUM | Add indexes, batch ops |
+| #843 | Archive caching | MEDIUM | Cache extracted files |
+| #844 | UI lazy loading | MEDIUM | Load ROM details on demand |
+
+### Sub-Epic #14.2: UX Improvements
+
+| # | Title | Priority | Notes |
+|---|-------|----------|-------|
+| #850 | Scan queue management | HIGH | Pause, resume, reorder |
+| #851 | Batch operations UI | HIGH | Multi-select operations |
+| #852 | Keyboard shortcuts | MEDIUM | Power user nav |
+| #853 | Export results | MEDIUM | CSV/JSON export |
+| #854 | Settings UI connection | HIGH | Connect UI to Settings API |
+
+### Sub-Epic #14.3: Quality of Life
+
+| # | Title | Priority | Notes |
+|---|-------|----------|-------|
+| #860 | Recent files list | HIGH | Quick access |
+| #861 | Favorites/bookmarks | MEDIUM | Mark frequent items |
+| #862 | Customizable columns | MEDIUM | Show/hide columns |
 
 ---
 

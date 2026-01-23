@@ -1,202 +1,269 @@
 # Subrom Project Roadmap
 
+**Last Updated:** January 22, 2026 (1.0.0-rc1)
+
 ## Vision
 
 Build a modern, efficient ROM management system that rivals RomVault and ClrMame Pro, with a beautiful web-based UI, robust offline support, and intelligent DAT file management from all major providers.
 
-## Project Phases
+## Current Status: 1.0.0-rc1 🎉
 
-### Phase 1: Foundation (Current) 🚧
+**Released:** January 22, 2026
 
-**Goal:** Establish core infrastructure and basic DAT file support
-
-**Timeline:** Q1 2026
-
-**Deliverables:**
-- [x] Domain models for DAT files (Datafile, Game, Rom, etc.)
-- [x] Hash computation service (CRC32, MD5, SHA1)
-- [x] Basic project structure with layered architecture
-- [ ] Complete DAT file parsing (XML format)
-- [ ] DAT file parsing (ClrMame Pro format)
-- [ ] Database schema for ROM catalog
-- [ ] File scanner service
-- [ ] Basic CLI interface
-
-**GitHub Epic:** #1 - Foundation Infrastructure
+All core features complete:
+- ✅ DAT parsing (Logiqx XML, ClrMamePro)
+- ✅ ROM scanning with archive support
+- ✅ Hash computation (CRC32, MD5, SHA1)
+- ✅ ROM verification
+- ✅ File organization with templates
+- ✅ Multi-drive support
+- ✅ Web UI with real-time updates
+- ✅ System tray app
+- ✅ 359 unit tests passing
 
 ---
 
-### Phase 2: DAT Providers (Q2 2026) 📋
+## Release Schedule
 
-**Goal:** Integrate with major DAT file providers
-
-**Timeline:** Q2 2026
-
-**Deliverables:**
-- [ ] No-Intro DAT downloader and parser
-- [ ] TOSEC DAT downloader and parser
-- [ ] Redump DAT support
-- [ ] GoodSets DAT support (legacy)
-- [ ] MAME DAT support
-- [ ] DAT update service with scheduling
-- [ ] DAT version tracking and diff detection
-- [ ] DAT merge/conflict resolution
-
-**GitHub Epic:** #2 - DAT Provider Integration
+| Version | Target | Status | Focus |
+|---------|--------|--------|-------|
+| 1.0.0-rc1 | Jan 2026 | ✅ Released | Core features, testing |
+| 1.0.0 | Feb 2026 | 🎯 Next | Stability, bug fixes |
+| 1.1.0 | Q2 2026 | 📋 Planned | Performance, UX polish |
+| 1.2.0 | Q3 2026 | 📋 Planned | Integration features |
+| 2.0.0 | Q4 2026 | 📋 Planned | Major enhancements |
 
 ---
 
-### Phase 3: ROM Scanning & Verification (Q2-Q3 2026) 🔍
+## 1.0.0 Final Release (February 2026)
 
-**Goal:** Build comprehensive ROM scanning and verification engine
+**Goal:** Production-ready stable release
 
-**Timeline:** Q2-Q3 2026
-
-**Deliverables:**
-- [ ] Recursive folder scanner
-- [ ] Archive support (ZIP, 7z, RAR)
-- [ ] ROM header detection and removal
-- [ ] Hash database with indexing
-- [ ] ROM verification against DAT files
-- [ ] Missing ROM detection
-- [ ] Duplicate detection
-- [ ] Bad dump identification
-- [ ] Scan progress and resumability
-
-**GitHub Epic:** #3 - ROM Scanning Engine
+**Focus Areas:**
+- [ ] Manual testing completion (112 test cases)
+- [ ] Bug fixes from rc1 testing
+- [ ] Performance profiling and optimization
+- [ ] Windows installer (MSI)
+- [ ] Portable ZIP release
+- [ ] Final documentation review
 
 ---
 
-### Phase 4: File Organization (Q3 2026) ✅ COMPLETE
+## 1.1.0 - Performance & Polish (Q2 2026)
 
-**Goal:** Implement intelligent ROM organization system
+**Goal:** Optimize performance and improve user experience
 
-**Timeline:** Q3 2026
+### Performance Improvements
 
-**Status:** Completed (10/10 issues)
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Multi-drive parallel scanning | Spread I/O load across drives during scan | HIGH |
+| Memory-mapped file hashing | Use MemoryMappedFiles for large ROMs (>100MB) | HIGH |
+| Database query optimization | Add missing indexes, batch operations | MEDIUM |
+| Archive caching | Cache extracted files for repeated access | MEDIUM |
+| Lazy loading in UI | Load ROM details on demand | MEDIUM |
 
-**Deliverables:**
-- [x] Configurable folder structures (5 built-in templates)
-- [x] ROM renaming engine (TemplateParser with placeholders)
-- [x] 1G1R (1 Game 1 ROM) support (OneGameOneRomService)
-- [x] Region/language prioritization (configurable priority lists)
-- [x] Parent/clone organization (DAT-based and inference)
-- [x] Move/copy operations with rollback (OrganizationService)
-- [x] Dry-run mode (PlanAsync)
-- [x] Operation logging and undo (OrganizationOperationLog)
+#### Multi-Drive Parallel Scanning
 
-**Key Components:**
-- `OrganizationTemplate` - Entity with built-in templates
-- `TemplateParser` - Parse and validate template strings  
-- `IOrganizationService` - Plan, execute, rollback operations
-- `IOneGameOneRomService` - 1G1R filtering with scoring
-- `IParentCloneService` - Parent/clone relationship management
-- `OrganizationOperationLog` - Persistent operation history
+Current behavior: Sequential scanning across drives
+Proposed: Parallel I/O across different physical drives
 
-**GitHub Epic:** #35 (Closed)
+```
+Before: Drive A → Drive B → Drive C (serial)
+After:  Drive A ↘
+        Drive B → (parallel, I/O distributed)  
+        Drive C ↗
+```
 
----
+Benefits:
+- Better utilization of multiple physical disks
+- Reduced total scan time for multi-drive collections
+- Configurable parallelism per drive type (SSD vs HDD)
 
-### Phase 5: Storage Management (Q3-Q4 2026) ✅ COMPLETE
+#### Memory-Mapped Hashing
 
-**Goal:** Multi-drive and offline storage support
+For large files (>100MB), use memory-mapped files instead of FileStream:
+- Reduces memory pressure
+- Allows OS to manage page caching
+- Better performance for very large files (ISO, disc images)
 
-**Timeline:** Q3-Q4 2026
+### UX Improvements
 
-**Status:** Completed (8/8 issues)
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Scan queue management | Pause, resume, reorder scan queue | HIGH |
+| Batch operations UI | Select multiple ROMs for operations | HIGH |
+| Keyboard shortcuts | Power user navigation | MEDIUM |
+| Export results | CSV/JSON export of verification results | MEDIUM |
+| UI loading states | Skeleton loaders, better feedback | LOW |
+| Responsive mobile design | Basic mobile-friendly layout | LOW |
 
-**Deliverables:**
-- [x] Multi-drive ROM storage (Drive entity)
-- [x] Drive registration and tracking (DriveRepository)
-- [x] Offline drive handling (IsOnline, MarkOffline/MarkOnline)
-- [x] Drive space monitoring (TotalSize, FreeSpace)
-- [x] ROM location database (RomFile linked to Drive)
-- [x] Missing drive notifications (DriveStatusChangedEventArgs)
-- [x] Automatic relocation suggestions (GetRelocationSuggestionsAsync)
-- [x] Network drive support (UNC paths, auto-detection)
+### Quality of Life
 
-**Key Components:**
-- `Drive` - Aggregate root with online/offline tracking
-- `RomFile` - ROM entity linked to drives
-- `DriveService` - Application service for drive CRUD
-- `IStorageMonitorService` - Monitoring interface
-- `StorageMonitorService` - Implementation with duplicates/relocation
-
-**GitHub Epic:** #36 (Closed)
-
----
-
-### Phase 6: Web UI (Q4 2026) 🎨
-
-**Goal:** Modern React-based web interface
-
-**Timeline:** Q4 2026
-
-**Deliverables:**
-- [ ] Dashboard with collection overview
-- [ ] DAT file browser and manager
-- [ ] ROM collection navigator
-- [ ] Search and filter functionality
-- [ ] Scan progress visualization
-- [ ] Settings and configuration UI
-- [ ] Dark/light theme support
-- [ ] Responsive design
-
-**GitHub Epic:** #6 - Web UI
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Recent files list | Quick access to recently used DATs | HIGH |
+| Favorites/bookmarks | Mark frequently used items | MEDIUM |
+| Search history | Remember recent searches | LOW |
+| Customizable columns | Show/hide columns in ROM list | MEDIUM |
 
 ---
 
-### Phase 7: Advanced Features (2027) 🚀
+## 1.2.0 - Integrations (Q3 2026)
 
-**Goal:** Power user features and integrations
+**Goal:** Connect with external tools and services
 
-**Timeline:** 2027
+### Emulator Integrations
 
-**Deliverables:**
-- [ ] ROM download integration
-- [ ] RetroArch playlist generation
-- [ ] EmulationStation gamelist.xml generation
-- [ ] Box art and metadata scraping
-- [ ] Collection statistics and reports
-- [ ] Backup and restore
-- [ ] Plugin system
-- [ ] API for external tools
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| RetroArch playlist export | Generate .lpl playlist files | HIGH |
+| EmulationStation gamelist | Generate gamelist.xml for ES | HIGH |
+| LaunchBox import/export | Interop with LaunchBox databases | MEDIUM |
 
-**GitHub Epic:** #7 - Advanced Features
+### File Management
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Watch folders | Auto-scan when files added | HIGH |
+| Scheduled scans | Run scans on schedule | MEDIUM |
+| File integrity checking | Periodic hash verification | MEDIUM |
+| Compression optimization | Recompress archives (torrentzip) | LOW |
+
+### Reporting
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Collection statistics | Charts, graphs, completion % | HIGH |
+| Missing ROMs report | Exportable missing list | HIGH |
+| Duplicate report | Find and manage duplicates | MEDIUM |
+| DAT coverage report | Which DATs have matches | MEDIUM |
 
 ---
 
-## Technology Stack
+## 2.0.0 - Major Enhancements (Q4 2026)
+
+**Goal:** Power user features and extensibility
+
+### Advanced Features
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| DAT editor | Create/modify DAT files | MEDIUM |
+| Custom hash algorithms | Support additional hashes | LOW |
+| Scripting support | PowerShell/Python automation | MEDIUM |
+| Backup/restore | Database and settings backup | HIGH |
+
+### Multi-User Support
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| User accounts | Multiple users, separate settings | MEDIUM |
+| Shared database | Network database option | LOW |
+| Permission levels | Admin/user roles | LOW |
+
+### Platform Support
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Linux support | Service and CLI for Linux | MEDIUM |
+| Docker image | Containerized deployment | MEDIUM |
+| macOS support | Basic macOS compatibility | LOW |
+
+---
+
+## Deferred/Reconsidered Features
+
+The following features from the original roadmap have been reconsidered:
+
+| Feature | Original Plan | Decision | Reason |
+|---------|--------------|----------|--------|
+| ROM download integration | 2027 | ❌ Removed | Legal concerns, out of scope |
+| Box art scraping | 2027 | ⏸️ Deferred | Nice-to-have, not core |
+| Plugin system | 2027 | ⏸️ Deferred | Complexity, limited benefit |
+| LiteDB option | Phase 1 | ❌ Removed | SQLite sufficient |
+| DAT auto-sync | Phase 2 | ⏸️ Deferred | Providers block automation |
+
+---
+
+## Technical Stack
 
 ### Backend
-- **.NET 8+** - Core runtime
-- **ASP.NET Core** - Web API
-- **Entity Framework Core** - Database ORM
-- **SQLite** - Local database
-- **LiteDB** - Document storage option
+- **Runtime:** .NET 10 with C# 14
+- **Database:** SQLite with EF Core (WAL mode)
+- **API:** ASP.NET Core Minimal APIs
+- **Real-time:** SignalR for progress streaming
+- **Hashing:** Built-in + optimized implementations
+- **Compression:** SharpCompress, 7-Zip SDK
 
 ### Frontend
-- **React 18+** - UI framework
-- **TypeScript** - Type safety
-- **TailwindCSS** - Styling
-- **React Query** - Data fetching
-- **React Router** - Navigation
+- **Framework:** React 19 with TypeScript 5.8
+- **State:** Zustand for global state
+- **UI:** FontAwesome icons, CSS Modules
+- **Build:** Vite 6.0
+- **Lists:** react-window for virtualization
 
-### Infrastructure
-- **GitHub Actions** - CI/CD
-- **Docker** - Containerization (optional)
+### Desktop
+- **System Tray:** Windows Service + WebView2
+- **Notifications:** Windows toast notifications
 
 ---
 
 ## Success Metrics
 
-1. **Performance:** Scan 10,000 files in under 60 seconds
-2. **Accuracy:** 100% hash verification accuracy
-3. **Reliability:** Zero data loss during organization
-4. **Usability:** < 5 minute setup to first scan
-5. **Coverage:** Support all major DAT providers
+### Performance Targets
+
+| Metric | Target | Current |
+|--------|--------|---------|
+| Scan 10,000 ROMs | < 5 minutes | ✅ Met |
+| Hash 1GB file | < 30 seconds | ✅ Met |
+| UI response time | < 100ms | ✅ Met |
+| Memory usage (scan) | < 500MB | ✅ Met |
+
+### Quality Targets
+
+| Metric | Target | Current |
+|--------|--------|---------|
+| Unit test coverage | > 80% | ~85% |
+| Build warnings | 0 | ✅ 0 |
+| Test count | 300+ | ✅ 359 |
 
 ---
+
+## Contributing
+
+We welcome contributions! Priority areas:
+
+- 🐛 Bug reports and fixes
+- 📖 Documentation improvements
+- 🧪 Test coverage expansion
+- 🎨 UI/UX improvements
+- 🔧 Performance optimizations
+
+### Getting Started
+
+```bash
+# Clone repository
+git clone https://github.com/TheAnsarya/subrom.git
+cd subrom
+
+# Backend
+dotnet build
+dotnet test
+
+# Frontend
+cd subrom-ui
+yarn install
+yarn dev
+```
+
+---
+
+## Links
+
+- **Repository:** [github.com/TheAnsarya/subrom](https://github.com/TheAnsarya/subrom)
+- **Releases:** [GitHub Releases](https://github.com/TheAnsarya/subrom/releases)
+- **Issues:** [GitHub Issues](https://github.com/TheAnsarya/subrom/issues)
 
 ## Risk Mitigation
 
