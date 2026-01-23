@@ -1,0 +1,7 @@
+#!/bin/bash
+# preinstall script for Subrom macOS
+
+# Stop existing service if running
+launchctl unload ~/Library/LaunchAgents/com.subrom.server.plist 2>/dev/null || true
+
+exit 0

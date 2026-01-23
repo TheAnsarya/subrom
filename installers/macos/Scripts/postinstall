@@ -1,0 +1,19 @@
+#!/bin/bash
+# postinstall script for Subrom macOS
+
+# Create data directories
+mkdir -p "$HOME/Library/Application Support/Subrom"
+mkdir -p "$HOME/Library/Logs/Subrom"
+
+# Set permissions
+chmod 755 /Applications/Subrom.app/Contents/MacOS/Subrom.Server
+
+# Load launch agent
+if [ -f "$HOME/Library/LaunchAgents/com.subrom.server.plist" ]; then
+	launchctl load "$HOME/Library/LaunchAgents/com.subrom.server.plist"
+fi
+
+echo "Subrom installed successfully!"
+echo "Access the web interface at http://localhost:5678"
+
+exit 0

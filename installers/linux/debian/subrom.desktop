@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Subrom
+Comment=ROM management and verification toolkit
+Exec=/opt/subrom/Subrom.Server
+Icon=subrom
+Terminal=false
+Type=Application
+Categories=Utility;System;
+Keywords=ROM;emulation;DAT;verification;
+StartupNotify=true

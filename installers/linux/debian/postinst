@@ -1,0 +1,47 @@
+#!/bin/bash
+# postinst script for subrom
+
+set -e
+
+case "$1" in
+	configure)
+		# Create subrom user if it doesn't exist
+		if ! id -u subrom >/dev/null 2>&1; then
+			useradd --system --no-create-home --shell /usr/sbin/nologin subrom
+		fi
+
+		# Create data directories
+		mkdir -p /var/lib/subrom
+		mkdir -p /var/log/subrom
+		mkdir -p /etc/subrom
+
+		# Set ownership
+		chown -R subrom:subrom /var/lib/subrom
+		chown -R subrom:subrom /var/log/subrom
+		chown -R subrom:subrom /etc/subrom
+
+		# Set permissions
+		chmod 755 /opt/subrom
+		chmod 755 /opt/subrom/Subrom.Server
+
+		# Reload systemd
+		systemctl daemon-reload
+
+		# Enable and start service
+		systemctl enable subrom.service
+		systemctl start subrom.service
+
+		echo "Subrom installed successfully!"
+		echo "Access the web interface at http://localhost:5678"
+		;;
+
+	abort-upgrade|abort-remove|abort-deconfigure)
+		;;
+
+	*)
+		echo "postinst called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac
+
+exit 0

@@ -1,0 +1,183 @@
+name: Build Installers
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (e.g., 1.2.0)'
+        required: true
+        default: '1.2.0'
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          if ("${{ github.event.inputs.version }}") {
+            $version = "${{ github.event.inputs.version }}"
+          } else {
+            $version = "${{ github.ref_name }}".TrimStart('v')
+          }
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Install WiX Toolset
+        shell: pwsh
+        run: dotnet tool install --global wix
+
+      - name: Build MSI Installer
+        shell: pwsh
+        run: |
+          $env:VERSION = "${{ steps.version.outputs.VERSION }}"
+          .\installers\windows\build.ps1 -Version $env:VERSION
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-msi
+          path: installers/windows/bin/Release/*.msi
+
+  build-linux-deb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version="${{ github.event.inputs.version }}"
+          else
+            version="${{ github.ref_name }}"
+            version="${version#v}"
+          fi
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+
+      - name: Build DEB package
+        run: |
+          chmod +x installers/linux/build-deb.sh
+          VERSION=${{ steps.version.outputs.VERSION }} ./installers/linux/build-deb.sh
+
+      - name: Upload DEB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb
+          path: installers/linux/dist/*.deb
+
+  build-linux-appimage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version="${{ github.event.inputs.version }}"
+          else
+            version="${{ github.ref_name }}"
+            version="${version#v}"
+          fi
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+
+      - name: Install FUSE
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfuse2
+
+      - name: Build AppImage
+        run: |
+          chmod +x installers/linux/build-appimage.sh
+          VERSION=${{ steps.version.outputs.VERSION }} ./installers/linux/build-appimage.sh
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-appimage
+          path: installers/linux/dist/*.AppImage
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version="${{ github.event.inputs.version }}"
+          else
+            version="${{ github.ref_name }}"
+            version="${version#v}"
+          fi
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+
+      - name: Build PKG installer
+        run: |
+          chmod +x installers/macos/build-pkg.sh
+          chmod +x installers/macos/Scripts/*
+          VERSION=${{ steps.version.outputs.VERSION }} ./installers/macos/build-pkg.sh
+
+      - name: Upload PKG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-pkg
+          path: installers/macos/dist/*.pkg
+
+  release:
+    needs: [build-windows, build-linux-deb, build-linux-appimage, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/windows-msi/*.msi
+            artifacts/linux-deb/*.deb
+            artifacts/linux-appimage/*.AppImage
+            artifacts/macos-pkg/*.pkg
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}

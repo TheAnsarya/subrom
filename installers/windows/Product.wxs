@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Subrom Windows Installer
+	WiX Toolset v5 Configuration
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
+	<?define ProductName = "Subrom" ?>
+	<?define ProductVersion = "1.2.0" ?>
+	<?define Manufacturer = "Subrom Project" ?>
+	<?define UpgradeCode = "a1b2c3d4-e5f6-7890-abcd-ef1234567890" ?>
+
+	<Package
+		Name="$(ProductName)"
+		Version="$(ProductVersion)"
+		Manufacturer="$(Manufacturer)"
+		UpgradeCode="$(UpgradeCode)"
+		Language="1033"
+		Codepage="1252"
+		InstallerVersion="500"
+		Scope="perMachine"
+		Compressed="yes">
+
+		<SummaryInformation
+			Description="$(ProductName) $(ProductVersion) Installer"
+			Manufacturer="$(Manufacturer)" />
+
+		<!-- Upgrade handling -->
+		<MajorUpgrade
+			DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+			AllowSameVersionUpgrades="yes" />
+
+		<!-- Embed CAB in MSI -->
+		<MediaTemplate EmbedCab="yes" />
+
+		<!-- Custom actions for service management -->
+		<CustomAction
+			Id="StopService"
+			Directory="INSTALLFOLDER"
+			ExeCommand="[SystemFolder]net.exe stop SubromService"
+			Execute="deferred"
+			Impersonate="no"
+			Return="ignore" />
+
+		<CustomAction
+			Id="StartService"
+			Directory="INSTALLFOLDER"
+			ExeCommand="[SystemFolder]net.exe start SubromService"
+			Execute="deferred"
+			Impersonate="no"
+			Return="ignore" />
+
+		<!-- Install sequence -->
+		<InstallExecuteSequence>
+			<Custom Action="StopService" Before="InstallFiles">
+				<![CDATA[Installed AND NOT UPGRADINGPRODUCTCODE]]>
+			</Custom>
+			<Custom Action="StartService" After="InstallFiles">
+				<![CDATA[NOT Installed OR UPGRADINGPRODUCTCODE]]>
+			</Custom>
+		</InstallExecuteSequence>
+
+		<!-- Properties -->
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+		<Property Id="ARPURLINFOABOUT" Value="https://github.com/TheAnsarya/subrom" />
+		<Property Id="ARPURLUPDATEINFO" Value="https://github.com/TheAnsarya/subrom/releases" />
+		<Property Id="ARPHELPLINK" Value="https://github.com/TheAnsarya/subrom/issues" />
+
+		<!-- Features -->
+		<Feature Id="ProductFeature" Title="Subrom" Level="1" ConfigurableDirectory="INSTALLFOLDER">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="ServiceComponents" />
+			<ComponentGroupRef Id="TrayComponents" />
+			<ComponentGroupRef Id="ShortcutComponents" />
+		</Feature>
+
+		<!-- UI -->
+		<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+
+	</Package>
+</Wix>

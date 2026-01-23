@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.subrom.server</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Applications/Subrom.app/Contents/MacOS/Subrom.Server</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>~/Library/Logs/Subrom/stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>~/Library/Logs/Subrom/stderr.log</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>ASPNETCORE_URLS</key>
+		<string>http://localhost:5678</string>
+		<key>ASPNETCORE_ENVIRONMENT</key>
+		<string>Production</string>
+		<key>SUBROM_DATA_DIR</key>
+		<string>~/Library/Application Support/Subrom</string>
+		<key>SUBROM_LOG_DIR</key>
+		<string>~/Library/Logs/Subrom</string>
+	</dict>
+</dict>
+</plist>

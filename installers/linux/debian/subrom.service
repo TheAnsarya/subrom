@@ -1,0 +1,27 @@
+[Unit]
+Description=Subrom ROM Management Service
+Documentation=https://github.com/TheAnsarya/subrom
+After=network.target
+
+[Service]
+Type=simple
+User=subrom
+Group=subrom
+WorkingDirectory=/opt/subrom
+ExecStart=/opt/subrom/Subrom.Server
+Restart=always
+RestartSec=10
+Environment=ASPNETCORE_URLS=http://localhost:5678
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=SUBROM_DATA_DIR=/var/lib/subrom
+Environment=SUBROM_LOG_DIR=/var/log/subrom
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/subrom /var/log/subrom
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+{
+	"version": "1.2.0",
+	"major": 1,
+	"minor": 2,
+	"patch": 0,
+	"prerelease": null,
+	"productName": "Subrom",
+	"publisher": "Subrom Project",
+	"copyright": "Copyright © 2026 Subrom Project",
+	"description": "ROM management and verification toolkit",
+	"website": "https://github.com/TheAnsarya/subrom",
+	"supportUrl": "https://github.com/TheAnsarya/subrom/issues"
+}

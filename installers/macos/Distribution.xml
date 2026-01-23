@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="2">
+	<title>Subrom</title>
+	<organization>com.subrom</organization>
+	<domains enable_localSystem="true" enable_currentUserHome="false"/>
+	<options customize="allow" require-scripts="true" rootVolumeOnly="true"/>
+
+	<welcome file="welcome.html"/>
+	<license file="license.html"/>
+	<readme file="readme.html"/>
+	<conclusion file="conclusion.html"/>
+
+	<choices-outline>
+		<line choice="default">
+			<line choice="com.subrom.server"/>
+			<line choice="com.subrom.launchagent"/>
+		</line>
+	</choices-outline>
+
+	<choice id="default"/>
+
+	<choice id="com.subrom.server"
+			visible="true"
+			title="Subrom Server"
+			description="The main Subrom server application">
+		<pkg-ref id="com.subrom.server"/>
+	</choice>
+
+	<choice id="com.subrom.launchagent"
+			visible="true"
+			title="Launch Agent"
+			description="Automatically start Subrom on login">
+		<pkg-ref id="com.subrom.launchagent"/>
+	</choice>
+
+	<pkg-ref id="com.subrom.server"
+			 version="1.2.0"
+			 onConclusion="none">server.pkg</pkg-ref>
+
+	<pkg-ref id="com.subrom.launchagent"
+			 version="1.2.0"
+			 onConclusion="none">launchagent.pkg</pkg-ref>
+</installer-gui-script>

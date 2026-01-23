@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Feature definitions for Subrom installation
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<Feature Id="MainFeature"
+				 Title="Subrom Core"
+				 Description="Subrom server and web interface"
+				 Level="1"
+				 Absent="disallow"
+				 AllowAdvertise="no"
+				 InstallDefault="local">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="DataFolderComponents" />
+		</Feature>
+
+		<Feature Id="ServiceFeature"
+				 Title="Background Service"
+				 Description="Windows Service for background scanning (recommended)"
+				 Level="1"
+				 AllowAdvertise="no"
+				 InstallDefault="local">
+			<ComponentGroupRef Id="ServiceComponents" />
+		</Feature>
+
+		<Feature Id="TrayFeature"
+				 Title="System Tray Application"
+				 Description="System tray icon for easy access (recommended)"
+				 Level="1"
+				 AllowAdvertise="no"
+				 InstallDefault="local">
+			<ComponentGroupRef Id="TrayComponents" />
+		</Feature>
+
+		<Feature Id="ShortcutsFeature"
+				 Title="Shortcuts"
+				 Description="Start Menu and Desktop shortcuts"
+				 Level="1"
+				 AllowAdvertise="no"
+				 InstallDefault="local">
+			<ComponentGroupRef Id="ShortcutComponents" />
+		</Feature>
+	</Fragment>
+</Wix>

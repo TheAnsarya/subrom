@@ -1,0 +1,28 @@
+#!/bin/bash
+# postrm script for subrom
+
+set -e
+
+case "$1" in
+	purge)
+		# Remove data directories on purge
+		rm -rf /var/lib/subrom
+		rm -rf /var/log/subrom
+		rm -rf /etc/subrom
+
+		# Remove user
+		if id -u subrom >/dev/null 2>&1; then
+			userdel subrom
+		fi
+		;;
+
+	remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+		;;
+
+	*)
+		echo "postrm called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac
+
+exit 0

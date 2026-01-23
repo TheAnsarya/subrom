@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Custom UI configuration for Subrom installer
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+	<Fragment>
+		<!-- Use the standard WixUI_InstallDir dialog set -->
+		<!-- This can be customized further if needed -->
+
+		<!-- Custom dialog text -->
+		<WixVariable Id="WixUIDialogBitmap" Value="dialog.bmp" Overridable="yes" />
+		<WixVariable Id="WixUIBannerBitmap" Value="banner.bmp" Overridable="yes" />
+
+		<!-- License text (create License.rtf in this folder) -->
+		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" Overridable="yes" />
+	</Fragment>
+</Wix>

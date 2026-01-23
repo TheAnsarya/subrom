@@ -1,0 +1,26 @@
+#!/bin/bash
+# prerm script for subrom
+
+set -e
+
+case "$1" in
+	remove|upgrade|deconfigure)
+		# Stop and disable service
+		if systemctl is-active --quiet subrom.service; then
+			systemctl stop subrom.service
+		fi
+		if systemctl is-enabled --quiet subrom.service; then
+			systemctl disable subrom.service
+		fi
+		;;
+
+	failed-upgrade)
+		;;
+
+	*)
+		echo "prerm called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac
+
+exit 0

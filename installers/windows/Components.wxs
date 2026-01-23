@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Component definitions for Subrom installation
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
+	<Fragment>
+		<!-- Main server components -->
+		<ComponentGroup Id="ProductComponents" Directory="ServerFolder">
+			<Component Id="SubromServer" Guid="11111111-1111-1111-1111-111111111111">
+				<File Id="SubromServerExe"
+					  Source="$(var.PublishDir)\Subrom.Server.exe"
+					  KeyPath="yes" />
+			</Component>
+			<Component Id="SubromServerDeps" Guid="22222222-2222-2222-2222-222222222222">
+				<File Id="SubromServerDll"
+					  Source="$(var.PublishDir)\Subrom.Server.dll" />
+				<!-- Additional DLLs will be harvested by heat.exe -->
+			</Component>
+			<Component Id="AppSettings" Guid="33333333-3333-3333-3333-333333333333">
+				<File Id="AppSettingsJson"
+					  Source="$(var.PublishDir)\appsettings.json" />
+			</Component>
+		</ComponentGroup>
+
+		<!-- Windows Service components -->
+		<ComponentGroup Id="ServiceComponents" Directory="ServiceFolder">
+			<Component Id="SubromService" Guid="44444444-4444-4444-4444-444444444444">
+				<File Id="SubromServiceExe"
+					  Source="$(var.ServicePublishDir)\Subrom.Service.exe"
+					  KeyPath="yes" />
+				<ServiceInstall
+					Id="SubromServiceInstall"
+					Name="SubromService"
+					DisplayName="Subrom Background Service"
+					Description="Provides background ROM scanning and verification services"
+					Type="ownProcess"
+					Start="auto"
+					ErrorControl="normal"
+					Account="LocalSystem">
+					<ServiceConfig
+						DelayedAutoStart="yes"
+						OnInstall="yes"
+						OnReinstall="yes" />
+				</ServiceInstall>
+				<ServiceControl
+					Id="SubromServiceControl"
+					Name="SubromService"
+					Start="install"
+					Stop="both"
+					Remove="uninstall"
+					Wait="yes" />
+			</Component>
+		</ComponentGroup>
+
+		<!-- System tray application components -->
+		<ComponentGroup Id="TrayComponents" Directory="TrayFolder">
+			<Component Id="SubromTray" Guid="55555555-5555-5555-5555-555555555555">
+				<File Id="SubromTrayExe"
+					  Source="$(var.TrayPublishDir)\Subrom.Tray.exe"
+					  KeyPath="yes" />
+				<!-- Auto-start on login -->
+				<RegistryValue
+					Root="HKCU"
+					Key="Software\Microsoft\Windows\CurrentVersion\Run"
+					Name="Subrom"
+					Type="string"
+					Value="[TrayFolder]Subrom.Tray.exe" />
+			</Component>
+		</ComponentGroup>
+
+		<!-- Shortcuts -->
+		<ComponentGroup Id="ShortcutComponents" Directory="SubromProgramMenu">
+			<Component Id="StartMenuShortcuts" Guid="66666666-6666-6666-6666-666666666666">
+				<Shortcut Id="SubromShortcut"
+						  Name="Subrom"
+						  Description="Open Subrom Web Interface"
+						  Target="[TrayFolder]Subrom.Tray.exe"
+						  WorkingDirectory="TrayFolder" />
+				<Shortcut Id="UninstallShortcut"
+						  Name="Uninstall Subrom"
+						  Description="Uninstall Subrom"
+						  Target="[SystemFolder]msiexec.exe"
+						  Arguments="/x [ProductCode]" />
+				<RemoveFolder Id="RemoveSubromProgramMenu" On="uninstall" />
+				<RegistryValue Root="HKCU"
+							   Key="Software\Subrom"
+							   Name="StartMenuInstalled"
+							   Type="integer"
+							   Value="1"
+							   KeyPath="yes" />
+			</Component>
+			<Component Id="DesktopShortcut" Guid="77777777-7777-7777-7777-777777777777">
+				<Shortcut Id="DesktopSubromShortcut"
+						  Directory="DesktopFolder"
+						  Name="Subrom"
+						  Description="Open Subrom Web Interface"
+						  Target="[TrayFolder]Subrom.Tray.exe"
+						  WorkingDirectory="TrayFolder" />
+				<RegistryValue Root="HKCU"
+							   Key="Software\Subrom"
+							   Name="DesktopShortcutInstalled"
+							   Type="integer"
+							   Value="1"
+							   KeyPath="yes" />
+			</Component>
+		</ComponentGroup>
+
+		<!-- Application data folder with permissions -->
+		<ComponentGroup Id="DataFolderComponents" Directory="SubromDataFolder">
+			<Component Id="DataFolder" Guid="88888888-8888-8888-8888-888888888888">
+				<CreateFolder>
+					<util:PermissionEx User="Users" GenericAll="yes" />
+				</CreateFolder>
+				<RegistryValue Root="HKLM"
+							   Key="Software\Subrom"
+							   Name="DataPath"
+							   Type="string"
+							   Value="[SubromDataFolder]"
+							   KeyPath="yes" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

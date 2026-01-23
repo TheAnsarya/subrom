@@ -1,0 +1,19 @@
+Package: subrom
+Version: 1.2.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libc6 (>= 2.17), libicu74 | libicu72 | libicu70 | libicu67
+Maintainer: Subrom Project <support@subrom.app>
+Description: ROM management and verification toolkit
+ Subrom is a ROM management and verification toolkit that helps
+ you organize, verify, and manage your ROM collection against
+ No-Intro, TOSEC, and other DAT file catalogs.
+ .
+ Features:
+  - DAT file parsing (XML, ClrMamePro formats)
+  - Multi-format archive support (ZIP, 7z, RAR)
+  - Real-time scanning with progress
+  - Web-based user interface
+  - Background service support
+Homepage: https://github.com/TheAnsarya/subrom
