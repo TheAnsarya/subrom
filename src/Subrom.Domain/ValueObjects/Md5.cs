@@ -57,6 +57,7 @@ public readonly partial record struct Md5 : IParsable<Md5>, ISpanParsable<Md5> {
 		if (bytes.Length != 16) {
 			throw new ArgumentException("MD5 bytes must be exactly 16 bytes.", nameof(bytes));
 		}
+
 		return new Md5(Convert.ToHexStringLower(bytes));
 	}
 
@@ -67,6 +68,7 @@ public readonly partial record struct Md5 : IParsable<Md5>, ISpanParsable<Md5> {
 		if (bytes.Length != 16) {
 			throw new ArgumentException("MD5 bytes must be exactly 16 bytes.", nameof(bytes));
 		}
+
 		return new Md5(Convert.ToHexStringLower(bytes));
 	}
 
@@ -91,6 +93,7 @@ public readonly partial record struct Md5 : IParsable<Md5>, ISpanParsable<Md5> {
 			result = md5.Value;
 			return true;
 		}
+
 		result = default;
 		return false;
 	}

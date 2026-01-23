@@ -17,15 +17,15 @@ public static class ExportEndpoints {
 			Guid? driveId,
 			bool? includeHashes,
 			CancellationToken ct) => {
-			var options = new ExportOptions {
-				Format = ExportFormat.Csv,
-				IncludeHashes = includeHashes ?? true
-			};
+				var options = new ExportOptions {
+					Format = ExportFormat.Csv,
+					IncludeHashes = includeHashes ?? true
+				};
 
-			var csv = await exportService.ExportRomFilesAsync(options, driveId, ct);
+				var csv = await exportService.ExportRomFilesAsync(options, driveId, ct);
 
-			return Results.Content(csv, "text/csv", System.Text.Encoding.UTF8);
-		})
+				return Results.Content(csv, "text/csv", System.Text.Encoding.UTF8);
+			})
 		.WithName("ExportRomsCsv")
 		.WithOpenApi(operation => {
 			operation.Summary = "Export ROMs as CSV";
@@ -41,15 +41,15 @@ public static class ExportEndpoints {
 			bool? includeHashes,
 			bool? pretty,
 			CancellationToken ct) => {
-			var options = new ExportOptions {
-				Format = pretty == true ? ExportFormat.JsonPretty : ExportFormat.Json,
-				IncludeHashes = includeHashes ?? true
-			};
+				var options = new ExportOptions {
+					Format = pretty == true ? ExportFormat.JsonPretty : ExportFormat.Json,
+					IncludeHashes = includeHashes ?? true
+				};
 
-			var json = await exportService.ExportRomFilesAsync(options, driveId, ct);
+				var json = await exportService.ExportRomFilesAsync(options, driveId, ct);
 
-			return Results.Content(json, "application/json", System.Text.Encoding.UTF8);
-		})
+				return Results.Content(json, "application/json", System.Text.Encoding.UTF8);
+			})
 		.WithName("ExportRomsJson")
 		.WithOpenApi(operation => {
 			operation.Summary = "Export ROMs as JSON";
@@ -65,22 +65,22 @@ public static class ExportEndpoints {
 			string? format,
 			bool? includeHashes,
 			CancellationToken ct) => {
-			var exportFormat = format?.ToLowerInvariant() switch {
-				"json" => ExportFormat.Json,
-				"json-pretty" => ExportFormat.JsonPretty,
-				_ => ExportFormat.Csv
-			};
+				var exportFormat = format?.ToLowerInvariant() switch {
+					"json" => ExportFormat.Json,
+					"json-pretty" => ExportFormat.JsonPretty,
+					_ => ExportFormat.Csv
+				};
 
-			var options = new ExportOptions {
-				Format = exportFormat,
-				IncludeHashes = includeHashes ?? true
-			};
+				var options = new ExportOptions {
+					Format = exportFormat,
+					IncludeHashes = includeHashes ?? true
+				};
 
-			var content = await exportService.ExportByVerificationStatusAsync(status, options, ct);
-			var contentType = exportFormat == ExportFormat.Csv ? "text/csv" : "application/json";
+				var content = await exportService.ExportByVerificationStatusAsync(status, options, ct);
+				var contentType = exportFormat == ExportFormat.Csv ? "text/csv" : "application/json";
 
-			return Results.Content(content, contentType, System.Text.Encoding.UTF8);
-		})
+				return Results.Content(content, contentType, System.Text.Encoding.UTF8);
+			})
 		.WithName("ExportRomsByStatus")
 		.WithOpenApi(operation => {
 			operation.Summary = "Export ROMs by verification status";
@@ -93,14 +93,14 @@ public static class ExportEndpoints {
 			ExportService exportService,
 			bool? pretty,
 			CancellationToken ct) => {
-			var options = new ExportOptions {
-				Format = pretty == true ? ExportFormat.JsonPretty : ExportFormat.Json
-			};
+				var options = new ExportOptions {
+					Format = pretty == true ? ExportFormat.JsonPretty : ExportFormat.Json
+				};
 
-			var json = await exportService.ExportCollectionSummaryAsync(options, ct);
+				var json = await exportService.ExportCollectionSummaryAsync(options, ct);
 
-			return Results.Content(json, "application/json", System.Text.Encoding.UTF8);
-		})
+				return Results.Content(json, "application/json", System.Text.Encoding.UTF8);
+			})
 		.WithName("ExportCollectionSummary")
 		.WithOpenApi(operation => {
 			operation.Summary = "Export collection summary";
@@ -116,27 +116,27 @@ public static class ExportEndpoints {
 			Guid? driveId,
 			bool? includeHashes,
 			CancellationToken ct) => {
-			var exportFormat = format?.ToLowerInvariant() switch {
-				"json" => ExportFormat.Json,
-				"json-pretty" => ExportFormat.JsonPretty,
-				_ => ExportFormat.Csv
-			};
+				var exportFormat = format?.ToLowerInvariant() switch {
+					"json" => ExportFormat.Json,
+					"json-pretty" => ExportFormat.JsonPretty,
+					_ => ExportFormat.Csv
+				};
 
-			var options = new ExportOptions {
-				Format = exportFormat,
-				IncludeHashes = includeHashes ?? true
-			};
+				var options = new ExportOptions {
+					Format = exportFormat,
+					IncludeHashes = includeHashes ?? true
+				};
 
-			var content = await exportService.ExportRomFilesAsync(options, driveId, ct);
-			var extension = exportFormat == ExportFormat.Csv ? "csv" : "json";
-			var contentType = exportFormat == ExportFormat.Csv ? "text/csv" : "application/json";
-			var fileName = $"subrom-export-{DateTime.UtcNow:yyyy-MM-dd-HHmmss}.{extension}";
+				var content = await exportService.ExportRomFilesAsync(options, driveId, ct);
+				var extension = exportFormat == ExportFormat.Csv ? "csv" : "json";
+				var contentType = exportFormat == ExportFormat.Csv ? "text/csv" : "application/json";
+				var fileName = $"subrom-export-{DateTime.UtcNow:yyyy-MM-dd-HHmmss}.{extension}";
 
-			return Results.File(
-				System.Text.Encoding.UTF8.GetBytes(content),
-				contentType,
-				fileName);
-		})
+				return Results.File(
+					System.Text.Encoding.UTF8.GetBytes(content),
+					contentType,
+					fileName);
+			})
 		.WithName("DownloadRomsExport")
 		.WithOpenApi(operation => {
 			operation.Summary = "Download ROMs export as file";

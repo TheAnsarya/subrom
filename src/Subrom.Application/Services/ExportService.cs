@@ -91,6 +91,7 @@ public sealed class ExportService {
 				var driveFiles = await _romFileRepository.GetByDriveAsync(drive.Id, cancellationToken);
 				allFiles.AddRange(driveFiles);
 			}
+
 			romFiles = allFiles;
 		}
 
@@ -248,9 +249,11 @@ public sealed class ExportService {
 				if (value is null) {
 					return "";
 				}
+
 				if (value is DateTime dt) {
 					return dt.ToString(options.DateFormat);
 				}
+
 				return value.ToString() ?? "";
 			});
 
@@ -271,6 +274,7 @@ public sealed class ExportService {
 		if (field.Contains(',') || field.Contains('"') || field.Contains('\n')) {
 			return $"\"{field.Replace("\"", "\"\"")}\"";
 		}
+
 		return field;
 	}
 

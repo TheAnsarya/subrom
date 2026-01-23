@@ -43,23 +43,23 @@ public static class ScanEndpoints {
 			ScanService scanService,
 			ScanJobProcessor scanJobProcessor,
 			CancellationToken ct) => {
-			try {
-				var job = await scanService.StartScanAsync(
-					request.DriveId ?? Guid.Empty,
-					request.Type,
-					request.TargetPath,
-					ct);
+				try {
+					var job = await scanService.StartScanAsync(
+						request.DriveId ?? Guid.Empty,
+						request.Type,
+						request.TargetPath,
+						ct);
 
-				// Queue the job for background execution
-				await scanJobProcessor.EnqueueJobAsync(job.Id);
+					// Queue the job for background execution
+					await scanJobProcessor.EnqueueJobAsync(job.Id);
 
-				return Results.Created($"/api/scans/{job.Id}", job);
-			} catch (KeyNotFoundException ex) {
-				return Results.NotFound(new { Message = ex.Message });
-			} catch (InvalidOperationException ex) {
-				return Results.Conflict(new { Message = ex.Message });
-			}
-		});
+					return Results.Created($"/api/scans/{job.Id}", job);
+				} catch (KeyNotFoundException ex) {
+					return Results.NotFound(new { Message = ex.Message });
+				} catch (InvalidOperationException ex) {
+					return Results.Conflict(new { Message = ex.Message });
+				}
+			});
 
 		// Cancel a scan
 		group.MapPost("/{id:guid}/cancel", async (Guid id, ScanService scanService, CancellationToken ct) => {

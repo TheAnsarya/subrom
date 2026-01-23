@@ -84,6 +84,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			_instanceMutex = null;
 			return false;
 		}
+
 		return true;
 	}
 
@@ -94,8 +95,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			if (File.Exists(iconPath)) {
 				return new Icon(iconPath);
 			}
-		}
-		catch { }
+		} catch { }
 
 		// Use system default application icon
 		return SystemIcons.Application;
@@ -107,8 +107,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			if (_settings.ShowNotifications) {
 				ShowNotification("Server Started", "Subrom server is now running", ToolTipIcon.Info);
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to start server");
 			ShowNotification("Server Error", $"Failed to start: {ex.Message}", ToolTipIcon.Error);
 		}
@@ -164,6 +163,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 				if (_settings.ShowNotifications) {
 					ShowNotification("Server Error", "The server has stopped unexpectedly", ToolTipIcon.Error);
 				}
+
 				break;
 		}
 	}
@@ -182,8 +182,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			if (_settings.ShowNotifications) {
 				ShowNotification("Server Stopped", "Subrom server has been stopped", ToolTipIcon.Info);
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to stop server");
 			ShowNotification("Error", $"Failed to stop server: {ex.Message}", ToolTipIcon.Error);
 		}
@@ -195,8 +194,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			if (_settings.ShowNotifications) {
 				ShowNotification("Server Restarted", "Subrom server has been restarted", ToolTipIcon.Info);
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to restart server");
 			ShowNotification("Error", $"Failed to restart server: {ex.Message}", ToolTipIcon.Error);
 		}
@@ -209,8 +207,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 				FileName = url,
 				UseShellExecute = true
 			});
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to open browser");
 			MessageBox.Show($"Failed to open browser: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
@@ -227,8 +224,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			} else {
 				MessageBox.Show("Log directory does not exist yet.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to open logs folder");
 		}
 	}
@@ -263,8 +259,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			if (_serverManager.State == ServerState.Running) {
 				await _serverManager.StopAsync();
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Error stopping server during exit");
 		}
 
@@ -282,8 +277,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			var settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 			File.WriteAllText(settingsPath, json);
 			_logger.LogInformation("Settings saved");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to save settings");
 		}
 	}
@@ -295,6 +289,7 @@ public sealed class TrayApplicationContext : ApplicationContext {
 			_notifyIcon.Dispose();
 			_contextMenu.Dispose();
 		}
+
 		base.Dispose(disposing);
 	}
 }

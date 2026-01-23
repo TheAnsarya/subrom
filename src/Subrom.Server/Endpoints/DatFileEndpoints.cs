@@ -58,43 +58,43 @@ public static class DatFileEndpoints {
 			string? search,
 			SubromDbContext db,
 			CancellationToken ct) => {
-			pageSize = Math.Clamp(pageSize, 1, 1000);
-			page = Math.Max(0, page);
+				pageSize = Math.Clamp(pageSize, 1, 1000);
+				page = Math.Max(0, page);
 
-			var query = db.Games
-				.AsNoTracking()
-				.Where(g => g.DatFileId == id);
+				var query = db.Games
+					.AsNoTracking()
+					.Where(g => g.DatFileId == id);
 
-			if (!string.IsNullOrWhiteSpace(search)) {
-				query = query.Where(g =>
-					g.Name.Contains(search) ||
-					(g.Description != null && g.Description.Contains(search)));
-			}
+				if (!string.IsNullOrWhiteSpace(search)) {
+					query = query.Where(g =>
+						g.Name.Contains(search) ||
+						(g.Description != null && g.Description.Contains(search)));
+				}
 
-			var total = await query.CountAsync(ct);
-			var games = await query
-				.OrderBy(g => g.Name)
-				.Skip(page * pageSize)
-				.Take(pageSize)
-				.Select(g => new {
-					g.Id,
-					g.Name,
-					g.Description,
-					g.Region,
-					g.Year,
-					RomCount = g.Roms.Count,
-					TotalSize = g.TotalSize
-				})
-				.ToListAsync(ct);
+				var total = await query.CountAsync(ct);
+				var games = await query
+					.OrderBy(g => g.Name)
+					.Skip(page * pageSize)
+					.Take(pageSize)
+					.Select(g => new {
+						g.Id,
+						g.Name,
+						g.Description,
+						g.Region,
+						g.Year,
+						RomCount = g.Roms.Count,
+						TotalSize = g.TotalSize
+					})
+					.ToListAsync(ct);
 
-			return Results.Ok(new {
-				Items = games,
-				Total = total,
-				Page = page,
-				PageSize = pageSize,
-				TotalPages = (int)Math.Ceiling((double)total / pageSize)
+				return Results.Ok(new {
+					Items = games,
+					Total = total,
+					Page = page,
+					PageSize = pageSize,
+					TotalPages = (int)Math.Ceiling((double)total / pageSize)
+				});
 			});
-		});
 
 		// Get category tree
 		group.MapGet("/categories", async (SubromDbContext db, CancellationToken ct) => {
@@ -143,71 +143,71 @@ public static class DatFileEndpoints {
 			SubromDbContext db,
 			IOneGameOneRomService ogService,
 			CancellationToken ct) => {
-			// Load DAT with games and ROMs
-			var datFile = await db.DatFiles
-				.Include(d => d.Games)
-				.ThenInclude(g => g.Roms)
-				.FirstOrDefaultAsync(d => d.Id == id, ct);
+				// Load DAT with games and ROMs
+				var datFile = await db.DatFiles
+					.Include(d => d.Games)
+					.ThenInclude(g => g.Roms)
+					.FirstOrDefaultAsync(d => d.Id == id, ct);
 
-			if (datFile is null) {
-				return Results.NotFound(new { Message = $"DAT file {id} not found" });
-			}
+				if (datFile is null) {
+					return Results.NotFound(new { Message = $"DAT file {id} not found" });
+				}
 
-			// Build options from request
-			var options = new OneGameOneRomOptions {
-				RegionPriority = request?.RegionPriority ?? ["USA", "Europe", "Japan", "World"],
-				LanguagePriority = request?.LanguagePriority ?? ["En", "De", "Fr", "Es", "It", "Ja"],
-				PreferParent = request?.PreferParent ?? true,
-				PreferLatestRevision = request?.PreferLatestRevision ?? true,
-				PreferVerified = request?.PreferVerified ?? true,
-				ExcludeCategories = request?.ExcludeCategories ?? ["Beta", "Proto", "Sample", "Demo", "Program"]
-			};
+				// Build options from request
+				var options = new OneGameOneRomOptions {
+					RegionPriority = request?.RegionPriority ?? ["USA", "Europe", "Japan", "World"],
+					LanguagePriority = request?.LanguagePriority ?? ["En", "De", "Fr", "Es", "It", "Ja"],
+					PreferParent = request?.PreferParent ?? true,
+					PreferLatestRevision = request?.PreferLatestRevision ?? true,
+					PreferVerified = request?.PreferVerified ?? true,
+					ExcludeCategories = request?.ExcludeCategories ?? ["Beta", "Proto", "Sample", "Demo", "Program"]
+				};
 
-			// Convert games to RomCandidate
-			var candidates = datFile.Games.Select(g => new RomCandidate {
-				FilePath = g.Roms.FirstOrDefault()?.Name ?? g.Name,
-				Name = g.Name,
-				CleanName = ExtractCleanName(g.Name),
-				Region = g.Region,
-				Languages = g.Languages,
-				Categories = ExtractCategories(g.Name),
-				Revision = ExtractRevision(g.Name),
-				Parent = g.CloneOf,
-				IsVerified = true, // DAT entries are always verified
-				Size = g.TotalSize,
-				Crc = g.Roms.FirstOrDefault()?.Crc
-			}).ToList();
+				// Convert games to RomCandidate
+				var candidates = datFile.Games.Select(g => new RomCandidate {
+					FilePath = g.Roms.FirstOrDefault()?.Name ?? g.Name,
+					Name = g.Name,
+					CleanName = ExtractCleanName(g.Name),
+					Region = g.Region,
+					Languages = g.Languages,
+					Categories = ExtractCategories(g.Name),
+					Revision = ExtractRevision(g.Name),
+					Parent = g.CloneOf,
+					IsVerified = true, // DAT entries are always verified
+					Size = g.TotalSize,
+					Crc = g.Roms.FirstOrDefault()?.Crc
+				}).ToList();
 
-			// Apply 1G1R filter
-			var groups = ogService.GroupAndSelect(candidates, options);
+				// Apply 1G1R filter
+				var groups = ogService.GroupAndSelect(candidates, options);
 
-			// Build response
-			var filtered = groups.Select(g => new {
-				GameName = g.GameName,
-				SelectedGame = new {
-					g.Selected.Name,
-					g.Selected.Region,
-					g.Selected.Languages,
-					Score = ogService.ScoreRom(g.Selected, options)
-				},
-				Alternatives = g.AllRoms.Where(r => r != g.Selected).Take(5).Select(a => new {
-					a.Name,
-					a.Region,
-					Score = ogService.ScoreRom(a, options)
-				}),
-				AlternativeCount = g.AllRoms.Count - 1
-			}).ToList();
+				// Build response
+				var filtered = groups.Select(g => new {
+					GameName = g.GameName,
+					SelectedGame = new {
+						g.Selected.Name,
+						g.Selected.Region,
+						g.Selected.Languages,
+						Score = ogService.ScoreRom(g.Selected, options)
+					},
+					Alternatives = g.AllRoms.Where(r => r != g.Selected).Take(5).Select(a => new {
+						a.Name,
+						a.Region,
+						Score = ogService.ScoreRom(a, options)
+					}),
+					AlternativeCount = g.AllRoms.Count - 1
+				}).ToList();
 
-			return Results.Ok(new {
-				DatFileId = datFile.Id,
-				DatFileName = datFile.Name,
-				TotalGames = datFile.GameCount,
-				FilteredGames = filtered.Count,
-				ExcludedGames = datFile.GameCount - filtered.Count,
-				Options = options,
-				Games = filtered.Take(100) // Limit response
+				return Results.Ok(new {
+					DatFileId = datFile.Id,
+					DatFileName = datFile.Name,
+					TotalGames = datFile.GameCount,
+					FilteredGames = filtered.Count,
+					ExcludedGames = datFile.GameCount - filtered.Count,
+					Options = options,
+					Games = filtered.Take(100) // Limit response
+				});
 			});
-		});
 
 		// Get parent/clone analysis for a DAT file
 		group.MapGet("/{id:guid}/parent-clone", async (
@@ -216,38 +216,38 @@ public static class DatFileEndpoints {
 			SubromDbContext db,
 			IParentCloneService parentCloneService,
 			CancellationToken ct) => {
-			limit = Math.Clamp(limit, 1, 200);
+				limit = Math.Clamp(limit, 1, 200);
 
-			var datFile = await db.DatFiles
-				.AsNoTracking()
-				.FirstOrDefaultAsync(d => d.Id == id, ct);
+				var datFile = await db.DatFiles
+					.AsNoTracking()
+					.FirstOrDefaultAsync(d => d.Id == id, ct);
 
-			if (datFile is null) {
-				return Results.NotFound(new { Message = $"DAT file {id} not found" });
-			}
+				if (datFile is null) {
+					return Results.NotFound(new { Message = $"DAT file {id} not found" });
+				}
 
-			// Build parent/clone index from DAT
-			var index = await parentCloneService.BuildIndexFromDatAsync(id, ct);
-			var groups = index.GetAllGroups();
+				// Build parent/clone index from DAT
+				var index = await parentCloneService.BuildIndexFromDatAsync(id, ct);
+				var groups = index.GetAllGroups();
 
-			return Results.Ok(new {
-				DatFileId = datFile.Id,
-				DatFileName = datFile.Name,
-				TotalGames = datFile.GameCount,
-				ParentCount = index.ParentCount,
-				CloneCount = index.CloneCount,
-				StandaloneCount = datFile.GameCount - index.ParentCount - index.CloneCount,
-				BuiltAt = index.BuiltAt,
-				Groups = groups
-					.OrderByDescending(g => g.Clones.Count)
-					.Take(limit)
-					.Select(g => new {
-						Parent = g.Parent,
-						CloneCount = g.Clones.Count,
-						Clones = g.Clones.Take(10) // Limit clones per group
-					})
+				return Results.Ok(new {
+					DatFileId = datFile.Id,
+					DatFileName = datFile.Name,
+					TotalGames = datFile.GameCount,
+					ParentCount = index.ParentCount,
+					CloneCount = index.CloneCount,
+					StandaloneCount = datFile.GameCount - index.ParentCount - index.CloneCount,
+					BuiltAt = index.BuiltAt,
+					Groups = groups
+						.OrderByDescending(g => g.Clones.Count)
+						.Take(limit)
+						.Select(g => new {
+							Parent = g.Parent,
+							CloneCount = g.Clones.Count,
+							Clones = g.Clones.Take(10) // Limit clones per group
+						})
+				});
 			});
-		});
 
 		// Look up parent for a specific game
 		group.MapGet("/{id:guid}/parent-clone/{gameName}", async (
@@ -256,30 +256,30 @@ public static class DatFileEndpoints {
 			SubromDbContext db,
 			IParentCloneService parentCloneService,
 			CancellationToken ct) => {
-			var datFile = await db.DatFiles
-				.AsNoTracking()
-				.FirstOrDefaultAsync(d => d.Id == id, ct);
+				var datFile = await db.DatFiles
+					.AsNoTracking()
+					.FirstOrDefaultAsync(d => d.Id == id, ct);
 
-			if (datFile is null) {
-				return Results.NotFound(new { Message = $"DAT file {id} not found" });
-			}
+				if (datFile is null) {
+					return Results.NotFound(new { Message = $"DAT file {id} not found" });
+				}
 
-			var parent = await parentCloneService.GetParentAsync(gameName, id, ct);
-			var clones = await parentCloneService.GetClonesAsync(gameName, id, ct);
+				var parent = await parentCloneService.GetParentAsync(gameName, id, ct);
+				var clones = await parentCloneService.GetClonesAsync(gameName, id, ct);
 
-			var isClone = parent is not null;
-			var isParent = clones.Count > 0;
+				var isClone = parent is not null;
+				var isParent = clones.Count > 0;
 
-			return Results.Ok(new {
-				GameName = gameName,
-				IsClone = isClone,
-				IsParent = isParent,
-				IsStandalone = !isClone && !isParent,
-				Parent = parent,
-				Clones = clones.Take(50),
-				TotalClones = clones.Count
+				return Results.Ok(new {
+					GameName = gameName,
+					IsClone = isClone,
+					IsParent = isParent,
+					IsStandalone = !isClone && !isParent,
+					Parent = parent,
+					Clones = clones.Take(50),
+					TotalClones = clones.Count
+				});
 			});
-		});
 
 		return endpoints;
 	}
@@ -300,6 +300,7 @@ public static class DatFileEndpoints {
 						Children = []
 					};
 				}
+
 				if (i < parts.Length - 1) {
 					current = current[part].Children;
 				}
@@ -330,6 +331,7 @@ public static class DatFileEndpoints {
 				cats.Add(tag);
 			}
 		}
+
 		return cats;
 	}
 
@@ -338,6 +340,7 @@ public static class DatFileEndpoints {
 		if (match.Success && int.TryParse(match.Groups[1].Value, out var rev)) {
 			return rev;
 		}
+
 		return 0;
 	}
 

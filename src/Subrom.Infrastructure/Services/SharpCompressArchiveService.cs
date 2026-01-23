@@ -242,6 +242,7 @@ public sealed class SharpCompressArchiveService : IArchiveService {
 				_archive.Dispose();
 				_disposed = true;
 			}
+
 			base.Dispose(disposing);
 		}
 
@@ -251,6 +252,7 @@ public sealed class SharpCompressArchiveService : IArchiveService {
 				_archive.Dispose();
 				_disposed = true;
 			}
+
 			await base.DisposeAsync();
 		}
 	}

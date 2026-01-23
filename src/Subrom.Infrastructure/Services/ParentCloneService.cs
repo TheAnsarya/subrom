@@ -95,6 +95,7 @@ public partial class ParentCloneService : IParentCloneService {
 				members = [];
 				groups[groupKey] = members;
 			}
+
 			members.Add(name);
 		}
 

@@ -260,6 +260,7 @@ public class StorageMonitorServiceTests {
 		} else {
 			drive.MarkOffline();
 		}
+
 		return drive;
 	}
 

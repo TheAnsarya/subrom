@@ -9,10 +9,8 @@ namespace Subrom.Infrastructure.Persistence.Configurations;
 /// </summary>
 public class AppSettingsConfiguration : IEntityTypeConfiguration<AppSettings> {
 	public void Configure(EntityTypeBuilder<AppSettings> builder) {
-		builder.ToTable("AppSettings", t => {
-			// Ensure only one row can exist (singleton pattern)
-			t.HasCheckConstraint("CK_AppSettings_SingletonId", $"Id = {AppSettings.SingletonId}");
-		});
+		builder.ToTable("AppSettings", t =>             // Ensure only one row can exist (singleton pattern)
+			t.HasCheckConstraint("CK_AppSettings_SingletonId", $"Id = {AppSettings.SingletonId}"));
 
 		builder.HasKey(s => s.Id);
 

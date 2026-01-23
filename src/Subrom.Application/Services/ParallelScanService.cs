@@ -116,6 +116,7 @@ public sealed class ParallelScanService {
 				await _scanJobRepository.AddAsync(job, cancellationToken);
 				jobs.Add(job);
 			}
+
 			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 			// Track progress for each drive

@@ -79,6 +79,7 @@ public class OrganizationLogRepository : IOrganizationLogRepository {
 			};
 			_context.OrganizationOperationEntries.Add(newEntry);
 		}
+
 		await _context.SaveChangesAsync(cancellationToken);
 	}
 

@@ -105,16 +105,16 @@ public partial class OneGameOneRomService : IOneGameOneRomService {
 			.OrderByDescending(x => x.Score)
 			.ToList();
 
-		var best = scored.First();
+		var (Rom, Score) = scored.First();
 
 		// Determine selection reason
-		var reason = DetermineSelectionReason(best.Rom, best.Score, options);
+		var reason = DetermineSelectionReason(Rom, Score, options);
 
 		return new RomGroup {
 			GameName = group.Key,
-			Selected = best.Rom,
+			Selected = Rom,
 			AllRoms = roms,
-			SelectedScore = best.Score,
+			SelectedScore = Score,
 			SelectionReason = reason
 		};
 	}
@@ -152,6 +152,7 @@ public partial class OneGameOneRomService : IOneGameOneRomService {
 				return i;
 			}
 		}
+
 		return -1;
 	}
 

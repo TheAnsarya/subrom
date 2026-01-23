@@ -28,36 +28,34 @@ public static class DatProviderEndpoints {
 			DatProvider provider,
 			IEnumerable<IDatProvider> providers,
 			CancellationToken ct) => {
-			var datProvider = providers.FirstOrDefault(p => p.ProviderType == provider);
-			if (datProvider is null) {
-				return Results.NotFound(new {
-					error = $"Provider '{provider}' not found",
-					availableProviders = providers.Select(p => p.ProviderType.ToString()).ToArray()
-				});
-			}
+				var datProvider = providers.FirstOrDefault(p => p.ProviderType == provider);
+				if (datProvider is null) {
+					return Results.NotFound(new {
+						error = $"Provider '{provider}' not found",
+						availableProviders = providers.Select(p => p.ProviderType.ToString()).ToArray()
+					});
+				}
 
-			try {
-				var available = await datProvider.ListAvailableAsync(ct);
-				return Results.Ok(new {
-					provider = provider.ToString(),
-					count = available.Count,
-					dats = available
-				});
-			}
-			catch (NotSupportedException ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					statusCode: 503,
-					title: "Provider download disabled"
-				);
-			}
-			catch (Exception ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					title: $"Failed to list DATs from {provider}"
-				);
-			}
-		})
+				try {
+					var available = await datProvider.ListAvailableAsync(ct);
+					return Results.Ok(new {
+						provider = provider.ToString(),
+						count = available.Count,
+						dats = available
+					});
+				} catch (NotSupportedException ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						statusCode: 503,
+						title: "Provider download disabled"
+					);
+				} catch (Exception ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						title: $"Failed to list DATs from {provider}"
+					);
+				}
+			})
 		.WithName("ListAvailableDats")
 		.WithDescription("Lists all available DATs from a specific provider");
 
@@ -67,46 +65,43 @@ public static class DatProviderEndpoints {
 			string identifier,
 			IEnumerable<IDatProvider> providers,
 			CancellationToken ct) => {
-			var datProvider = providers.FirstOrDefault(p => p.ProviderType == provider);
-			if (datProvider is null) {
-				return Results.NotFound(new {
-					error = $"Provider '{provider}' not found"
-				});
-			}
+				var datProvider = providers.FirstOrDefault(p => p.ProviderType == provider);
+				if (datProvider is null) {
+					return Results.NotFound(new {
+						error = $"Provider '{provider}' not found"
+					});
+				}
 
-			if (!datProvider.SupportsIdentifier(identifier)) {
-				return Results.BadRequest(new {
-					error = "Identifier not supported by provider",
-					identifier,
-					provider = provider.ToString()
-				});
-			}
+				if (!datProvider.SupportsIdentifier(identifier)) {
+					return Results.BadRequest(new {
+						error = "Identifier not supported by provider",
+						identifier,
+						provider = provider.ToString()
+					});
+				}
 
-			try {
-				var stream = await datProvider.DownloadDatAsync(identifier, ct);
-				return Results.Stream(stream, "application/xml", $"{identifier}.dat");
-			}
-			catch (NotSupportedException ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					statusCode: 503,
-					title: "Provider download disabled"
-				);
-			}
-			catch (FileNotFoundException ex) {
-				return Results.NotFound(new {
-					error = "DAT file not found",
-					message = ex.Message,
-					identifier
-				});
-			}
-			catch (Exception ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					title: $"Failed to download DAT {identifier} from {provider}"
-				);
-			}
-		})
+				try {
+					var stream = await datProvider.DownloadDatAsync(identifier, ct);
+					return Results.Stream(stream, "application/xml", $"{identifier}.dat");
+				} catch (NotSupportedException ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						statusCode: 503,
+						title: "Provider download disabled"
+					);
+				} catch (FileNotFoundException ex) {
+					return Results.NotFound(new {
+						error = "DAT file not found",
+						message = ex.Message,
+						identifier
+					});
+				} catch (Exception ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						title: $"Failed to download DAT {identifier} from {provider}"
+					);
+				}
+			})
 		.WithName("DownloadDat")
 		.WithDescription("Downloads a specific DAT file from a provider");
 
@@ -116,33 +111,31 @@ public static class DatProviderEndpoints {
 			bool forceRefresh,
 			IDatCollectionService datCollectionService,
 			CancellationToken ct) => {
-			try {
-				var updated = await datCollectionService.SyncProviderAsync(
-					provider,
-					forceRefresh,
-					progress: null,
-					ct);
+				try {
+					var updated = await datCollectionService.SyncProviderAsync(
+						provider,
+						forceRefresh,
+						progress: null,
+						ct);
 
-				return Results.Ok(new {
-					provider = provider.ToString(),
-					updated,
-					message = $"Synchronized {updated} DATs from {provider}"
-				});
-			}
-			catch (NotSupportedException ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					statusCode: 503,
-					title: "Provider sync disabled"
-				);
-			}
-			catch (Exception ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					title: $"Failed to sync DATs from {provider}"
-				);
-			}
-		})
+					return Results.Ok(new {
+						provider = provider.ToString(),
+						updated,
+						message = $"Synchronized {updated} DATs from {provider}"
+					});
+				} catch (NotSupportedException ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						statusCode: 503,
+						title: "Provider sync disabled"
+					);
+				} catch (Exception ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						title: $"Failed to sync DATs from {provider}"
+					);
+				}
+			})
 		.WithName("SyncProvider")
 		.WithDescription("Synchronizes DATs from a specific provider");
 
@@ -150,28 +143,27 @@ public static class DatProviderEndpoints {
 		group.MapPost("/sync-all", async (
 			IDatCollectionService datCollectionService,
 			CancellationToken ct) => {
-			try {
-				var report = await datCollectionService.SyncAllAsync(progress: null, ct);
+				try {
+					var report = await datCollectionService.SyncAllAsync(progress: null, ct);
 
-				return Results.Ok(new {
-					startedAt = report.StartedAt,
-					completedAt = report.CompletedAt,
-					duration = report.Duration.TotalSeconds,
-					providersProcessed = report.ProvidersProcessed,
-					datsUpdated = report.DatsUpdated,
-					datsAdded = report.DatsAdded,
-					datsSkipped = report.DatsSkipped,
-					errors = report.Errors,
-					errorMessages = report.ErrorMessages
-				});
-			}
-			catch (Exception ex) {
-				return Results.Problem(
-					detail: ex.Message,
-					title: "Failed to sync DATs from all providers"
-				);
-			}
-		})
+					return Results.Ok(new {
+						startedAt = report.StartedAt,
+						completedAt = report.CompletedAt,
+						duration = report.Duration.TotalSeconds,
+						providersProcessed = report.ProvidersProcessed,
+						datsUpdated = report.DatsUpdated,
+						datsAdded = report.DatsAdded,
+						datsSkipped = report.DatsSkipped,
+						errors = report.Errors,
+						errorMessages = report.ErrorMessages
+					});
+				} catch (Exception ex) {
+					return Results.Problem(
+						detail: ex.Message,
+						title: "Failed to sync DATs from all providers"
+					);
+				}
+			})
 		.WithName("SyncAllProviders")
 		.WithDescription("Synchronizes DATs from all registered providers");
 

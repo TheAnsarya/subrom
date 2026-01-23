@@ -60,8 +60,7 @@ public sealed class ScanJobProcessor : BackgroundService {
 		var scanService = scope.ServiceProvider.GetRequiredService<ScanService>();
 
 		// Create a progress reporter that sends updates via SignalR
-		var progress = new Progress<ScanProgress>(async p => {
-			await _hubContext.Clients
+		var progress = new Progress<ScanProgress>(async p => await _hubContext.Clients
 				.Group($"scan-{jobId}")
 				.SendAsync("ScanProgress", new {
 					JobId = p.JobId,
@@ -72,8 +71,7 @@ public sealed class ScanJobProcessor : BackgroundService {
 					Percentage = p.TotalFiles > 0 ? (double)p.ProcessedFiles / p.TotalFiles * 100 : 0,
 					ErrorMessage = p.ErrorMessage,
 					Timestamp = DateTime.UtcNow
-				}, ct);
-		});
+				}, ct));
 
 		try {
 			await scanService.ExecuteScanAsync(jobId, progress, ct);

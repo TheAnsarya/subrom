@@ -214,6 +214,7 @@ public sealed class ScanService {
 		if (driveId.HasValue) {
 			return _scanJobRepository.GetByDriveAsync(driveId.Value, cancellationToken);
 		}
+
 		return _scanJobRepository.GetAllAsync(cancellationToken);
 	}
 

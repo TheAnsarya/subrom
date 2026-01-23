@@ -76,6 +76,7 @@ public readonly partial record struct Crc : IParsable<Crc>, ISpanParsable<Crc> {
 			result = crc.Value;
 			return true;
 		}
+
 		result = default;
 		return false;
 	}

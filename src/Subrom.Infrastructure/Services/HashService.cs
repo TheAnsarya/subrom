@@ -52,6 +52,7 @@ public sealed class HashService : IHashService {
 			if (stream.Length <= skipBytes) {
 				throw new ArgumentException($"File is smaller than header size ({skipBytes} bytes)", nameof(skipBytes));
 			}
+
 			stream.Position = skipBytes;
 		}
 
@@ -198,8 +199,7 @@ public sealed class HashService : IHashService {
 			var sha1Value = Sha1.Create(Convert.ToHexStringLower(sha1.GetCurrentHash()));
 
 			return new RomHashes(crcValue, md5Value, sha1Value);
-		}
-		finally {
+		} finally {
 			ArrayPool<byte>.Shared.Return(buffer);
 		}
 	}

@@ -1,7 +1,7 @@
 using System.Text;
 using Subrom.Application.Interfaces;
-using Subrom.Infrastructure.Parsing;
 using Subrom.Domain.Aggregates.DatFiles;
+using Subrom.Infrastructure.Parsing;
 
 namespace Subrom.Tests.Unit.Infrastructure;
 

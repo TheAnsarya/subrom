@@ -61,8 +61,6 @@ public sealed class ScanQueueService : IDisposable {
 	private readonly PriorityQueue<Guid, (QueuedScanPriority Priority, DateTime Created)> _priorityQueue;
 	private readonly SemaphoreSlim _queueLock = new(1, 1);
 	private readonly CancellationTokenSource _cts = new();
-
-	private bool _isPaused;
 	private bool _isDisposed;
 
 	public event EventHandler<ScanStatusChangedEventArgs>? ScanStatusChanged;
@@ -83,7 +81,7 @@ public sealed class ScanQueueService : IDisposable {
 	/// <summary>
 	/// Gets whether the queue is paused.
 	/// </summary>
-	public bool IsPaused => _isPaused;
+	public bool IsPaused { get; private set; }
 
 	/// <summary>
 	/// Gets all scans in the queue.
@@ -154,14 +152,14 @@ public sealed class ScanQueueService : IDisposable {
 	/// Pauses the entire queue.
 	/// </summary>
 	public void PauseQueue() {
-		_isPaused = true;
+		IsPaused = true;
 	}
 
 	/// <summary>
 	/// Resumes the queue.
 	/// </summary>
 	public void ResumeQueue() {
-		_isPaused = false;
+		IsPaused = false;
 	}
 
 	/// <summary>
@@ -188,8 +186,8 @@ public sealed class ScanQueueService : IDisposable {
 				}
 			}
 
-			foreach (var item in items) {
-				_priorityQueue.Enqueue(item.Id, (item.Priority, item.Created));
+			foreach (var (Id, Priority, Created) in items) {
+				_priorityQueue.Enqueue(Id, (Priority, Created));
 			}
 		} finally {
 			_queueLock.Release();
@@ -220,7 +218,7 @@ public sealed class ScanQueueService : IDisposable {
 
 		// Wait until we're not paused and there's work
 		while (!linkedCts.IsCancellationRequested) {
-			if (_isPaused) {
+			if (IsPaused) {
 				await Task.Delay(100, linkedCts.Token);
 				continue;
 			}
@@ -309,7 +307,7 @@ public sealed class ScanQueueService : IDisposable {
 			CompletedScans = scans.Count(s => s.Status == QueuedScanStatus.Completed),
 			FailedScans = scans.Count(s => s.Status == QueuedScanStatus.Failed),
 			CancelledScans = scans.Count(s => s.Status == QueuedScanStatus.Cancelled),
-			IsPaused = _isPaused
+			IsPaused = IsPaused
 		};
 	}
 

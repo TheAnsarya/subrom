@@ -63,16 +63,14 @@ internal static class Program {
 
 			var context = serviceProvider.GetRequiredService<TrayApplicationContext>();
 			Application.Run(context);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			Log.Fatal(ex, "Application terminated unexpectedly");
 			MessageBox.Show(
 				$"Fatal error: {ex.Message}",
 				"Subrom Error",
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Error);
-		}
-		finally {
+		} finally {
 			Log.CloseAndFlush();
 		}
 	}

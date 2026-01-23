@@ -232,8 +232,10 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 					if (!string.IsNullOrEmpty(currentRom.Name)) {
 						game.Roms.Add(currentRom);
 					}
+
 					currentRom = null;
 				}
+
 				continue;
 			}
 
@@ -242,6 +244,7 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 				if (!string.IsNullOrEmpty(currentRom.Name)) {
 					game.Roms.Add(currentRom);
 				}
+
 				currentRom = null;
 				continue;
 			}
@@ -341,9 +344,11 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 		if (tokens.Count >= 2) {
 			return (tokens[0], tokens[1]);
 		}
+
 		if (tokens.Count == 1) {
 			return (tokens[0], null);
 		}
+
 		return (null, null);
 	}
 
@@ -363,6 +368,7 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 					tokens.Add(current.ToString());
 					current.Clear();
 				}
+
 				continue;
 			}
 
@@ -372,6 +378,7 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 					tokens.Add(current.ToString());
 					current.Clear();
 				}
+
 				continue;
 			}
 
@@ -391,6 +398,7 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 		if (start >= 0 && end > start) {
 			return line[(start + 1)..end].Trim();
 		}
+
 		return null;
 	}
 
@@ -474,6 +482,7 @@ public sealed partial class ClrMameProDatParser : IDatParser {
 		if (match.Success) {
 			return match.Groups[1].Success ? match.Groups[1].Value : match.Groups[2].Value.Trim('(', ')');
 		}
+
 		return null;
 	}
 

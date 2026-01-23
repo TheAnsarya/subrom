@@ -49,8 +49,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 					return true;
 				}
 			}
-		}
-		catch {
+		} catch {
 			// Ignore parsing errors during detection
 		}
 
@@ -132,6 +131,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 							});
 						}
 					}
+
 					break;
 			}
 		}
@@ -339,6 +339,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 						if (romInfo is not null) {
 							roms.Add(romInfo);
 						}
+
 						break;
 				}
 			}

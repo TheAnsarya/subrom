@@ -12,9 +12,7 @@ public static class OrganizationEndpoints {
 			.WithTags("Organization");
 
 		// Get built-in templates
-		group.MapGet("/templates", () => {
-			return Results.Ok(OrganizationTemplate.BuiltInTemplates);
-		});
+		group.MapGet("/templates", () => Results.Ok(OrganizationTemplate.BuiltInTemplates));
 
 		// Validate a template string
 		group.MapPost("/templates/validate", (ValidateTemplateRequest request) => {

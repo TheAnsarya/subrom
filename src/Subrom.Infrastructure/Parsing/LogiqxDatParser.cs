@@ -26,8 +26,7 @@ public sealed class LogiqxDatParser : IDatParser {
 					return true;
 				}
 			}
-		}
-		catch {
+		} catch {
 			// Ignore parsing errors during detection
 		}
 

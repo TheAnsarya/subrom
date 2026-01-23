@@ -1,6 +1,6 @@
 using Subrom.Application.Interfaces;
-using Subrom.Infrastructure.Services;
 using Subrom.Domain.ValueObjects;
+using Subrom.Infrastructure.Services;
 
 namespace Subrom.Tests.Unit.Infrastructure.Services;
 

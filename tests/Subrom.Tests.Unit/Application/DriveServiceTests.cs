@@ -34,6 +34,7 @@ public class DriveServiceTests : IDisposable {
 		} catch {
 			// Ignore cleanup failures
 		}
+
 		GC.SuppressFinalize(this);
 	}
 

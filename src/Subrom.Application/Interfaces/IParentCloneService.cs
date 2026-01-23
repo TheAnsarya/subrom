@@ -88,6 +88,7 @@ public class ParentCloneIndex {
 			clones = [];
 			_parentToClones[parent] = clones;
 		}
+
 		clones.Add(clone);
 	}
 

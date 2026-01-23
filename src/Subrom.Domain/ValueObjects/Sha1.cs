@@ -57,6 +57,7 @@ public readonly partial record struct Sha1 : IParsable<Sha1>, ISpanParsable<Sha1
 		if (bytes.Length != 20) {
 			throw new ArgumentException("SHA-1 bytes must be exactly 20 bytes.", nameof(bytes));
 		}
+
 		return new Sha1(Convert.ToHexStringLower(bytes));
 	}
 
@@ -67,6 +68,7 @@ public readonly partial record struct Sha1 : IParsable<Sha1>, ISpanParsable<Sha1
 		if (bytes.Length != 20) {
 			throw new ArgumentException("SHA-1 bytes must be exactly 20 bytes.", nameof(bytes));
 		}
+
 		return new Sha1(Convert.ToHexStringLower(bytes));
 	}
 
@@ -91,6 +93,7 @@ public readonly partial record struct Sha1 : IParsable<Sha1>, ISpanParsable<Sha1
 			result = sha1.Value;
 			return true;
 		}
+
 		result = default;
 		return false;
 	}

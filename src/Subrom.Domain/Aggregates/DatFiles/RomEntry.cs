@@ -39,6 +39,7 @@ public class RomEntry : Entity<int> {
 		if (RomHashes.TryCreate(Crc, Md5, Sha1, out var hashes)) {
 			return hashes;
 		}
+
 		return null;
 	}
 

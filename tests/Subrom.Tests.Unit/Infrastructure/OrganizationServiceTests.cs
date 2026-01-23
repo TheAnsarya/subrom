@@ -38,6 +38,7 @@ public class OrganizationServiceTests : IDisposable {
 		} catch {
 			// Ignore cleanup failures
 		}
+
 		GC.SuppressFinalize(this);
 	}
 

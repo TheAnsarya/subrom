@@ -81,9 +81,9 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 						filesSkipped++;
 						continue;
 					}
+
 					modifiedFiles++;
-				}
-				else if (previousState is null) {
+				} else if (previousState is null) {
 					newFiles++;
 				}
 
@@ -114,8 +114,7 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 					await CreateCheckpointInternalAsync(scanJobId, scanPath, options, filesScanned, file.FullName, ct);
 					lastCheckpoint = filesScanned;
 				}
-			}
-			catch (Exception ex) when (ex is not OperationCanceledException) {
+			} catch (Exception ex) when (ex is not OperationCanceledException) {
 				errors.Add(new ScanError {
 					FilePath = file.FullName,
 					ErrorMessage = ex.Message,
@@ -163,6 +162,7 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 			var json = await File.ReadAllTextAsync(checkpointPath, ct);
 			return JsonSerializer.Deserialize<ScanCheckpoint>(json)!;
 		}
+
 		throw new InvalidOperationException($"No checkpoint exists for job {scanJobId}");
 	}
 
@@ -212,8 +212,7 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 						PreviousSize = previous.Size
 					};
 				}
-			}
-			else {
+			} else {
 				yield return new FileChange {
 					FilePath = file.FullName,
 					ChangeType = FileChangeType.New,
@@ -303,11 +302,11 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 				if (FileSystemName.MatchesSimpleExpression(pattern, fileName)) {
 					return true;
 				}
-			}
-			else if (path.Contains(pattern, StringComparison.OrdinalIgnoreCase)) {
+			} else if (path.Contains(pattern, StringComparison.OrdinalIgnoreCase)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -322,6 +321,7 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 				await InvalidateFileAsync(path, ct);
 			}
 		}
+
 		return deleted;
 	}
 
@@ -337,11 +337,9 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 			IEnumerable<string> files;
 			try {
 				files = Directory.EnumerateFiles(path, pattern, options);
-			}
-			catch (UnauthorizedAccessException) {
+			} catch (UnauthorizedAccessException) {
 				continue;
-			}
-			catch (DirectoryNotFoundException) {
+			} catch (DirectoryNotFoundException) {
 				continue;
 			}
 
@@ -351,8 +349,7 @@ public sealed class IncrementalScanService : IIncrementalScanService {
 				FileInfo? fileInfo = null;
 				try {
 					fileInfo = new FileInfo(filePath);
-				}
-				catch {
+				} catch {
 					continue;
 				}
 

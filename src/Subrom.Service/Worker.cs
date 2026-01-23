@@ -33,11 +33,9 @@ public sealed class SubromServiceWorker : BackgroundService {
 
 				await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
 			}
-		}
-		catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) {
+		} catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) {
 			_logger.LogInformation("Subrom Service stopping");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Error in Subrom Service");
 			throw;
 		}
@@ -103,8 +101,7 @@ public sealed class SubromServiceWorker : BackgroundService {
 				if (response.IsSuccessStatusCode) {
 					return true;
 				}
-			}
-			catch {
+			} catch {
 				// Server not ready yet
 			}
 
@@ -139,8 +136,7 @@ public sealed class SubromServiceWorker : BackgroundService {
 				using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
 				await client.PostAsync($"{serverUrl}/api/shutdown", null, cancellationToken);
 				await Task.Delay(1000, cancellationToken);
-			}
-			catch {
+			} catch {
 				// Ignore shutdown errors
 			}
 

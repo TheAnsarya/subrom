@@ -21,20 +21,16 @@ try {
 	var builder = Host.CreateApplicationBuilder(args);
 
 	// Configure Windows Service hosting
-	builder.Services.AddWindowsService(options => {
-		options.ServiceName = "SubromService";
-	});
+	builder.Services.AddWindowsService(options => options.ServiceName = "SubromService");
 
 	builder.Services.AddSerilog();
 	builder.Services.AddHostedService<SubromServiceWorker>();
 
 	var host = builder.Build();
 	await host.RunAsync();
-}
-catch (Exception ex) {
+} catch (Exception ex) {
 	Log.Fatal(ex, "Service terminated unexpectedly");
 	throw;
-}
-finally {
+} finally {
 	await Log.CloseAndFlushAsync();
 }

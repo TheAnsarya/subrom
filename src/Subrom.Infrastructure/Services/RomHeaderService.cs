@@ -104,8 +104,7 @@ public sealed class RomHeaderService : IRomHeaderService {
 				".lnx" => await DetectLynxHeaderAsync(stream, cancellationToken),
 				_ => null
 			};
-		}
-		finally {
+		} finally {
 			// Restore original position
 			stream.Position = originalPosition;
 		}
@@ -244,8 +243,8 @@ public sealed class RomHeaderService : IRomHeaderService {
 
 		// A78 header signature: "ATARI7800" at offset 1
 		if (header[1] == 'A' && header[2] == 'T' && header[3] == 'A' &&
-		    header[4] == 'R' && header[5] == 'I' && header[6] == '7' &&
-		    header[7] == '8' && header[8] == '0' && header[9] == '0') {
+			header[4] == 'R' && header[5] == 'I' && header[6] == '7' &&
+			header[7] == '8' && header[8] == '0' && header[9] == '0') {
 
 			// Extract title (bytes 17-48)
 			var titleBytes = header.AsSpan(17, 32);

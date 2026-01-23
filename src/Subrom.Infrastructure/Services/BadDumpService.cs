@@ -69,11 +69,10 @@ public sealed partial class BadDumpService : IBadDumpService {
 
 			if (datMatches.Count == 0) {
 				// No DAT match - rely on filename analysis
-				if (fileNameAnalysis.HasConcerningFlags) {
-					results[entry] = BadDumpResult.FromFileName(fileNameAnalysis.Flags);
-				} else {
-					results[entry] = BadDumpResult.Unknown(fileNameAnalysis.Flags);
-				}
+				results[entry] = fileNameAnalysis.HasConcerningFlags
+					? BadDumpResult.FromFileName(fileNameAnalysis.Flags)
+					: BadDumpResult.Unknown(fileNameAnalysis.Flags);
+
 				continue;
 			}
 
@@ -135,6 +134,7 @@ public sealed partial class BadDumpService : IBadDumpService {
 			if (badDumpMatch.Groups[1].Success && int.TryParse(badDumpMatch.Groups[1].Value, out var bv)) {
 				badDumpVersion = bv;
 			}
+
 			cleanName = BadDumpFlagRegex().Replace(cleanName, "");
 		}
 
@@ -144,6 +144,7 @@ public sealed partial class BadDumpService : IBadDumpService {
 			if (alternateMatch.Groups[1].Success && int.TryParse(alternateMatch.Groups[1].Value, out var av)) {
 				alternateVersion = av;
 			}
+
 			cleanName = AlternateFlagRegex().Replace(cleanName, "");
 		}
 
@@ -248,6 +249,7 @@ public sealed partial class BadDumpService : IBadDumpService {
 			list = [];
 			index[hash] = list;
 		}
+
 		list.Add(match);
 	}
 

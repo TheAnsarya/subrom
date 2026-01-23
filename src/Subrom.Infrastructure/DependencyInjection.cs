@@ -22,11 +22,7 @@ public static class DependencyInjection {
 	/// <returns>The service collection for chaining.</returns>
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString) {
 		// Register DbContext
-		services.AddDbContext<SubromDbContext>(options => {
-			options.UseSqlite(connectionString, sqliteOptions => {
-				sqliteOptions.CommandTimeout(30);
-			});
-		});
+		services.AddDbContext<SubromDbContext>(options => options.UseSqlite(connectionString, sqliteOptions => sqliteOptions.CommandTimeout(30)));
 
 		// Register UnitOfWork
 		services.AddScoped<IUnitOfWork, UnitOfWork>();

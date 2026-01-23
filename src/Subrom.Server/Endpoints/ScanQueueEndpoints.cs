@@ -65,14 +65,14 @@ public static class ScanQueueEndpoints {
 			ScanQueueService queueService,
 			IDriveRepository driveRepository,
 			CancellationToken ct) => {
-			var drive = await driveRepository.GetByIdAsync(request.DriveId, ct);
-			if (drive is null) {
-				return Results.NotFound(new { Message = $"Drive {request.DriveId} not found." });
-			}
+				var drive = await driveRepository.GetByIdAsync(request.DriveId, ct);
+				if (drive is null) {
+					return Results.NotFound(new { Message = $"Drive {request.DriveId} not found." });
+				}
 
-			var scan = await queueService.EnqueueAsync(drive, request.Priority);
-			return Results.Created($"/api/scan-queue/{scan.Id}", scan);
-		})
+				var scan = await queueService.EnqueueAsync(drive, request.Priority);
+				return Results.Created($"/api/scan-queue/{scan.Id}", scan);
+			})
 		.WithName("EnqueueScan")
 		.WithOpenApi(operation => {
 			operation.Summary = "Enqueue a new scan";
@@ -99,11 +99,11 @@ public static class ScanQueueEndpoints {
 			Guid id,
 			ChangePriorityRequest request,
 			ScanQueueService queueService) => {
-			var success = await queueService.ChangePriorityAsync(id, request.Priority);
-			return success
-				? Results.Ok(new { Message = "Priority changed." })
-				: Results.BadRequest(new { Message = "Cannot change priority (scan not pending or not found)." });
-		})
+				var success = await queueService.ChangePriorityAsync(id, request.Priority);
+				return success
+					? Results.Ok(new { Message = "Priority changed." })
+					: Results.BadRequest(new { Message = "Cannot change priority (scan not pending or not found)." });
+			})
 		.WithName("ChangeScanPriority")
 		.WithOpenApi(operation => {
 			operation.Summary = "Change scan priority";

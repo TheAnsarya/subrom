@@ -87,8 +87,7 @@ public sealed class ServerManager : IDisposable {
 			} else {
 				throw new TimeoutException("Server did not respond in time");
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Failed to start server");
 			SetState(ServerState.Error);
 			throw;
@@ -119,8 +118,7 @@ public sealed class ServerManager : IDisposable {
 					using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
 					await client.PostAsync($"{_settings.ServerUrl}/api/shutdown", null, cancellationToken);
 					await Task.Delay(1000, cancellationToken);
-				}
-				catch {
+				} catch {
 					// Ignore shutdown endpoint errors
 				}
 
@@ -131,8 +129,7 @@ public sealed class ServerManager : IDisposable {
 
 					try {
 						await _serverProcess.WaitForExitAsync(cts.Token);
-					}
-					catch (OperationCanceledException) {
+					} catch (OperationCanceledException) {
 						_logger.LogWarning("Server did not exit gracefully, killing process");
 						_serverProcess.Kill(entireProcessTree: true);
 					}
@@ -144,8 +141,7 @@ public sealed class ServerManager : IDisposable {
 
 			SetState(ServerState.Stopped);
 			_logger.LogInformation("Server stopped");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			_logger.LogError(ex, "Error stopping server");
 			SetState(ServerState.Error);
 			throw;
@@ -169,8 +165,7 @@ public sealed class ServerManager : IDisposable {
 			using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
 			var response = await client.GetAsync($"{_settings.ServerUrl}/health", cancellationToken);
 			return response.IsSuccessStatusCode;
-		}
-		catch {
+		} catch {
 			return false;
 		}
 	}
@@ -219,11 +214,9 @@ public sealed class ServerManager : IDisposable {
 						SetState(ServerState.Error);
 					}
 				}
-			}
-			catch (OperationCanceledException) {
+			} catch (OperationCanceledException) {
 				break;
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				_logger.LogError(ex, "Error in health check");
 			}
 		}
@@ -274,8 +267,7 @@ public sealed class ServerManager : IDisposable {
 			if (!_serverProcess.HasExited) {
 				try {
 					_serverProcess.Kill(entireProcessTree: true);
-				}
-				catch { }
+				} catch { }
 			}
 
 			_serverProcess.Dispose();

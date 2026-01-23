@@ -46,12 +46,10 @@ try {
 
 	Log.Information("Subrom server started on port 52100");
 	await app.RunAsync();
-}
-catch (Exception ex) {
+} catch (Exception ex) {
 	Log.Fatal(ex, "Subrom server terminated unexpectedly");
 	throw;
-}
-finally {
+} finally {
 	await Log.CloseAndFlushAsync();
 }
 
@@ -73,14 +71,10 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 	});
 
 	// CORS for development
-	services.AddCors(options => {
-		options.AddPolicy("Development", policy => {
-			policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+	services.AddCors(options => options.AddPolicy("Development", policy => policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
 				.AllowAnyHeader()
 				.AllowAnyMethod()
-				.AllowCredentials();
-		});
-	});
+				.AllowCredentials()));
 
 	// OpenAPI
 	services.AddOpenApi();

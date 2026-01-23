@@ -39,9 +39,7 @@ public class SettingsServiceTests {
 	[Fact]
 	public async Task UpdateAsync_ModifiesAndSavesSettings() {
 		// Act
-		var settings = await _service.UpdateAsync(s => {
-			s.ScanningParallelThreads = 8;
-		});
+		var settings = await _service.UpdateAsync(s => s.ScanningParallelThreads = 8);
 
 		// Assert
 		Assert.Equal(8, settings.ScanningParallelThreads);
@@ -56,9 +54,7 @@ public class SettingsServiceTests {
 		_testSettings.LastModified = beforeUpdate;
 
 		// Act
-		var settings = await _service.UpdateAsync(s => {
-			s.UiTheme = "light";
-		});
+		var settings = await _service.UpdateAsync(s => s.UiTheme = "light");
 
 		// Assert
 		Assert.True(settings.LastModified > beforeUpdate);

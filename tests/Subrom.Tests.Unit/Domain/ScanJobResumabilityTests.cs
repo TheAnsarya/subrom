@@ -196,8 +196,7 @@ public class ScanJobResumabilityTests {
 
 		// Set the appropriate status
 		if (status == ScanStatus.Running) job.Start();
-		else if (status == ScanStatus.Completed) { job.Start(); job.Complete(); }
-		else if (status == ScanStatus.Cancelled) { job.Start(); job.Cancel(); }
+		else if (status == ScanStatus.Completed) { job.Start(); job.Complete(); } else if (status == ScanStatus.Cancelled) { job.Start(); job.Cancel(); }
 		// Queued is the default
 
 		// Assert

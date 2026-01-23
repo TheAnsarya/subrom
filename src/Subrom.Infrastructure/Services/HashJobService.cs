@@ -96,6 +96,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 		if (_jobs.TryGetValue(jobId, out var job)) {
 			return Task.FromResult<HashJobStatus?>(job.ToStatus());
 		}
+
 		return Task.FromResult<HashJobStatus?>(null);
 	}
 
@@ -103,6 +104,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 		if (_jobs.TryGetValue(jobId, out var job) && job.State == HashJobState.Completed) {
 			return Task.FromResult(job.Result);
 		}
+
 		return Task.FromResult<RomHashes?>(null);
 	}
 
@@ -115,6 +117,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 				return Task.FromResult(true);
 			}
 		}
+
 		return Task.FromResult(false);
 	}
 
@@ -123,6 +126,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 			job.Cts?.Cancel();
 			job.State = HashJobState.Cancelled;
 		}
+
 		_logger.LogDebug("Cancelled batch {BatchId}", batchId);
 		return Task.CompletedTask;
 	}
@@ -140,6 +144,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 			// Invalid cache entry
 			_hashCache.TryRemove(filePath, out _);
 		}
+
 		return Task.FromResult<RomHashes?>(null);
 	}
 
@@ -223,12 +228,10 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 						Result = hashes,
 						Duration = job.CompletedAt.Value - job.StartedAt.Value
 					});
-				}
-				catch (OperationCanceledException) {
+				} catch (OperationCanceledException) {
 					job.State = HashJobState.Cancelled;
 					_logger.LogDebug("Hash job {JobId} was cancelled", job.JobId);
-				}
-				catch (Exception ex) {
+				} catch (Exception ex) {
 					job.State = HashJobState.Failed;
 					job.ErrorMessage = ex.Message;
 					job.CompletedAt = DateTime.UtcNow;
@@ -243,15 +246,12 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 						ErrorMessage = ex.Message,
 						Duration = (job.CompletedAt ?? DateTime.UtcNow) - job.StartedAt!.Value
 					});
-				}
-				finally {
+				} finally {
 					Interlocked.Decrement(ref _inProgressCount);
 				}
-			}
-			catch (OperationCanceledException) when (_shutdownCts.IsCancellationRequested) {
+			} catch (OperationCanceledException) when (_shutdownCts.IsCancellationRequested) {
 				break;
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				_logger.LogError(ex, "Error in hash job processor");
 			}
 		}
@@ -280,8 +280,7 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 		try {
 			// Wait on high priority first
 			return await _highPriorityChannel.Reader.ReadAsync(cts.Token);
-		}
-		catch (OperationCanceledException) {
+		} catch (OperationCanceledException) {
 			return null;
 		}
 	}
@@ -294,12 +293,12 @@ public sealed class HashJobService : IHashJobService, IDisposable {
 
 		try {
 			Task.WaitAll(_workerTasks, TimeSpan.FromSeconds(5));
-		}
-		catch { /* Ignore timeout */ }
+		} catch { /* Ignore timeout */ }
 
 		foreach (var job in _jobs.Values) {
 			job.Cts?.Dispose();
 		}
+
 		_shutdownCts.Dispose();
 	}
 

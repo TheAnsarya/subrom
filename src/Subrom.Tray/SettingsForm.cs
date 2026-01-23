@@ -155,8 +155,7 @@ public partial class SettingsForm : Form {
 			} else {
 				key.DeleteValue("SubromTray", false);
 			}
-		}
-		catch (Exception) {
+		} catch (Exception) {
 			// Registry access may fail without admin rights
 		}
 	}

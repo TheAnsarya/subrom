@@ -80,6 +80,7 @@ public sealed class FileWatcherService : IFileWatcherService {
 			foreach (var timer in state.DebounceTimers.Values) {
 				timer.Dispose();
 			}
+
 			state.DebounceTimers.Clear();
 
 			_logger.LogInformation("Stopped watching {Path} (ID: {Id})", state.Path, watcherId);
@@ -117,6 +118,7 @@ public sealed class FileWatcherService : IFileWatcherService {
 		foreach (var state in _watchers.Values) {
 			state.Watcher.EnableRaisingEvents = false;
 		}
+
 		_logger.LogInformation("Paused all file watchers ({Count} watchers)", _watchers.Count);
 	}
 
@@ -125,6 +127,7 @@ public sealed class FileWatcherService : IFileWatcherService {
 		foreach (var state in _watchers.Values) {
 			state.Watcher.EnableRaisingEvents = true;
 		}
+
 		_logger.LogInformation("Resumed all file watchers ({Count} watchers)", _watchers.Count);
 	}
 
