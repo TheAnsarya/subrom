@@ -2,12 +2,25 @@
 
 **Modern ROM Collection Manager - A feature-rich alternative to RomVault and ClrMame Pro**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue)](CHANGELOG.md)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-359%20passing-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-375%20passing-brightgreen)](tests/)
 [![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)]()
+
+## 📥 Download
+
+| Platform | Download | Notes |
+|----------|----------|-------|
+| **Windows** | [Subrom-1.2.0-win-x64.zip](https://github.com/TheAnsarya/subrom/releases/latest/download/Subrom-1.2.0-win-x64.zip) | Extract, run `install.bat` as Admin |
+| **Linux** | [Subrom-1.2.0-linux-x64.tar.gz](https://github.com/TheAnsarya/subrom/releases/latest/download/Subrom-1.2.0-linux-x64.tar.gz) | Extract, run `sudo ./install.sh` |
+| **macOS (Apple Silicon)** | [Subrom-1.2.0-osx-arm64.tar.gz](https://github.com/TheAnsarya/subrom/releases/latest/download/Subrom-1.2.0-osx-arm64.tar.gz) | Extract, run `./install.sh` |
+| **macOS (Intel)** | [Subrom-1.2.0-osx-x64.tar.gz](https://github.com/TheAnsarya/subrom/releases/latest/download/Subrom-1.2.0-osx-x64.tar.gz) | Extract, run `./install.sh` |
+
+**[All Releases](https://github.com/TheAnsarya/subrom/releases)** • **[Installation Guide](docs/installation.md)** • **[User Guide](docs/user-guide.md)**
+
+---
 
 ## Overview
 

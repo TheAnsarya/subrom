@@ -1,0 +1,287 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g., 1.2.0)'
+        required: true
+        default: '1.2.0'
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          $version = if ("${{ github.event.inputs.version }}") { "${{ github.event.inputs.version }}" } else { "${{ github.ref_name }}".TrimStart('v') }
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build Server
+        run: |
+          dotnet publish src/Subrom.Server/Subrom.Server.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/win-x64
+
+      - name: Build Tray App
+        run: |
+          dotnet publish src/Subrom.Tray/Subrom.Tray.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/win-x64
+
+      - name: Build Service
+        run: |
+          dotnet publish src/Subrom.Service/Subrom.Service.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/win-x64
+
+      - name: Create ZIP
+        shell: pwsh
+        run: |
+          # Copy icon
+          Copy-Item src/Subrom.Tray/Resources/subrom.ico publish/win-x64/
+          # Create install script
+          @'
+          @echo off
+          echo Installing Subrom...
+          echo.
+          echo This will:
+          echo   1. Copy files to Program Files
+          echo   2. Install the Windows Service
+          echo   3. Create Start Menu shortcuts
+          echo.
+          pause
+          
+          mkdir "%ProgramFiles%\Subrom" 2>nul
+          copy /Y *.exe "%ProgramFiles%\Subrom\"
+          copy /Y *.dll "%ProgramFiles%\Subrom\" 2>nul
+          copy /Y *.ico "%ProgramFiles%\Subrom\"
+          copy /Y appsettings.json "%ProgramFiles%\Subrom\" 2>nul
+          
+          echo Installing service...
+          sc create SubromService binPath= "%ProgramFiles%\Subrom\Subrom.Service.exe" start= auto DisplayName= "Subrom Background Service"
+          sc description SubromService "Provides background ROM scanning and verification"
+          
+          echo Creating shortcuts...
+          powershell -Command "$WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('%ProgramData%\Microsoft\Windows\Start Menu\Programs\Subrom.lnk'); $Shortcut.TargetPath = '%ProgramFiles%\Subrom\Subrom.Tray.exe'; $Shortcut.Save()"
+          
+          echo.
+          echo Installation complete!
+          echo Starting Subrom...
+          start "" "%ProgramFiles%\Subrom\Subrom.Tray.exe"
+          '@ | Out-File -Encoding ASCII publish/win-x64/install.bat
+          
+          @'
+          @echo off
+          echo Uninstalling Subrom...
+          taskkill /F /IM Subrom.Tray.exe 2>nul
+          taskkill /F /IM Subrom.Server.exe 2>nul
+          sc stop SubromService 2>nul
+          sc delete SubromService 2>nul
+          del "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Subrom.lnk" 2>nul
+          rmdir /S /Q "%ProgramFiles%\Subrom" 2>nul
+          echo Done!
+          '@ | Out-File -Encoding ASCII publish/win-x64/uninstall.bat
+          
+          Compress-Archive -Path publish/win-x64/* -DestinationPath Subrom-${{ steps.version.outputs.VERSION }}-win-x64.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: Subrom-*.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          version="${{ github.event.inputs.version || github.ref_name }}"
+          echo "VERSION=${version#v}" >> $GITHUB_OUTPUT
+
+      - name: Build Server
+        run: |
+          dotnet publish src/Subrom.Server/Subrom.Server.csproj -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/linux-x64
+
+      - name: Create tarball
+        run: |
+          cd publish/linux-x64
+          cat > install.sh << 'EOF'
+          #!/bin/bash
+          echo "Installing Subrom..."
+          sudo mkdir -p /opt/subrom
+          sudo cp -r * /opt/subrom/
+          sudo chmod +x /opt/subrom/Subrom.Server
+          
+          # Create systemd service
+          sudo tee /etc/systemd/system/subrom.service > /dev/null << 'SERVICE'
+          [Unit]
+          Description=Subrom ROM Manager
+          After=network.target
+          
+          [Service]
+          Type=simple
+          ExecStart=/opt/subrom/Subrom.Server
+          WorkingDirectory=/opt/subrom
+          Restart=always
+          Environment=ASPNETCORE_URLS=http://localhost:5678
+          
+          [Install]
+          WantedBy=multi-user.target
+          SERVICE
+          
+          sudo systemctl daemon-reload
+          sudo systemctl enable subrom
+          sudo systemctl start subrom
+          
+          echo "Subrom installed! Access at http://localhost:5678"
+          EOF
+          chmod +x install.sh
+          
+          cat > uninstall.sh << 'EOF'
+          #!/bin/bash
+          sudo systemctl stop subrom
+          sudo systemctl disable subrom
+          sudo rm /etc/systemd/system/subrom.service
+          sudo rm -rf /opt/subrom
+          echo "Subrom uninstalled."
+          EOF
+          chmod +x uninstall.sh
+          
+          cd ..
+          tar -czvf ../Subrom-${{ steps.version.outputs.VERSION }}-linux-x64.tar.gz linux-x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: Subrom-*.tar.gz
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          version="${{ github.event.inputs.version || github.ref_name }}"
+          echo "VERSION=${version#v}" >> $GITHUB_OUTPUT
+
+      - name: Build Server (arm64)
+        run: |
+          dotnet publish src/Subrom.Server/Subrom.Server.csproj -c Release -r osx-arm64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/osx-arm64
+
+      - name: Build Server (x64)
+        run: |
+          dotnet publish src/Subrom.Server/Subrom.Server.csproj -c Release -r osx-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ steps.version.outputs.VERSION }} -o publish/osx-x64
+
+      - name: Create tarballs
+        run: |
+          for arch in arm64 x64; do
+            cd publish/osx-$arch
+            cat > install.sh << 'EOF'
+          #!/bin/bash
+          echo "Installing Subrom..."
+          mkdir -p ~/Applications/Subrom
+          cp -r * ~/Applications/Subrom/
+          chmod +x ~/Applications/Subrom/Subrom.Server
+          
+          # Create LaunchAgent
+          mkdir -p ~/Library/LaunchAgents
+          cat > ~/Library/LaunchAgents/com.subrom.server.plist << 'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>Label</key><string>com.subrom.server</string>
+              <key>ProgramArguments</key><array><string>$HOME/Applications/Subrom/Subrom.Server</string></array>
+              <key>RunAtLoad</key><true/>
+              <key>KeepAlive</key><true/>
+              <key>EnvironmentVariables</key><dict>
+                  <key>ASPNETCORE_URLS</key><string>http://localhost:5678</string>
+              </dict>
+          </dict>
+          </plist>
+          PLIST
+          
+          launchctl load ~/Library/LaunchAgents/com.subrom.server.plist
+          echo "Subrom installed! Access at http://localhost:5678"
+          EOF
+            chmod +x install.sh
+            cd ../..
+            tar -czvf Subrom-${{ steps.version.outputs.VERSION }}-osx-$arch.tar.gz -C publish osx-$arch
+          done
+
+      - name: Upload arm64 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-arm64
+          path: Subrom-*-osx-arm64.tar.gz
+
+      - name: Upload x64 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-x64
+          path: Subrom-*-osx-x64.tar.gz
+
+  release:
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
+          generate_release_notes: true
+          body: |
+            ## Downloads
+            
+            | Platform | Architecture | File |
+            |----------|--------------|------|
+            | Windows | x64 | `Subrom-${{ github.ref_name }}-win-x64.zip` |
+            | Linux | x64 | `Subrom-${{ github.ref_name }}-linux-x64.tar.gz` |
+            | macOS | Apple Silicon | `Subrom-${{ github.ref_name }}-osx-arm64.tar.gz` |
+            | macOS | Intel | `Subrom-${{ github.ref_name }}-osx-x64.tar.gz` |
+            
+            ## Installation
+            
+            **Windows:** Extract ZIP, run `install.bat` as Administrator
+            
+            **Linux:** Extract, run `sudo ./install.sh`
+            
+            **macOS:** Extract, run `./install.sh`
+            
+            Access web UI at **http://localhost:5678**

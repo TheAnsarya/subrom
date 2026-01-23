@@ -33,4 +33,14 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Resources\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ApplicationIcon>Resources\subrom.ico</ApplicationIcon>
+  </PropertyGroup>
+
 </Project>
