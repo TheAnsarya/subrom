@@ -1,10 +1,12 @@
 # Subrom Project Roadmap
 
-**Last Updated:** January 22, 2026 (1.0.0-rc1)
+**Last Updated:** January 22, 2026 (Cross-Platform Planning)
 
 ## Vision
 
 Build a modern, efficient ROM management system that rivals RomVault and ClrMame Pro, with a beautiful web-based UI, robust offline support, and intelligent DAT file management from all major providers.
+
+**Run Anywhere:** Windows, Linux, macOS
 
 ## Current Status: 1.0.0-rc1 🎉
 
@@ -18,7 +20,7 @@ All core features complete:
 - ✅ File organization with templates
 - ✅ Multi-drive support
 - ✅ Web UI with real-time updates
-- ✅ System tray app
+- ✅ System tray app (Windows)
 - ✅ 359 unit tests passing
 
 ---
@@ -28,7 +30,8 @@ All core features complete:
 | Version | Target | Status | Focus |
 |---------|--------|--------|-------|
 | 1.0.0-rc1 | Jan 2026 | ✅ Released | Core features, testing |
-| 1.0.0 | Feb 2026 | 🎯 Next | Stability, bug fixes |
+| 1.0.0-rc2 | Jan 2026 | 🎯 Next | Cross-platform parity |
+| 1.0.0 | Feb 2026 | 📋 Planned | Stability, bug fixes |
 | 1.1.0 | Q2 2026 | 📋 Planned | Performance, UX polish |
 | 1.2.0 | Q3 2026 | 📋 Planned | Integration features |
 | 2.0.0 | Q4 2026 | 📋 Planned | Major enhancements |
@@ -37,14 +40,27 @@ All core features complete:
 
 ## 1.0.0 Final Release (February 2026)
 
-**Goal:** Production-ready stable release
+**Goal:** Production-ready stable release with cross-platform support
 
-**Focus Areas:**
+### Cross-Platform Support (REQUIRED for 1.0.0)
+
+| Platform | Server | Web UI | Tray App | Service |
+|----------|--------|--------|----------|---------|
+| **Windows** | ✅ Ready | ✅ Ready | ✅ Ready | ✅ Ready |
+| **Linux** | ✅ Ready | ✅ Ready | ⏸️ 1.1.0 | 🔲 systemd |
+| **macOS** | ✅ Ready | ✅ Ready | ⏸️ 1.1.0 | 🔲 launchd |
+
+**Core server is already cross-platform!** Only service integration and documentation needed.
+
+See [cross-platform-plan.md](cross-platform-plan.md) for full details.
+
+### Focus Areas
+
+- [ ] Cross-platform support (Linux, macOS)
 - [ ] Manual testing completion (112 test cases)
 - [ ] Bug fixes from rc1 testing
-- [ ] Performance profiling and optimization
 - [ ] Windows installer (MSI)
-- [ ] Portable ZIP release
+- [ ] Linux/macOS release packages
 - [ ] Final documentation review
 
 ---

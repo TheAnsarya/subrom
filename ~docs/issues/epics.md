@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 22, 2026 (RC1 Released)
+**Last Updated:** January 22, 2026 (Cross-Platform Planning)
 
 ## Epic Overview
 
@@ -20,7 +20,7 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #10 | System Tray & Service | 🟡 In Progress | 15 | 60% |
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
-| #13 | Release 1.0.0 | 🟡 In Progress | 20 | 70% |
+| #13 | Release 1.0.0 | 🟡 In Progress | 28 | 60% |
 | #14 | Performance & Polish | ⚪ Planned | 14 | 0% |
 
 ---
@@ -763,8 +763,9 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 |---|-------|--------|----------|
 | #820 | End-to-end workflow testing | 🟡 In Progress | HIGH |
 | #821 | Performance benchmarks | ⬜ Todo | MEDIUM |
-| #822 | Cross-platform testing (Windows) | ⬜ Todo | MEDIUM |
-| #823 | UI accessibility review | ⬜ Todo | LOW |
+| #822 | Cross-platform testing (Linux) | ⬜ Todo | HIGH |
+| #823 | Cross-platform testing (macOS) | ⬜ Todo | MEDIUM |
+| #824 | UI accessibility review | ⬜ Todo | LOW |
 
 ### Sub-Epic #13.4: Release Artifacts
 
@@ -777,6 +778,34 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #832 | Create portable ZIP release | ⬜ Todo | MEDIUM |
 | #833 | Set up GitHub release workflow | ✅ Done | HIGH |
 | #834 | Create GitHub release v1.0.0-rc1 | ✅ Done | HIGH |
+| #835 | Create Linux x64 release build | ⬜ Todo | HIGH |
+| #836 | Create macOS arm64 release build | ⬜ Todo | MEDIUM |
+
+### Sub-Epic #13.5: Cross-Platform Support (NEW - CRITICAL)
+
+**Parent:** #13 | **Status:** ⬜ Not Started
+
+**Goal:** Ensure core functionality works on Windows, Linux, and macOS
+
+**Reference:** See [cross-platform-plan.md](../plans/cross-platform-plan.md) for full plan
+
+**Current State:**
+- ✅ Subrom.Server - Already cross-platform (`net10.0`)
+- ✅ Subrom.Domain/Application/Infrastructure - Already cross-platform
+- ⚠️ Subrom.Service - Windows-only (use systemd/launchd on other platforms)
+- ⚠️ Subrom.Tray - Windows-only (web UI is primary interface)
+
+| # | Title | Status | Priority | Notes |
+|---|-------|--------|----------|-------|
+| #870 | Create PlatformHelper utility class | ⬜ Todo | HIGH | Data/log directory resolution |
+| #871 | Update database path resolution | ⬜ Todo | HIGH | Platform-specific defaults |
+| #872 | Update log path resolution | ⬜ Todo | HIGH | Platform-specific defaults |
+| #873 | Create Linux systemd service file | ⬜ Todo | HIGH | `/opt/subrom` deployment |
+| #874 | Create macOS launchd plist | ⬜ Todo | HIGH | `/Applications/Subrom` deployment |
+| #875 | Update README with Linux instructions | ⬜ Todo | HIGH | Installation, running, service setup |
+| #876 | Update README with macOS instructions | ⬜ Todo | HIGH | Installation, running, service setup |
+| #877 | Test on Linux (Docker/VM) | ⬜ Todo | HIGH | Full workflow validation |
+| #878 | Test on macOS (if available) | ⬜ Todo | MEDIUM | Full workflow validation |
 
 ---
 
