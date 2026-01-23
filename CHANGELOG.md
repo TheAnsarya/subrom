@@ -10,8 +10,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Cross-platform tray app (Avalonia)
 - Performance benchmarks
-- Windows installer (MSI)
 - Docker image
+
+## [1.2.0] - 2026-01-22
+
+### Added
+- **Cross-Platform Installers** 📦
+  - Windows MSI installer with WiX Toolset v5
+	- Windows Service installation and auto-start
+	- System tray application with auto-start on login
+	- Start Menu and Desktop shortcuts
+	- Upgrade support for seamless updates
+  - Linux DEB package for Debian/Ubuntu
+	- systemd service integration
+	- Auto-start on boot
+	- Proper file permissions and user creation
+  - Linux RPM package for Fedora/RHEL
+  - Linux AppImage for universal distribution
+	- No installation required
+	- XDG-compliant data directories
+  - macOS PKG installer
+	- App bundle with proper Info.plist
+	- LaunchAgent for auto-start on login
+	- Optional DMG creation
+
+- **Build Infrastructure**
+  - `installers/` directory with cross-platform build scripts
+  - `version.json` for centralized version management
+  - GitHub Actions workflow for automated installer builds
+  - Artifact upload to GitHub Releases on tag push
+
+- **New Documentation**
+  - Cross-platform installer plan (`~docs/plans/cross-platform-installer-plan.md`)
+  - Epic #15: Cross-Platform Installers tracking
+  - Installer README with build instructions
+
+### Changed
+- API version updated to 1.2.0
+- Test count: 375 (maintained from 1.1.0)
 
 ## [1.1.0] - 2026-01-22
 

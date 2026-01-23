@@ -21,7 +21,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #11 | Legacy Code Cleanup | ✅ Complete | 8 | 100% |
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
 | #13 | Release 1.0.0 | ✅ Complete | 28 | 100% |
-| #14 | Performance & Polish | 🎯 Next | 14 | 0% |
+| #14 | Performance & Polish | ✅ Complete | 14 | 100% |
+| #15 | Cross-Platform Installers | 🎯 Active | 18 | 0% |
 
 ---
 
@@ -875,3 +876,100 @@ Closes #13
 - `refactor` - Refactoring
 - `test` - Tests
 - `chore` - Maintenance
+
+---
+
+## Epic #15: Cross-Platform Installers
+
+**Goal:** Create professional installers for Windows, Linux, and macOS that set up services, tray apps, and shortcuts
+
+**Labels:** `epic`, `installer`, `cross-platform`, `priority-high`
+
+**Status:** 🎯 Active
+
+**Created:** January 2026
+
+**Reference:** See [cross-platform-installer-plan.md](../plans/cross-platform-installer-plan.md) for detailed plan
+
+### Overview
+
+Build professional, platform-native installers that:
+- Install the server application
+- Set up background services (Windows Service, systemd, launchd)
+- Install system tray application
+- Create shortcuts and menu entries
+- Support clean uninstallation
+- Handle upgrades gracefully
+
+### Sub-Epic #15.1: Build Infrastructure
+
+**Parent:** #15 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #900 | Create installers/ directory structure | ⬜ Todo | HIGH |
+| #901 | Create common version.json | ⬜ Todo | HIGH |
+| #902 | Create master build script (cross-platform) | ⬜ Todo | HIGH |
+| #903 | Add icons for all platforms | ⬜ Todo | MEDIUM |
+
+### Sub-Epic #15.2: Windows MSI Installer
+
+**Parent:** #15 | **Status:** ⬜ Not Started
+
+**Technology:** WiX Toolset v5
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #910 | Set up WiX Toolset project | ⬜ Todo | HIGH |
+| #911 | Define Product.wxs components | ⬜ Todo | HIGH |
+| #912 | Add Windows Service installation | ⬜ Todo | HIGH |
+| #913 | Add tray app startup registration | ⬜ Todo | HIGH |
+| #914 | Create Start Menu shortcuts | ⬜ Todo | MEDIUM |
+| #915 | Add desktop shortcut (optional) | ⬜ Todo | LOW |
+| #916 | Implement upgrade support | ⬜ Todo | MEDIUM |
+| #917 | Test install/uninstall cycle | ⬜ Todo | HIGH |
+
+### Sub-Epic #15.3: Linux Packages
+
+**Parent:** #15 | **Status:** ⬜ Not Started
+
+**Technology:** DEB, RPM, AppImage
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #920 | Create DEB package structure | ⬜ Todo | HIGH |
+| #921 | Write postinst/prerm scripts | ⬜ Todo | HIGH |
+| #922 | Create RPM spec file | ⬜ Todo | MEDIUM |
+| #923 | Build AppImage for universal support | ⬜ Todo | MEDIUM |
+| #924 | Add desktop entry file | ⬜ Todo | HIGH |
+| #925 | Configure systemd service | ⬜ Todo | HIGH |
+| #926 | Test on Ubuntu/Debian | ⬜ Todo | HIGH |
+| #927 | Test on Fedora/RHEL | ⬜ Todo | MEDIUM |
+
+### Sub-Epic #15.4: macOS PKG Installer
+
+**Parent:** #15 | **Status:** ⬜ Not Started
+
+**Technology:** productbuild, create-dmg
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #930 | Create app bundle structure | ⬜ Todo | HIGH |
+| #931 | Write Distribution.xml | ⬜ Todo | HIGH |
+| #932 | Create install scripts | ⬜ Todo | HIGH |
+| #933 | Configure launchd agent | ⬜ Todo | HIGH |
+| #934 | Build PKG installer | ⬜ Todo | HIGH |
+| #935 | Create DMG with background | ⬜ Todo | MEDIUM |
+| #936 | Sign and notarize (when certs available) | ⬜ Todo | LOW |
+
+### Sub-Epic #15.5: CI/CD Integration
+
+**Parent:** #15 | **Status:** ⬜ Not Started
+
+| # | Title | Status | Priority |
+|---|-------|--------|----------|
+| #940 | Add Windows installer build to CI | ⬜ Todo | HIGH |
+| #941 | Add Linux package build to CI | ⬜ Todo | HIGH |
+| #942 | Add macOS installer build to CI | ⬜ Todo | HIGH |
+| #943 | Upload artifacts to GitHub releases | ⬜ Todo | HIGH |
+| #944 | Create installer download page docs | ⬜ Todo | MEDIUM |
