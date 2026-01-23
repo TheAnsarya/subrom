@@ -24,10 +24,10 @@ jobs:
         run: dotnet restore Subrom.sln
 
       - name: Build
-        run: dotnet build Subrom.sln --no-restore -c Release
+        run: dotnet build Subrom.sln --no-restore -c Release -p:EnableWindowsTargeting=true
 
       - name: Test
-        run: dotnet test Subrom.sln --no-build -c Release --verbosity normal
+        run: dotnet test Subrom.sln --no-build -c Release --verbosity normal -p:EnableWindowsTargeting=true
 
   build-ui:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: subrom-ui
-        run: yarn install --immutable
+        run: yarn install
 
       - name: Build UI
         working-directory: subrom-ui
