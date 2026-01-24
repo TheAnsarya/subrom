@@ -263,11 +263,11 @@ The Subrom UI is a modern React-based web application that provides a comprehens
 │ Welcome  │───▶│ Register │───▶│ Select   │───▶│ First    │
 │ Screen   │    │ Drives   │    │ DAT Prov │    │ Scan     │
 └──────────┘    └──────────┘    └──────────┘    └──────────┘
-                                                      │
-                                                      ▼
-                                               ┌──────────┐
-                                               │Dashboard │
-                                               └──────────┘
+	                                                  │
+	                                                  ▼
+	                                           ┌──────────┐
+	                                           │Dashboard │
+	                                           └──────────┘
 ```
 
 ### Flow 2: Import DAT File

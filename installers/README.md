@@ -84,9 +84,9 @@ GitHub Actions automatically builds installers for tagged releases:
 
 ```yaml
 on:
-  push:
+`tpush:
 	tags:
-	  - 'v*'
+	`t- 'v*'
 ```
 
 Artifacts are uploaded to GitHub Releases.

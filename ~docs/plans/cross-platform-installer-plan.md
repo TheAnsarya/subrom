@@ -180,30 +180,30 @@ dotnet build installers/windows/Subrom.Installer.wixproj -c Release
 name: Build Installers
 
 on:
-  push:
+`tpush:
 	tags:
-	  - 'v*'
+	`t- 'v*'
 
 jobs:
-  build-windows:
+`tbuild-windows:
 	runs-on: windows-latest
 	steps:
-	  - uses: actions/checkout@v4
-	  - name: Build MSI
+	`t- uses: actions/checkout@v4
+	`t- name: Build MSI
 		run: dotnet build installers/windows/Subrom.Installer.wixproj -c Release
 
-  build-linux:
+`tbuild-linux:
 	runs-on: ubuntu-latest
 	steps:
-	  - uses: actions/checkout@v4
-	  - name: Build DEB
+	`t- uses: actions/checkout@v4
+	`t- name: Build DEB
 		run: ./installers/linux/build-deb.sh
 
-  build-macos:
+`tbuild-macos:
 	runs-on: macos-latest
 	steps:
-	  - uses: actions/checkout@v4
-	  - name: Build PKG
+	`t- uses: actions/checkout@v4
+	`t- name: Build PKG
 		run: ./installers/macos/build-pkg.sh
 ```
 

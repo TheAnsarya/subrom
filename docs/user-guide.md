@@ -17,16 +17,16 @@ A complete guide to using Subrom for ROM management and verification.
 ### First Launch
 
 1. **Open the Web Interface**
-   - Navigate to **http://localhost:5678** in your browser
-   - The dashboard shows your collection statistics
+	 - Navigate to **http://localhost:5678** in your browser
+	 - The dashboard shows your collection statistics
 
 2. **System Tray (Windows)**
-   - Look for the Subrom icon in your system tray
-   - Right-click for quick actions:
-     - Open Web UI
-     - Start/Stop Server
-     - View Logs
-     - Settings
+	 - Look for the Subrom icon in your system tray
+	 - Right-click for quick actions:
+	 - Open Web UI
+	 - Start/Stop Server
+	 - View Logs
+	 - Settings
 
 ### Dashboard Overview
 
@@ -72,8 +72,8 @@ DAT files define the expected ROMs for a system. Subrom supports:
 2. Click **Add Folder** or **Add Drive**
 3. Select the folder/drive containing ROMs
 4. Configure scan options:
-   - **Include subfolders** - Scan recursively
-   - **Include archives** - Scan inside ZIP, 7z, RAR files
+	 - **Include subfolders** - Scan recursively
+	 - **Include archives** - Scan inside ZIP, 7z, RAR files
 
 ### Starting a Scan
 
@@ -121,9 +121,9 @@ ROMs are automatically verified against loaded DAT files when:
 1. Go to **Verification** page
 2. Click **Verify All** or select specific files
 3. View results by:
-   - System/DAT file
-   - Verification status
-   - Drive/folder
+	 - System/DAT file
+	 - Verification status
+	 - Drive/folder
 
 ---
 
@@ -136,7 +136,7 @@ Create a curated set with one ROM per game:
 1. Go to **Organization** > **1G1R**
 2. Select your DAT file
 3. Configure region priority:
-   - Drag regions to reorder (e.g., USA > Europe > Japan)
+	 - Drag regions to reorder (e.g., USA > Europe > Japan)
 4. Configure language priority
 5. Click **Generate 1G1R Set**
 
@@ -155,8 +155,8 @@ Find duplicate ROMs across your collection:
 
 1. Go to **Organization** > **Duplicates**
 2. Scan for duplicates by:
-   - Exact hash match
-   - Same game, different format
+	 - Exact hash match
+	 - Same game, different format
 3. Review and optionally delete duplicates
 
 ---
@@ -172,11 +172,11 @@ Find duplicate ROMs across your collection:
 
 1. Go to **Export** page
 2. Choose what to export:
-   - All ROMs
-   - Verified ROMs only
-   - Unknown ROMs only
-   - Bad dumps only
-   - By specific drive/folder
+	 - All ROMs
+	 - Verified ROMs only
+	 - Unknown ROMs only
+	 - Bad dumps only
+	 - By specific drive/folder
 3. Click **Export**
 4. Download the file
 

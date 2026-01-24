@@ -71,13 +71,13 @@ Subrom.sln
 ```csharp
 // Application layer defines interfaces
 public interface IDatFileRepository {
-    Task<DatFile?> GetByIdAsync(Guid id, CancellationToken ct);
-    Task<IReadOnlyList<DatFile>> GetAllAsync(CancellationToken ct);
-    void Add(DatFile datFile);
+	Task<DatFile?> GetByIdAsync(Guid id, CancellationToken ct);
+	Task<IReadOnlyList<DatFile>> GetAllAsync(CancellationToken ct);
+	void Add(DatFile datFile);
 }
 
 public interface IUnitOfWork {
-    Task<int> SaveChangesAsync(CancellationToken ct);
+	Task<int> SaveChangesAsync(CancellationToken ct);
 }
 
 // Infrastructure implements them with EF Core
@@ -103,8 +103,8 @@ The domain uses value objects for type-safe hash values:
 
 ```csharp
 public readonly record struct Crc {
-    public string Value { get; }
-    public static Crc Create(string hex) => new(hex.ToLowerInvariant());
+	public string Value { get; }
+	public static Crc Create(string hex) => new(hex.ToLowerInvariant());
 }
 
 public readonly record struct RomHashes(Crc Crc, Md5 Md5, Sha1 Sha1);
@@ -141,13 +141,13 @@ subrom-ui/
 ```typescript
 // Example store
 export const useDatStore = create<DatStore>((set) => ({
-    datFiles: [],
-    isLoading: false,
-    fetchDatFiles: async () => {
-        set({ isLoading: true });
-        const files = await apiClient.getDatFiles();
-        set({ datFiles: files, isLoading: false });
-    }
+	datFiles: [],
+	isLoading: false,
+	fetchDatFiles: async () => {
+	    set({ isLoading: true });
+	    const files = await apiClient.getDatFiles();
+	    set({ datFiles: files, isLoading: false });
+	}
 }));
 ```
 

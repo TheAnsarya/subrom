@@ -14,24 +14,24 @@ The most common modern format, used by No-Intro, Redump, and others.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" 
-          "http://www.logiqx.com/Dats/datafile.dtd">
+	      "http://www.logiqx.com/Dats/datafile.dtd">
 <datafile>
-    <header>
-        <name>Nintendo - Nintendo Entertainment System</name>
-        <description>Nintendo - Nintendo Entertainment System</description>
-        <version>20260115-123456</version>
-        <author>No-Intro</author>
-        <homepage>https://www.no-intro.org</homepage>
-        <url>https://datomatic.no-intro.org</url>
-    </header>
-    <game name="Super Mario Bros. (USA)">
-        <description>Super Mario Bros.</description>
-        <rom name="Super Mario Bros. (USA).nes" 
-             size="40976" 
-             crc="d445f698" 
-             md5="811b027eaf99c2def7b933c5208636de" 
-             sha1="facee9c577a5262dbee256de7740d2d87e85f3e0"/>
-    </game>
+	<header>
+	    <name>Nintendo - Nintendo Entertainment System</name>
+	    <description>Nintendo - Nintendo Entertainment System</description>
+	    <version>20260115-123456</version>
+	    <author>No-Intro</author>
+	    <homepage>https://www.no-intro.org</homepage>
+	    <url>https://datomatic.no-intro.org</url>
+	</header>
+	<game name="Super Mario Bros. (USA)">
+	    <description>Super Mario Bros.</description>
+	    <rom name="Super Mario Bros. (USA).nes" 
+	         size="40976" 
+	         crc="d445f698" 
+	         md5="811b027eaf99c2def7b933c5208636de" 
+	         sha1="facee9c577a5262dbee256de7740d2d87e85f3e0"/>
+	</game>
 </datafile>
 ```
 
@@ -50,16 +50,16 @@ Plain-text format, popular with older tools and some providers.
 **Structure:**
 ```
 clrmamepro (
-    name "Nintendo - Nintendo Entertainment System"
-    description "Nintendo - Nintendo Entertainment System"
-    version "20260115"
-    author "No-Intro"
+	name "Nintendo - Nintendo Entertainment System"
+	description "Nintendo - Nintendo Entertainment System"
+	version "20260115"
+	author "No-Intro"
 )
 
 game (
-    name "Super Mario Bros. (USA)"
-    description "Super Mario Bros."
-    rom ( name "Super Mario Bros. (USA).nes" size 40976 crc d445f698 md5 811b027eaf99c2def7b933c5208636de sha1 facee9c577a5262dbee256de7740d2d87e85f3e0 )
+	name "Super Mario Bros. (USA)"
+	description "Super Mario Bros."
+	rom ( name "Super Mario Bros. (USA).nes" size 40976 crc d445f698 md5 811b027eaf99c2def7b933c5208636de sha1 facee9c577a5262dbee256de7740d2d87e85f3e0 )
 )
 ```
 
@@ -161,32 +161,32 @@ Super Mario Bros. (1985)(Nintendo)(NES)(USA)[!]
 
 ```csharp
 public interface IDatParser {
-    Task<Datafile> ParseAsync(Stream stream, CancellationToken ct = default);
-    bool CanParse(Stream stream);
+	Task<Datafile> ParseAsync(Stream stream, CancellationToken ct = default);
+	bool CanParse(Stream stream);
 }
 
 public class XmlDatParser : IDatParser {
-    public async Task<Datafile> ParseAsync(Stream stream, CancellationToken ct) {
-        using var reader = XmlReader.Create(stream, new XmlReaderSettings {
-            Async = true,
-            IgnoreWhitespace = true
-        });
-        
-        // Stream parse for large files
-        while (await reader.ReadAsync()) {
-            if (reader.NodeType == XmlNodeType.Element) {
-                switch (reader.LocalName) {
-                    case "header":
-                        ParseHeader(reader);
-                        break;
-                    case "game":
-                    case "machine":
-                        yield return ParseGame(reader);
-                        break;
-                }
-            }
-        }
-    }
+	public async Task<Datafile> ParseAsync(Stream stream, CancellationToken ct) {
+	    using var reader = XmlReader.Create(stream, new XmlReaderSettings {
+	        Async = true,
+	        IgnoreWhitespace = true
+	    });
+	    
+	    // Stream parse for large files
+	    while (await reader.ReadAsync()) {
+	        if (reader.NodeType == XmlNodeType.Element) {
+	            switch (reader.LocalName) {
+	                case "header":
+	                    ParseHeader(reader);
+	                    break;
+	                case "game":
+	                case "machine":
+	                    yield return ParseGame(reader);
+	                    break;
+	            }
+	        }
+	    }
+	}
 }
 ```
 
@@ -194,40 +194,40 @@ public class XmlDatParser : IDatParser {
 
 ```sql
 CREATE TABLE DatFiles (
-    Id TEXT PRIMARY KEY,
-    Name TEXT NOT NULL,
-    Description TEXT,
-    Version TEXT,
-    Author TEXT,
-    Provider TEXT,
-    FilePath TEXT,
-    ImportedAt TEXT,
-    GameCount INTEGER,
-    RomCount INTEGER
+	Id TEXT PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Description TEXT,
+	Version TEXT,
+	Author TEXT,
+	Provider TEXT,
+	FilePath TEXT,
+	ImportedAt TEXT,
+	GameCount INTEGER,
+	RomCount INTEGER
 );
 
 CREATE TABLE DatGames (
-    Id TEXT PRIMARY KEY,
-    DatFileId TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    Description TEXT,
-    Year TEXT,
-    Manufacturer TEXT,
-    CloneOf TEXT,
-    RomOf TEXT,
-    FOREIGN KEY (DatFileId) REFERENCES DatFiles(Id)
+	Id TEXT PRIMARY KEY,
+	DatFileId TEXT NOT NULL,
+	Name TEXT NOT NULL,
+	Description TEXT,
+	Year TEXT,
+	Manufacturer TEXT,
+	CloneOf TEXT,
+	RomOf TEXT,
+	FOREIGN KEY (DatFileId) REFERENCES DatFiles(Id)
 );
 
 CREATE TABLE DatRoms (
-    Id TEXT PRIMARY KEY,
-    DatGameId TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    Size INTEGER,
-    Crc32 TEXT,
-    Md5 TEXT,
-    Sha1 TEXT,
-    Status TEXT DEFAULT 'good',
-    FOREIGN KEY (DatGameId) REFERENCES DatGames(Id)
+	Id TEXT PRIMARY KEY,
+	DatGameId TEXT NOT NULL,
+	Name TEXT NOT NULL,
+	Size INTEGER,
+	Crc32 TEXT,
+	Md5 TEXT,
+	Sha1 TEXT,
+	Status TEXT DEFAULT 'good',
+	FOREIGN KEY (DatGameId) REFERENCES DatGames(Id)
 );
 
 CREATE INDEX idx_datroms_crc32 ON DatRoms(Crc32);

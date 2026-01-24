@@ -42,49 +42,49 @@ subrom-ui/
 ├── public/
 │   └── favicon.ico
 └── src/
-    ├── main.tsx           # Entry point
-    ├── App.tsx            # Root component
-    ├── vite-env.d.ts
-    ├── api/               # API client layer
-    │   ├── client.ts      # Base fetch wrapper
-    │   ├── dats.ts        # DAT file API
-    │   ├── roms.ts        # ROM file API
-    │   ├── scan.ts        # Scanning API
-    │   └── verification.ts # Verification API
-    ├── components/        # Reusable components
-    │   ├── Layout/
-    │   │   ├── Layout.tsx
-    │   │   ├── Layout.module.css
-    │   │   ├── Sidebar.tsx
-    │   │   └── Header.tsx
-    │   ├── DataTable/
-    │   │   ├── DataTable.tsx
-    │   │   └── DataTable.module.css
-    │   ├── FileUpload/
-    │   ├── ProgressBar/
-    │   └── Modal/
-    ├── hooks/             # Custom React hooks
-    │   ├── useApi.ts
-    │   ├── useSignalR.ts
-    │   └── useScanProgress.ts
-    ├── pages/             # Page components
-    │   ├── Dashboard/
-    │   ├── DatManager/
-    │   ├── RomFiles/
-    │   ├── Verification/
-    │   └── Settings/
-    ├── stores/            # Zustand stores
-    │   ├── appStore.ts
-    │   ├── datStore.ts
-    │   └── scanStore.ts
-    ├── styles/            # Global styles
-    │   ├── variables.css
-    │   ├── global.css
-    │   └── themes.css
-    └── types/             # TypeScript types
-        ├── api.ts
-        ├── dat.ts
-        └── rom.ts
+	├── main.tsx           # Entry point
+	├── App.tsx            # Root component
+	├── vite-env.d.ts
+	├── api/               # API client layer
+	│   ├── client.ts      # Base fetch wrapper
+	│   ├── dats.ts        # DAT file API
+	│   ├── roms.ts        # ROM file API
+	│   ├── scan.ts        # Scanning API
+	│   └── verification.ts # Verification API
+	├── components/        # Reusable components
+	│   ├── Layout/
+	│   │   ├── Layout.tsx
+	│   │   ├── Layout.module.css
+	│   │   ├── Sidebar.tsx
+	│   │   └── Header.tsx
+	│   ├── DataTable/
+	│   │   ├── DataTable.tsx
+	│   │   └── DataTable.module.css
+	│   ├── FileUpload/
+	│   ├── ProgressBar/
+	│   └── Modal/
+	├── hooks/             # Custom React hooks
+	│   ├── useApi.ts
+	│   ├── useSignalR.ts
+	│   └── useScanProgress.ts
+	├── pages/             # Page components
+	│   ├── Dashboard/
+	│   ├── DatManager/
+	│   ├── RomFiles/
+	│   ├── Verification/
+	│   └── Settings/
+	├── stores/            # Zustand stores
+	│   ├── appStore.ts
+	│   ├── datStore.ts
+	│   └── scanStore.ts
+	├── styles/            # Global styles
+	│   ├── variables.css
+	│   ├── global.css
+	│   └── themes.css
+	└── types/             # TypeScript types
+	    ├── api.ts
+	    ├── dat.ts
+	    └── rom.ts
 ```
 
 ### Coding Standards

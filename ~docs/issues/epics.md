@@ -2,7 +2,7 @@
 
 This document tracks all GitHub epics and their associated issues for the Subrom project.
 
-**Last Updated:** January 22, 2026 (1.0.0 Released!)
+**Last Updated:** January 24, 2026 (CI/CD Implemented!)
 
 ## Epic Overview
 
@@ -22,7 +22,8 @@ This document tracks all GitHub epics and their associated issues for the Subrom
 | #12 | Base Feature Completion | ✅ Complete | 10 | 100% |
 | #13 | Release 1.0.0 | ✅ Complete | 28 | 100% |
 | #14 | Performance & Polish | ✅ Complete | 14 | 100% |
-| #15 | Cross-Platform Installers | 🎯 Active | 18 | 0% |
+| #15 | Cross-Platform Installers | 🎯 Active | 18 | 30% |
+| #16 | CI/CD Pipeline | ✅ Complete | 6 | 100% |
 
 ---
 
@@ -973,3 +974,32 @@ Build professional, platform-native installers that:
 | #942 | Add macOS installer build to CI | ⬜ Todo | HIGH |
 | #943 | Upload artifacts to GitHub releases | ⬜ Todo | HIGH |
 | #944 | Create installer download page docs | ⬜ Todo | MEDIUM |
+
+---
+
+## Epic #16: CI/CD Pipeline (NEW - COMPLETED)
+
+**Goal:** Implement continuous integration and deployment pipeline
+
+**Labels:** `epic`, `devops`, `priority-high`
+
+**Status:** ✅ Complete
+
+**Completed:** January 24, 2026
+
+### Issues
+
+| # | Title | Status | Notes |
+|---|-------|--------|-------|
+| #950 | Create CI workflow (ci.yml) | ✅ Done | Build + test on every push |
+| #951 | Add multi-platform build matrix | ✅ Done | Windows, Linux, macOS |
+| #952 | Configure .NET 10 preview SDK | ✅ Done | include-prerelease flag |
+| #953 | Set up Yarn Berry (4.12.0) in CI | ✅ Done | corepack + --immutable |
+| #954 | Add Vite production build | ✅ Done | UI build verification |
+| #955 | Upload build artifacts | ✅ Done | Cross-platform binaries |
+
+**Results:**
+- CI badge added to README.md
+- Comprehensive docs at `docs/ci-cd.md`
+- GitHub Actions: FREE unlimited minutes for public repos
+- Modern tooling: Node 22, Yarn Berry, .NET 10 preview

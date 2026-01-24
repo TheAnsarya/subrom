@@ -216,37 +216,37 @@ dkong (Donkey Kong (US set 1))
 
 ```csharp
 public interface IDatProvider {
-    string Name { get; }
-    Task<IEnumerable<DatInfo>> GetAvailableDatsAsync();
-    Task<Stream> DownloadDatAsync(string datId);
-    Task<DateTime?> GetLastUpdateAsync(string datId);
+	string Name { get; }
+	Task<IEnumerable<DatInfo>> GetAvailableDatsAsync();
+	Task<Stream> DownloadDatAsync(string datId);
+	Task<DateTime?> GetLastUpdateAsync(string datId);
 }
 
 public class NoIntroProvider : IDatProvider {
-    public string Name => "No-Intro";
-    
-    // Implementation details...
+	public string Name => "No-Intro";
+	
+	// Implementation details...
 }
 
 public class TosecProvider : IDatProvider {
-    public string Name => "TOSEC";
-    
-    // Implementation details...
+	public string Name => "TOSEC";
+	
+	// Implementation details...
 }
 
 public class DatProviderService {
-    private readonly Dictionary<string, IDatProvider> _providers;
-    
-    public async Task UpdateAllDatsAsync() {
-        foreach (var provider in _providers.Values) {
-            var dats = await provider.GetAvailableDatsAsync();
-            foreach (var dat in dats) {
-                if (await NeedsUpdateAsync(dat)) {
-                    await DownloadAndImportAsync(provider, dat);
-                }
-            }
-        }
-    }
+	private readonly Dictionary<string, IDatProvider> _providers;
+	
+	public async Task UpdateAllDatsAsync() {
+	    foreach (var provider in _providers.Values) {
+	        var dats = await provider.GetAvailableDatsAsync();
+	        foreach (var dat in dats) {
+	            if (await NeedsUpdateAsync(dat)) {
+	                await DownloadAndImportAsync(provider, dat);
+	            }
+	        }
+	    }
+	}
 }
 ```
 

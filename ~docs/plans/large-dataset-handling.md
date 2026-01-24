@@ -27,8 +27,8 @@ Subrom must handle DAT files and ROM collections of vastly different sizes:
 #### DAT Import Pipeline
 ```
 DAT File → XML Stream Reader → Batch Processor → Database
-                ↓
-         SignalR Progress Updates
+	            ↓
+	     SignalR Progress Updates
 ```
 
 - Stream-parse XML (don't load entire file into memory)
@@ -191,8 +191,8 @@ src/
 │   │   └── TreeView/            # Hierarchical tree view
 │   └── DatTree/                 # DAT hierarchy browser
 └── utils/
-    ├── cache.ts                 # Cache utilities
-    └── memoryMonitor.ts         # Memory usage tracking
+	├── cache.ts                 # Cache utilities
+	└── memoryMonitor.ts         # Memory usage tracking
 ```
 
 ## Performance Targets

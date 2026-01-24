@@ -149,7 +149,7 @@ Infrastructure/
 ├── Extensions/
 │   └── BasicExtensions.cs
 └── Parsers/
-    └── XmlDatParser.cs (+ others)
+	└── XmlDatParser.cs (+ others)
 ```
 
 **Problems:**
@@ -229,37 +229,37 @@ Create `IArchiveService` in `Subrom.Application`:
 
 ```csharp
 public interface IArchiveService {
-    Task<IReadOnlyList<ArchiveEntry>> ListEntriesAsync(
-        string archivePath, 
-        CancellationToken ct = default);
-    
-    Task<Stream> OpenEntryAsync(
-        string archivePath, 
-        string entryPath, 
-        CancellationToken ct = default);
-    
-    Task ExtractEntryAsync(
-        string archivePath, 
-        string entryPath, 
-        string destinationPath, 
-        CancellationToken ct = default);
-    
-    Task ExtractAllAsync(
-        string archivePath, 
-        string destinationDir, 
-        IProgress<ExtractionProgress>? progress = null,
-        CancellationToken ct = default);
-    
-    bool SupportsFormat(string extension);
+	Task<IReadOnlyList<ArchiveEntry>> ListEntriesAsync(
+	    string archivePath, 
+	    CancellationToken ct = default);
+	
+	Task<Stream> OpenEntryAsync(
+	    string archivePath, 
+	    string entryPath, 
+	    CancellationToken ct = default);
+	
+	Task ExtractEntryAsync(
+	    string archivePath, 
+	    string entryPath, 
+	    string destinationPath, 
+	    CancellationToken ct = default);
+	
+	Task ExtractAllAsync(
+	    string archivePath, 
+	    string destinationDir, 
+	    IProgress<ExtractionProgress>? progress = null,
+	    CancellationToken ct = default);
+	
+	bool SupportsFormat(string extension);
 }
 
 public record ArchiveEntry {
-    public required string Path { get; init; }
-    public required long Size { get; init; }
-    public required long CompressedSize { get; init; }
-    public DateTime? LastModified { get; init; }
-    public string? Crc32 { get; init; }  // Some formats store this
-    public bool IsDirectory { get; init; }
+	public required string Path { get; init; }
+	public required long Size { get; init; }
+	public required long CompressedSize { get; init; }
+	public DateTime? LastModified { get; init; }
+	public string? Crc32 { get; init; }  // Some formats store this
+	public bool IsDirectory { get; init; }
 }
 ```
 
@@ -267,30 +267,30 @@ public record ArchiveEntry {
 
 ```csharp
 public sealed class SharpCompressArchiveService : IArchiveService {
-    private static readonly string[] SupportedExtensions = [
-        ".zip", ".7z", ".rar", ".gz", ".tar", ".tar.gz", ".tgz"
-    ];
-    
-    public async Task<IReadOnlyList<ArchiveEntry>> ListEntriesAsync(
-        string archivePath, 
-        CancellationToken ct = default) {
-        await using var stream = File.OpenRead(archivePath);
-        using var archive = ArchiveFactory.Open(stream);
-        
-        return archive.Entries
-            .Where(e => !e.IsDirectory)
-            .Select(e => new ArchiveEntry {
-                Path = e.Key ?? "",
-                Size = e.Size,
-                CompressedSize = e.CompressedSize,
-                LastModified = e.LastModifiedTime,
-                Crc32 = e.Crc?.ToString("x8"),
-                IsDirectory = e.IsDirectory
-            })
-            .ToList();
-    }
-    
-    // ... other implementations
+	private static readonly string[] SupportedExtensions = [
+	    ".zip", ".7z", ".rar", ".gz", ".tar", ".tar.gz", ".tgz"
+	];
+	
+	public async Task<IReadOnlyList<ArchiveEntry>> ListEntriesAsync(
+	    string archivePath, 
+	    CancellationToken ct = default) {
+	    await using var stream = File.OpenRead(archivePath);
+	    using var archive = ArchiveFactory.Open(stream);
+	    
+	    return archive.Entries
+	        .Where(e => !e.IsDirectory)
+	        .Select(e => new ArchiveEntry {
+	            Path = e.Key ?? "",
+	            Size = e.Size,
+	            CompressedSize = e.CompressedSize,
+	            LastModified = e.LastModifiedTime,
+	            Crc32 = e.Crc?.ToString("x8"),
+	            IsDirectory = e.IsDirectory
+	        })
+	        .ToList();
+	}
+	
+	// ... other implementations
 }
 ```
 
@@ -315,29 +315,29 @@ public sealed class SharpCompressArchiveService : IArchiveService {
 ### Phase 5: Clean Up Solution
 
 1. Remove legacy projects from solution:
-   - `Compression`
-   - `Domain` (legacy)
-   - `Services`
-   - `Infrastructure` (legacy)
-   - `SubromAPI`
-   - `ConsoleTesting` (evaluate)
+	 - `Compression`
+	 - `Domain` (legacy)
+	 - `Services`
+	 - `Infrastructure` (legacy)
+	 - `SubromAPI`
+	 - `ConsoleTesting` (evaluate)
 
 2. Update remaining projects:
-   - Ensure all use modern `src/` projects
-   - Remove any lingering references
+	 - Ensure all use modern `src/` projects
+	 - Remove any lingering references
 
 3. Final solution structure:
-   ```
-   Subrom.sln
-   ├── src/
-   │   ├── Subrom.Domain/
-   │   ├── Subrom.Application/
-   │   ├── Subrom.Infrastructure/
-   │   └── Subrom.Server/
-   ├── tests/
-   │   └── Subrom.Tests.Unit/
-   └── subrom-ui/
-   ```
+	 ```
+	 Subrom.sln
+	 ├── src/
+	 │   ├── Subrom.Domain/
+	 │   ├── Subrom.Application/
+	 │   ├── Subrom.Infrastructure/
+	 │   └── Subrom.Server/
+	 ├── tests/
+	 │   └── Subrom.Tests.Unit/
+	 └── subrom-ui/
+	 ```
 
 ---
 

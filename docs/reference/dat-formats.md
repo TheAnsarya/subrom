@@ -19,23 +19,23 @@ The primary format used by most modern DAT providers. This is an XML-based forma
 ```xml
 <?xml version="1.0"?>
 <!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" 
-          "http://www.logiqx.com/Dats/datafile.dtd">
+	      "http://www.logiqx.com/Dats/datafile.dtd">
 <datafile>
-    <header>
-        <name>Nintendo - Game Boy</name>
-        <description>Nintendo - Game Boy (20260115-123456)</description>
-        <version>20260115-123456</version>
-        <author>No-Intro</author>
-        <homepage>https://no-intro.org</homepage>
-    </header>
-    <game name="Tetris (World) (Rev 1)">
-        <description>Tetris (World) (Rev 1)</description>
-        <rom name="Tetris (World) (Rev 1).gb" 
-             size="32768" 
-             crc="46df91ad" 
-             md5="982ed5d2b12a0377eb14bcdc4123744e" 
-             sha1="2c1f73e0f5a5fa0d63a3a7e994fc7e4fc5c51c21"/>
-    </game>
+	<header>
+	    <name>Nintendo - Game Boy</name>
+	    <description>Nintendo - Game Boy (20260115-123456)</description>
+	    <version>20260115-123456</version>
+	    <author>No-Intro</author>
+	    <homepage>https://no-intro.org</homepage>
+	</header>
+	<game name="Tetris (World) (Rev 1)">
+	    <description>Tetris (World) (Rev 1)</description>
+	    <rom name="Tetris (World) (Rev 1).gb" 
+	         size="32768" 
+	         crc="46df91ad" 
+	         md5="982ed5d2b12a0377eb14bcdc4123744e" 
+	         sha1="2c1f73e0f5a5fa0d63a3a7e994fc7e4fc5c51c21"/>
+	</game>
 </datafile>
 ```
 
@@ -67,16 +67,16 @@ A text-based format created by ClrMamePro. Still used by some providers.
 
 ```
 clrmamepro (
-    name "Nintendo - Game Boy"
-    description "Nintendo - Game Boy"
-    version 20260115
-    author "No-Intro"
+	name "Nintendo - Game Boy"
+	description "Nintendo - Game Boy"
+	version 20260115
+	author "No-Intro"
 )
 
 game (
-    name "Tetris (World) (Rev 1)"
-    description "Tetris (World) (Rev 1)"
-    rom ( name "Tetris (World) (Rev 1).gb" size 32768 crc 46df91ad md5 982ed5d2b12a0377eb14bcdc4123744e sha1 2c1f73e0f5a5fa0d63a3a7e994fc7e4fc5c51c21 )
+	name "Tetris (World) (Rev 1)"
+	description "Tetris (World) (Rev 1)"
+	rom ( name "Tetris (World) (Rev 1).gb" size 32768 crc 46df91ad md5 982ed5d2b12a0377eb14bcdc4123744e sha1 2c1f73e0f5a5fa0d63a3a7e994fc7e4fc5c51c21 )
 )
 ```
 

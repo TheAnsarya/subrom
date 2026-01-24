@@ -23,25 +23,25 @@
 
 ### Technology Stack
 - **Backend:** C# .NET 10 Web API
-  - SignalR for real-time streaming progress
-  - EF Core + SQLite for data persistence
-  - Domain-driven design with Services layer
+`t- SignalR for real-time streaming progress
+`t- EF Core + SQLite for data persistence
+`t- Domain-driven design with Services layer
 - **Frontend:** React 19 + TypeScript + Vite
-  - Zustand for state management
-  - react-window for virtualized lists (60K+ entries)
-  - FontAwesome icons
-  - CSS Modules for styling
+`t- Zustand for state management
+`t- react-window for virtualized lists (60K+ entries)
+`t- FontAwesome icons
+`t- CSS Modules for styling
 
 ### Frontend Package Manager
 - **ALWAYS use Yarn, NEVER npm or npx**
 - Vite is the build tool, yarn is the package manager
 - Commands:
-  - `yarn install` - Install dependencies
-  - `yarn add <package>` - Add a dependency
-  - `yarn add -D <package>` - Add a dev dependency
-  - `yarn dev` - Start development server
-  - `yarn build` - Build for production
-  - `yarn preview` - Preview production build
+`t- `yarn install` - Install dependencies
+`t- `yarn add <package>` - Add a dependency
+`t- `yarn add -D <package>` - Add a dev dependency
+`t- `yarn dev` - Start development server
+`t- `yarn build` - Build for production
+`t- `yarn preview` - Preview production build
 
 ## Code Style & Formatting
 
@@ -126,13 +126,13 @@ Documentation about *making* the project:
 - Always commit at appropriate checkpoints
 - Push commits regularly
 - Use conventional commit messages:
-  - `feat:` - New features
-  - `fix:` - Bug fixes
-  - `docs:` - Documentation
-  - `style:` - Formatting/whitespace
-  - `refactor:` - Code restructuring
-  - `test:` - Tests
-  - `chore:` - Maintenance
+`t- `feat:` - New features
+`t- `fix:` - Bug fixes
+`t- `docs:` - Documentation
+`t- `style:` - Formatting/whitespace
+`t- `refactor:` - Code restructuring
+`t- `test:` - Tests
+`t- `chore:` - Maintenance
 
 ## Token Usage
 

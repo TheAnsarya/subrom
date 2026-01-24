@@ -96,12 +96,12 @@ Subrom.sln
 ├── ConsoleTesting/              # CLI testing project
 │
 └── subrom-ui/                   # React frontend
-    ├── src/
-    │   ├── components/
-    │   ├── pages/
-    │   ├── services/
-    │   └── hooks/
-    └── package.json
+	├── src/
+	│   ├── components/
+	│   ├── pages/
+	│   ├── services/
+	│   └── hooks/
+	└── package.json
 ```
 
 ## Data Flow
@@ -122,11 +122,11 @@ Subrom.sln
 │ File System │────▶│ Scanner      │────▶│ Hash Service  │
 │ (Enumerate) │     │ (Find ROMs)  │     │ (Calculate)   │
 └─────────────┘     └──────────────┘     └───────┬───────┘
-                                                  │
-                    ┌──────────────┐     ┌───────▼───────┐
-                    │ Results      │◀────│ Verifier      │
-                    │ (Store)      │     │ (Match DATs)  │
-                    └──────────────┘     └───────────────┘
+	                                              │
+	                ┌──────────────┐     ┌───────▼───────┐
+	                │ Results      │◀────│ Verifier      │
+	                │ (Store)      │     │ (Match DATs)  │
+	                └──────────────┘     └───────────────┘
 ```
 
 ### ROM Organization
@@ -136,11 +136,11 @@ Subrom.sln
 │ Scan Results│────▶│ Organization │────▶│ File Mover    │
 │ (Input)     │     │ Rules        │     │ (Execute)     │
 └─────────────┘     └──────────────┘     └───────┬───────┘
-                                                  │
-                    ┌──────────────┐     ┌───────▼───────┐
-                    │ Database     │◀────│ Logger        │
-                    │ (Update)     │     │ (Record)      │
-                    └──────────────┘     └───────────────┘
+	                                              │
+	                ┌──────────────┐     ┌───────▼───────┐
+	                │ Database     │◀────│ Logger        │
+	                │ (Update)     │     │ (Record)      │
+	                └──────────────┘     └───────────────┘
 ```
 
 ## Key Design Decisions

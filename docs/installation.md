@@ -18,10 +18,10 @@ Complete installation instructions for all platforms.
 2. Double-click the MSI file to run the installer
 3. Follow the installation wizard
 4. Choose installation options:
-   - **Subrom Core** - Required server and web interface
-   - **Background Service** - Windows Service for auto-start (recommended)
-   - **System Tray Application** - Tray icon for easy access (recommended)
-   - **Shortcuts** - Start Menu and Desktop shortcuts
+`t - **Subrom Core** - Required server and web interface
+`t - **Background Service** - Windows Service for auto-start (recommended)
+`t - **System Tray Application** - Tray icon for easy access (recommended)
+`t - **Shortcuts** - Start Menu and Desktop shortcuts
 
 After installation:
 - The server starts automatically as a Windows Service
@@ -123,8 +123,8 @@ rm Subrom-X.X.X-x86_64.AppImage
 2. Double-click to open the installer
 3. Follow the installation wizard
 4. If prompted about unidentified developer:
-   - Go to System Settings > Privacy & Security
-   - Click "Open Anyway"
+`t - Go to System Settings > Privacy & Security
+`t - Click "Open Anyway"
 
 After installation:
 - Subrom is installed to `/Applications/Subrom.app`
@@ -225,7 +225,7 @@ export ASPNETCORE_URLS=http://localhost:8080
 Or edit `appsettings.json`:
 ```json
 {
-  "Urls": "http://localhost:8080"
+`t"Urls": "http://localhost:8080"
 }
 ```
 
@@ -236,8 +236,8 @@ Or edit `appsettings.json`:
 ### Server won't start
 
 1. Check if port 5678 is in use: 
-   - Windows: `netstat -ano | findstr 5678`
-   - Linux/macOS: `lsof -i :5678`
+`t - Windows: `netstat -ano | findstr 5678`
+`t - Linux/macOS: `lsof -i :5678`
 2. Check logs for errors
 3. Ensure .NET runtime is installed
 

@@ -118,8 +118,8 @@ For 1.1.0:
 │   └─────────────────────────────────────────────────────┘   │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
+`t                          │
+`t                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                      SERVER LAYER                            │
 ├─────────────────────────────────────────────────────────────┤
@@ -162,27 +162,27 @@ Create `src/Subrom.Infrastructure/Platform/PlatformHelper.cs`:
 
 ```csharp
 public static class PlatformHelper {
-    public static bool IsWindows => OperatingSystem.IsWindows();
-    public static bool IsMacOS => OperatingSystem.IsMacOS();
-    public static bool IsLinux => OperatingSystem.IsLinux();
-    
-    public static string GetDataDirectory() {
-        if (IsWindows)
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Subrom");
-        if (IsMacOS)
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support", "Subrom");
-        // Linux
-        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config", "subrom");
-    }
-    
-    public static string GetLogDirectory() {
-        if (IsWindows)
-            return Path.Combine(GetDataDirectory(), "logs");
-        if (IsMacOS)
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Logs", "Subrom");
-        // Linux
-        return Path.Combine(GetDataDirectory(), "logs");
-    }
+`tpublic static bool IsWindows => OperatingSystem.IsWindows();
+`tpublic static bool IsMacOS => OperatingSystem.IsMacOS();
+`tpublic static bool IsLinux => OperatingSystem.IsLinux();
+`t
+`tpublic static string GetDataDirectory() {
+`t    if (IsWindows)
+`t        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Subrom");
+`t    if (IsMacOS)
+`t        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support", "Subrom");
+`t    // Linux
+`t    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config", "subrom");
+`t}
+`t
+`tpublic static string GetLogDirectory() {
+`t    if (IsWindows)
+`t        return Path.Combine(GetDataDirectory(), "logs");
+`t    if (IsMacOS)
+`t        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Logs", "Subrom");
+`t    // Linux
+`t    return Path.Combine(GetDataDirectory(), "logs");
+`t}
 }
 ```
 
@@ -213,20 +213,20 @@ WantedBy=multi-user.target
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-    <string>com.subrom.server</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/Subrom/Subrom.Server</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardOutPath</key>
-    <string>/tmp/subrom.log</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/subrom.err</string>
+`t<key>Label</key>
+`t<string>com.subrom.server</string>
+`t<key>ProgramArguments</key>
+`t<array>
+`t    <string>/Applications/Subrom/Subrom.Server</string>
+`t</array>
+`t<key>RunAtLoad</key>
+`t<true/>
+`t<key>KeepAlive</key>
+`t<true/>
+`t<key>StandardOutPath</key>
+`t<string>/tmp/subrom.log</string>
+`t<key>StandardErrorPath</key>
+`t<string>/tmp/subrom.err</string>
 </dict>
 </plist>
 ```
@@ -236,11 +236,11 @@ WantedBy=multi-user.target
 Update `Subrom.Service.csproj`:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-  <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <!-- Only build on Windows -->
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-  </PropertyGroup>
+`t<PropertyGroup>
+`t<TargetFramework>net10.0-windows</TargetFramework>
+`t<!-- Only build on Windows -->
+`t<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+`t</PropertyGroup>
 </Project>
 ```
 
@@ -270,16 +270,16 @@ Replace WinForms with Avalonia:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.*" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.*" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.*" />
-  </ItemGroup>
+`t<PropertyGroup>
+`t<OutputType>WinExe</OutputType>
+`t<TargetFramework>net10.0</TargetFramework>
+`t<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+`t</PropertyGroup>
+`t<ItemGroup>
+`t<PackageReference Include="Avalonia" Version="11.*" />
+`t<PackageReference Include="Avalonia.Desktop" Version="11.*" />
+`t<PackageReference Include="Avalonia.Themes.Fluent" Version="11.*" />
+`t</ItemGroup>
 </Project>
 ```
 

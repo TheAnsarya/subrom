@@ -84,8 +84,8 @@ Proposed: Parallel I/O across different physical drives
 ```
 Before: Drive A → Drive B → Drive C (serial)
 After:  Drive A ↘
-        Drive B → (parallel, I/O distributed)  
-        Drive C ↗
+	    Drive B → (parallel, I/O distributed)  
+	    Drive C ↗
 ```
 
 Benefits:

@@ -56,11 +56,11 @@ This plan describes the complete rebuild of the Subrom backend using modern .NET
 │  └───────────────────────────────────────────────────────────────┘  │
 │                                                                      │
 └───────────────────────────────┬──────────────────────────────────────┘
-                                │
-                    ┌───────────┴───────────┐
-                    │      SQLite DB        │
-                    │  (portable, embedded) │
-                    └───────────────────────┘
+`t                            │
+`t                ┌───────────┴───────────┐
+`t                │      SQLite DB        │
+`t                │  (portable, embedded) │
+`t                └───────────────────────┘
 ```
 
 ## Database: SQLite Analysis
@@ -83,7 +83,7 @@ This plan describes the complete rebuild of the Subrom backend using modern .NET
 
 ```csharp
 optionsBuilder.UseSqlite(connectionString, options => {
-    options.CommandTimeout(60);
+`toptions.CommandTimeout(60);
 })
 .EnableSensitiveDataLogging(isDevelopment)
 .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
@@ -254,9 +254,9 @@ Subrom/
 EF Core is already a repository/UoW, but for testability:
 ```csharp
 public interface IDatRepository {
-    Task<DatFile?> GetByIdAsync(int id, CancellationToken ct = default);
-    Task<IReadOnlyList<DatFile>> GetAllAsync(CancellationToken ct = default);
-    Task<DatFile> AddAsync(DatFile datFile, CancellationToken ct = default);
+`tTask<DatFile?> GetByIdAsync(int id, CancellationToken ct = default);
+`tTask<IReadOnlyList<DatFile>> GetAllAsync(CancellationToken ct = default);
+`tTask<DatFile> AddAsync(DatFile datFile, CancellationToken ct = default);
 }
 ```
 
@@ -273,8 +273,8 @@ public record ImportDatCommand(Stream DatStream, string FileName);
 ### 3. Background Services
 ```csharp
 public class ScanBackgroundService : BackgroundService {
-    private readonly Channel<ScanCommand> _channel;
-    // Process scan jobs from queue
+`tprivate readonly Channel<ScanCommand> _channel;
+`t// Process scan jobs from queue
 }
 ```
 
@@ -330,18 +330,18 @@ POST   /api/system/settings         # Update settings
 ### SignalR Hubs
 ```csharp
 public class ProgressHub : Hub {
-    // Groups: "dat-import-{id}", "scan-{id}", "all-progress"
-    
-    // Server → Client
-    Task DatImportProgress(DatImportProgressDto progress);
-    Task ScanProgress(ScanProgressDto progress);
-    Task FileHashProgress(FileHashProgressDto progress);
-    Task CacheInvalidation(CacheInvalidationDto invalidation);
-    
-    // Client → Server
-    Task SubscribeToOperation(string operationId);
-    Task UnsubscribeFromOperation(string operationId);
-    Task CancelOperation(string operationId);
+`t// Groups: "dat-import-{id}", "scan-{id}", "all-progress"
+`t
+`t// Server → Client
+`tTask DatImportProgress(DatImportProgressDto progress);
+`tTask ScanProgress(ScanProgressDto progress);
+`tTask FileHashProgress(FileHashProgressDto progress);
+`tTask CacheInvalidation(CacheInvalidationDto invalidation);
+`t
+`t// Client → Server
+`tTask SubscribeToOperation(string operationId);
+`tTask UnsubscribeFromOperation(string operationId);
+`tTask CancelOperation(string operationId);
 }
 ```
 
@@ -407,24 +407,24 @@ public class ProgressHub : Hub {
 
 ```json
 {
-  "Subrom": {
-    "Database": {
-      "Path": "%LOCALAPPDATA%/Subrom/subrom.db"
-    },
-    "Server": {
-      "Port": 52100,
-      "EnableSwagger": true
-    },
-    "Scanning": {
-      "MaxParallelFiles": 4,
-      "HashAlgorithms": ["CRC32", "MD5", "SHA1"],
-      "BufferSizeKB": 1024
-    },
-    "Drives": {
-      "AutoDetect": true,
-      "PollIntervalSeconds": 30
-    }
-  }
+`t"Subrom": {
+`t"Database": {
+`t  "Path": "%LOCALAPPDATA%/Subrom/subrom.db"
+`t},
+`t"Server": {
+`t  "Port": 52100,
+`t  "EnableSwagger": true
+`t},
+`t"Scanning": {
+`t  "MaxParallelFiles": 4,
+`t  "HashAlgorithms": ["CRC32", "MD5", "SHA1"],
+`t  "BufferSizeKB": 1024
+`t},
+`t"Drives": {
+`t  "AutoDetect": true,
+`t  "PollIntervalSeconds": 30
+`t}
+`t}
 }
 ```
 

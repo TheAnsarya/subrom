@@ -19,9 +19,9 @@ This folder contains all development documentation for the Subrom ROM Manager pr
 │   ├── epics.md               # Epic tracking document
 │   └── templates/             # Issue templates
 └── research/                   # Research and references
-    ├── dat-formats.md         # DAT file format documentation
-    ├── providers.md           # ROM set providers (TOSEC, No-Intro, etc.)
-    └── competitors.md         # Analysis of RomVault, ClrMame, etc.
+	├── dat-formats.md         # DAT file format documentation
+	├── providers.md           # ROM set providers (TOSEC, No-Intro, etc.)
+	└── competitors.md         # Analysis of RomVault, ClrMame, etc.
 ```
 
 ## Quick Links

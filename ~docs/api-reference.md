@@ -43,7 +43,7 @@ POST /api/dat/import
 Content-Type: application/json
 
 {
-  "path": "C:\\path\\to\\datfile.dat"
+`t"path": "C:\\path\\to\\datfile.dat"
 }
 ```
 
@@ -58,37 +58,37 @@ POST /api/dat/{id}/1g1r
 Content-Type: application/json
 
 {
-  "regionPriority": ["USA", "Europe", "Japan", "World"],
-  "languagePriority": ["En", "De", "Fr", "Es"],
-  "preferParent": true,
-  "preferLatestRevision": true,
-  "preferVerified": true,
-  "excludeCategories": ["Beta", "Proto", "Sample", "Demo"]
+`t"regionPriority": ["USA", "Europe", "Japan", "World"],
+`t"languagePriority": ["En", "De", "Fr", "Es"],
+`t"preferParent": true,
+`t"preferLatestRevision": true,
+`t"preferVerified": true,
+`t"excludeCategories": ["Beta", "Proto", "Sample", "Demo"]
 }
 ```
 
 **Response:**
 ```json
 {
-  "datFileId": "guid",
-  "datFileName": "string",
-  "totalGames": 1000,
-  "filteredGames": 500,
-  "excludedGames": 500,
-  "options": { ... },
-  "games": [
-    {
-      "gameName": "Super Mario Bros",
-      "selectedGame": {
-        "name": "Super Mario Bros (USA)",
-        "region": "USA",
-        "languages": "En",
-        "score": 100
-      },
-      "alternatives": [...],
-      "alternativeCount": 5
-    }
-  ]
+`t"datFileId": "guid",
+`t"datFileName": "string",
+`t"totalGames": 1000,
+`t"filteredGames": 500,
+`t"excludedGames": 500,
+`t"options": { ... },
+`t"games": [
+`t{
+`t  "gameName": "Super Mario Bros",
+`t  "selectedGame": {
+`t    "name": "Super Mario Bros (USA)",
+`t    "region": "USA",
+`t    "languages": "En",
+`t    "score": 100
+`t  },
+`t  "alternatives": [...],
+`t  "alternativeCount": 5
+`t}
+`t]
 }
 ```
 
@@ -100,19 +100,19 @@ GET /api/dat/{id}/parent-clone?limit=200
 **Response:**
 ```json
 {
-  "datFileId": "guid",
-  "datFileName": "string",
-  "totalGames": 1000,
-  "parentCount": 400,
-  "cloneCount": 500,
-  "standaloneCount": 100,
-  "groups": [
-    {
-      "parent": "Game Name",
-      "cloneCount": 5,
-      "clones": ["Clone 1", "Clone 2", ...]
-    }
-  ]
+`t"datFileId": "guid",
+`t"datFileName": "string",
+`t"totalGames": 1000,
+`t"parentCount": 400,
+`t"cloneCount": 500,
+`t"standaloneCount": 100,
+`t"groups": [
+`t{
+`t  "parent": "Game Name",
+`t  "cloneCount": 5,
+`t  "clones": ["Clone 1", "Clone 2", ...]
+`t}
+`t]
 }
 ```
 
@@ -141,10 +141,10 @@ POST /api/scans
 Content-Type: application/json
 
 {
-  "path": "C:\\ROMs",
-  "driveId": "guid (optional)",
-  "includeArchives": true,
-  "hashAlgorithms": ["Crc", "Md5", "Sha1"]
+`t"path": "C:\\ROMs",
+`t"driveId": "guid (optional)",
+`t"includeArchives": true,
+`t"hashAlgorithms": ["Crc", "Md5", "Sha1"]
 }
 ```
 
@@ -186,21 +186,21 @@ GET /api/romfiles/duplicates?driveId={guid}&limit=100
 **Response:**
 ```json
 {
-  "totalGroups": 50,
-  "totalDuplicates": 100,
-  "wastedSpace": 1073741824,
-  "groups": [
-    {
-      "count": 3,
-      "totalSize": 1048576,
-      "wastedSpace": 2097152,
-      "crc": "12345678",
-      "sha1": "abcdef...",
-      "files": [
-        { "fileName": "file1.rom", "path": "/path/to/file1", "size": 1048576 }
-      ]
-    }
-  ]
+`t"totalGroups": 50,
+`t"totalDuplicates": 100,
+`t"wastedSpace": 1073741824,
+`t"groups": [
+`t{
+`t  "count": 3,
+`t  "totalSize": 1048576,
+`t  "wastedSpace": 2097152,
+`t  "crc": "12345678",
+`t  "sha1": "abcdef...",
+`t  "files": [
+`t    { "fileName": "file1.rom", "path": "/path/to/file1", "size": 1048576 }
+`t  ]
+`t}
+`t]
 }
 ```
 
@@ -212,21 +212,21 @@ GET /api/romfiles/baddumps?driveId={guid}&limit=100
 **Response:**
 ```json
 {
-  "totalChecked": 1000,
-  "badDumpsFound": 5,
-  "suspectFiles": 10,
-  "results": [
-    {
-      "file": { "fileName": "bad.rom", "path": "/path", "size": 1024 },
-      "isBadDump": true,
-      "status": "BadDump",
-      "source": "No-Intro",
-      "flags": "None",
-      "datFileName": "Nintendo - NES.dat",
-      "gameName": "Some Game",
-      "romName": "some.rom"
-    }
-  ]
+`t"totalChecked": 1000,
+`t"badDumpsFound": 5,
+`t"suspectFiles": 10,
+`t"results": [
+`t{
+`t  "file": { "fileName": "bad.rom", "path": "/path", "size": 1024 },
+`t  "isBadDump": true,
+`t  "status": "BadDump",
+`t  "source": "No-Intro",
+`t  "flags": "None",
+`t  "datFileName": "Nintendo - NES.dat",
+`t  "gameName": "Some Game",
+`t  "romName": "some.rom"
+`t}
+`t]
 }
 ```
 
@@ -247,12 +247,12 @@ POST /api/verification/file/{id}
 **Response:**
 ```json
 {
-  "fileId": "guid",
-  "fileName": "game.rom",
-  "status": "Verified",
-  "matchedDatFiles": [...],
-  "matchedGames": [...],
-  "verifiedAt": "2026-01-21T12:00:00Z"
+`t"fileId": "guid",
+`t"fileName": "game.rom",
+`t"status": "Verified",
+`t"matchedDatFiles": [...],
+`t"matchedGames": [...],
+`t"verifiedAt": "2026-01-21T12:00:00Z"
 }
 ```
 
@@ -262,7 +262,7 @@ POST /api/verification/path
 Content-Type: application/json
 
 {
-  "path": "C:\\ROMs\\game.rom"
+`t"path": "C:\\ROMs\\game.rom"
 }
 ```
 
@@ -272,7 +272,7 @@ POST /api/verification/batch
 Content-Type: application/json
 
 {
-  "fileIds": ["guid1", "guid2", "guid3"]
+`t"fileIds": ["guid1", "guid2", "guid3"]
 }
 ```
 
@@ -289,11 +289,11 @@ GET /api/verification/stats
 **Response:**
 ```json
 {
-  "totalFiles": 10000,
-  "verifiedFiles": 8000,
-  "unverifiedFiles": 1500,
-  "badDumps": 50,
-  "notInDat": 450
+`t"totalFiles": 10000,
+`t"verifiedFiles": 8000,
+`t"unverifiedFiles": 1500,
+`t"badDumps": 50,
+`t"notInDat": 450
 }
 ```
 
@@ -317,8 +317,8 @@ POST /api/organization/templates/validate
 Content-Type: application/json
 
 {
-  "folderTemplate": "{System}/{Region}/{Letter}",
-  "fileNameTemplate": "{Name}{Ext}"
+`t"folderTemplate": "{System}/{Region}/{Letter}",
+`t"fileNameTemplate": "{Name}{Ext}"
 }
 ```
 
@@ -328,11 +328,11 @@ POST /api/organization/templates/preview
 Content-Type: application/json
 
 {
-  "folderTemplate": "{System}/{Region}",
-  "fileNameTemplate": "{CleanName}{Ext}",
-  "sampleName": "Super Mario Bros (USA)",
-  "sampleSystem": "Nintendo - NES",
-  "sampleExtension": ".nes"
+`t"folderTemplate": "{System}/{Region}",
+`t"fileNameTemplate": "{CleanName}{Ext}",
+`t"sampleName": "Super Mario Bros (USA)",
+`t"sampleSystem": "Nintendo - NES",
+`t"sampleExtension": ".nes"
 }
 ```
 
@@ -342,10 +342,10 @@ POST /api/organization/plan
 Content-Type: application/json
 
 {
-  "sourcePath": "C:\\ROMs\\Unsorted",
-  "destinationPath": "C:\\ROMs\\Sorted",
-  "templateId": "guid",
-  "move": false
+`t"sourcePath": "C:\\ROMs\\Unsorted",
+`t"destinationPath": "C:\\ROMs\\Sorted",
+`t"templateId": "guid",
+`t"move": false
 }
 ```
 
@@ -355,10 +355,10 @@ POST /api/organization/execute
 Content-Type: application/json
 
 {
-  "sourcePath": "C:\\ROMs\\Unsorted",
-  "destinationPath": "C:\\ROMs\\Sorted",
-  "templateId": "guid",
-  "move": true
+`t"sourcePath": "C:\\ROMs\\Unsorted",
+`t"destinationPath": "C:\\ROMs\\Sorted",
+`t"templateId": "guid",
+`t"move": true
 }
 ```
 
@@ -380,13 +380,13 @@ GET /api/organization/stats
 **Response:**
 ```json
 {
-  "totalOperations": 100,
-  "successfulOperations": 95,
-  "failedOperations": 5,
-  "totalFilesProcessed": 50000,
-  "totalBytesProcessed": 107374182400,
-  "rolledBackOperations": 2,
-  "lastOperationAt": "2026-01-21T12:00:00Z"
+`t"totalOperations": 100,
+`t"successfulOperations": 95,
+`t"failedOperations": 5,
+`t"totalFilesProcessed": 50000,
+`t"totalBytesProcessed": 107374182400,
+`t"rolledBackOperations": 2,
+`t"lastOperationAt": "2026-01-21T12:00:00Z"
 }
 ```
 
@@ -420,8 +420,8 @@ POST /api/drives
 Content-Type: application/json
 
 {
-  "label": "My ROM Drive",
-  "path": "D:\\"
+`t"label": "My ROM Drive",
+`t"path": "D:\\"
 }
 ```
 
@@ -454,8 +454,8 @@ All endpoints return standard error responses:
 
 ```json
 {
-  "message": "Error description",
-  "errors": ["Detail 1", "Detail 2"]
+`t"message": "Error description",
+`t"errors": ["Detail 1", "Detail 2"]
 }
 ```
 

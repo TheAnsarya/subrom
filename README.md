@@ -43,51 +43,51 @@ Subrom is a modern ROM collection management tool with a beautiful web UI, real-
 ### ✅ Complete & Working
 
 - **DAT File Support**
-  - Logiqx XML parser (No-Intro, Redump, MAME)
-  - ClrMamePro DAT parser (TOSEC, legacy)
-  - Streaming parser for 60K+ entry files
-  - Category browser
+	- Logiqx XML parser (No-Intro, Redump, MAME)
+	- ClrMamePro DAT parser (TOSEC, legacy)
+	- Streaming parser for 60K+ entry files
+	- Category browser
 
 - **ROM Scanning**
-  - Recursive folder scanning
-  - Archive support (ZIP, 7z, RAR, TAR, GZip)
-  - Parallel hash computation (CRC32, MD5, SHA1)
-  - ROM header detection and removal
-  - Scan resume/checkpoint
-  - Background job processing
+	- Recursive folder scanning
+	- Archive support (ZIP, 7z, RAR, TAR, GZip)
+	- Parallel hash computation (CRC32, MD5, SHA1)
+	- ROM header detection and removal
+	- Scan resume/checkpoint
+	- Background job processing
 
 - **Verification**
-  - Hash-based verification
-  - Duplicate detection
-  - Bad dump identification
-  - 1G1R filtering
-  - Parent/clone detection
+	- Hash-based verification
+	- Duplicate detection
+	- Bad dump identification
+	- 1G1R filtering
+	- Parent/clone detection
 
 - **Organization**
-  - 5 built-in templates
-  - Custom placeholders
-  - Move/copy with rollback
-  - Dry-run preview
-  - Operation undo
+	- 5 built-in templates
+	- Custom placeholders
+	- Move/copy with rollback
+	- Dry-run preview
+	- Operation undo
 
 - **Storage Management**
-  - Multi-drive support
-  - Online/offline tracking
-  - Network drives (UNC)
-  - Space monitoring
+	- Multi-drive support
+	- Online/offline tracking
+	- Network drives (UNC)
+	- Space monitoring
 
 - **Web UI**
-  - Dashboard with stats
-  - DAT manager
-  - ROM browser (virtualized for 60K+ rows)
-  - Verification results
-  - Settings page
-  - Dark/light themes
+	- Dashboard with stats
+	- DAT manager
+	- ROM browser (virtualized for 60K+ rows)
+	- Verification results
+	- Settings page
+	- Dark/light themes
 
 - **Desktop**
-  - System tray application
-  - Windows service
-  - Auto-start support
+	- System tray application
+	- Windows service
+	- Auto-start support
 
 ## Quick Start
 
@@ -274,23 +274,23 @@ The server will start at `http://localhost:52100`
 ### First Steps
 
 1. **Import a DAT file**
-   - Go to DAT Manager page
-   - Click "Import DAT"
-   - Upload a No-Intro, TOSEC, or other DAT file
+	 - Go to DAT Manager page
+	 - Click "Import DAT"
+	 - Upload a No-Intro, TOSEC, or other DAT file
 
 2. **Register a drive**
-   - Go to Settings → Drives
-   - Add your ROM storage drive(s)
+	 - Go to Settings → Drives
+	 - Add your ROM storage drive(s)
 
 3. **Scan for ROMs**
-   - Go to Dashboard
-   - Click "Scan" on a registered drive
-   - Watch real-time progress
+	 - Go to Dashboard
+	 - Click "Scan" on a registered drive
+	 - Watch real-time progress
 
 4. **View Results**
-   - Browse verified ROMs
-   - See duplicates, missing, bad dumps
-   - Apply 1G1R filtering
+	 - Browse verified ROMs
+	 - See duplicates, missing, bad dumps
+	 - Apply 1G1R filtering
 
 ## Project Structure
 
@@ -329,11 +329,11 @@ Settings stored in `appsettings.json` in the application directory:
 
 ```json
 {
-  "Kestrel": {
-    "Endpoints": {
-      "Http": { "Url": "http://localhost:52100" }
-    }
-  }
+	"Kestrel": {
+	"Endpoints": {
+	  "Http": { "Url": "http://localhost:52100" }
+	}
+	}
 }
 ```
 

@@ -88,14 +88,14 @@ For ROM storage, consider using non-solid 7z archives (`7z a -ms=off`) for faste
 ### Recommended Formats
 
 1. **ZIP** - Best for general use
-   - Fast scanning
-   - Per-file access
-   - Universal compatibility
+	 - Fast scanning
+	 - Per-file access
+	 - Universal compatibility
 
 2. **7z (non-solid)** - Best for archival
-   - Better compression
-   - Still allows individual access
-   - Good for cold storage
+	 - Better compression
+	 - Still allows individual access
+	 - Good for cold storage
 
 ### Not Recommended
 

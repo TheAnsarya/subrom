@@ -189,19 +189,19 @@ Legend: ✅ Full support | ⚠️ Partial | ❌ No support
 ### Target Users
 
 1. **Casual Collector**
-   - Simple setup
-   - Automatic organization
-   - Clear status display
+	 - Simple setup
+	 - Automatic organization
+	 - Clear status display
 
 2. **Power User**
-   - Full control over organization
-   - Batch operations
-   - Advanced filtering
+	 - Full control over organization
+	 - Batch operations
+	 - Advanced filtering
 
 3. **Archivist**
-   - Complete preservation
-   - Multi-set support
-   - Verification reports
+	 - Complete preservation
+	 - Multi-set support
+	 - Verification reports
 
 ### Onboarding Flow
 

@@ -209,7 +209,7 @@ public partial class OneGameOneRomService : IOneGameOneRomService {
 			if (versionGroup.Contains('.')) {
 				var parts = versionGroup.Split('.');
 				if (parts.Length >= 2 && int.TryParse(parts[0], out var major) && int.TryParse(parts[1], out var minor)) {
-					return major * 10 + minor;
+					return (major * 10) + minor;
 				}
 			}
 			// Plain number (v2 = 2)

@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          include-prerelease: true
 
       - name: Restore dependencies
         run: dotnet restore Subrom.sln
@@ -27,7 +28,7 @@ jobs:
         run: dotnet build Subrom.sln --no-restore -c Release
 
       - name: Test
-        run: dotnet test Subrom.sln --no-build -c Release --verbosity normal
+        run: dotnet test Subrom.sln --no-build -c Release --verbosity normal --logger "console;verbosity=detailed"
 
   build-ui:
     runs-on: ubuntu-latest
@@ -68,6 +69,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          include-prerelease: true
 
       - name: Build Server
         run: dotnet publish src/Subrom.Server/Subrom.Server.csproj -c Release -r ${{ matrix.rid }} --self-contained

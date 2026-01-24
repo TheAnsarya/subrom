@@ -61,9 +61,9 @@ builder.Services.AddSubromWeb();
 builder.Services.AddSubromSignalR();
 
 if (OperatingSystem.IsWindows() && isService) {
-    builder.Services.AddWindowsService(options => {
-        options.ServiceName = "Subrom";
-    });
+`tbuilder.Services.AddWindowsService(options => {
+`t    options.ServiceName = "Subrom";
+`t});
 }
 
 var app = builder.Build();
@@ -77,41 +77,41 @@ Windows Forms application for tray icon:
 
 ```csharp
 public class TrayApplication : ApplicationContext {
-    private NotifyIcon _trayIcon;
-    private Process? _serverProcess;
-    
-    public TrayApplication() {
-        _trayIcon = new NotifyIcon {
-            Icon = Resources.SubromIcon,
-            Text = "Subrom - ROM Manager",
-            Visible = true,
-            ContextMenuStrip = CreateContextMenu()
-        };
-        
-        _trayIcon.DoubleClick += (s, e) => OpenWebUI();
-        StartServer();
-    }
-    
-    private ContextMenuStrip CreateContextMenu() {
-        var menu = new ContextMenuStrip();
-        menu.Items.Add("Open Subrom", null, (s, e) => OpenWebUI());
-        menu.Items.Add("-");
-        menu.Items.Add("Start Scan", null, (s, e) => TriggerScan());
-        menu.Items.Add("View Logs", null, (s, e) => OpenLogs());
-        menu.Items.Add("-");
-        menu.Items.Add("Settings", null, (s, e) => OpenSettings());
-        menu.Items.Add("-");
-        menu.Items.Add("Restart Server", null, (s, e) => RestartServer());
-        menu.Items.Add("Exit", null, (s, e) => Exit());
-        return menu;
-    }
-    
-    private void OpenWebUI() {
-        Process.Start(new ProcessStartInfo {
-            FileName = "http://localhost:52100",
-            UseShellExecute = true
-        });
-    }
+`tprivate NotifyIcon _trayIcon;
+`tprivate Process? _serverProcess;
+`t
+`tpublic TrayApplication() {
+`t    _trayIcon = new NotifyIcon {
+`t        Icon = Resources.SubromIcon,
+`t        Text = "Subrom - ROM Manager",
+`t        Visible = true,
+`t        ContextMenuStrip = CreateContextMenu()
+`t    };
+`t    
+`t    _trayIcon.DoubleClick += (s, e) => OpenWebUI();
+`t    StartServer();
+`t}
+`t
+`tprivate ContextMenuStrip CreateContextMenu() {
+`t    var menu = new ContextMenuStrip();
+`t    menu.Items.Add("Open Subrom", null, (s, e) => OpenWebUI());
+`t    menu.Items.Add("-");
+`t    menu.Items.Add("Start Scan", null, (s, e) => TriggerScan());
+`t    menu.Items.Add("View Logs", null, (s, e) => OpenLogs());
+`t    menu.Items.Add("-");
+`t    menu.Items.Add("Settings", null, (s, e) => OpenSettings());
+`t    menu.Items.Add("-");
+`t    menu.Items.Add("Restart Server", null, (s, e) => RestartServer());
+`t    menu.Items.Add("Exit", null, (s, e) => Exit());
+`t    return menu;
+`t}
+`t
+`tprivate void OpenWebUI() {
+`t    Process.Start(new ProcessStartInfo {
+`t        FileName = "http://localhost:52100",
+`t        UseShellExecute = true
+`t    });
+`t}
 }
 ```
 
@@ -122,26 +122,26 @@ Windows Service wrapper for auto-start:
 ```csharp
 // Uses Microsoft.Extensions.Hosting.WindowsServices
 public class Program {
-    public static async Task Main(string[] args) {
-        var builder = Host.CreateApplicationBuilder(args);
-        
-        builder.Services.AddWindowsService(options => {
-            options.ServiceName = "Subrom";
-        });
-        
-        builder.Services.AddHostedService<SubromServerService>();
-        
-        var host = builder.Build();
-        await host.RunAsync();
-    }
+`tpublic static async Task Main(string[] args) {
+`t    var builder = Host.CreateApplicationBuilder(args);
+`t    
+`t    builder.Services.AddWindowsService(options => {
+`t        options.ServiceName = "Subrom";
+`t    });
+`t    
+`t    builder.Services.AddHostedService<SubromServerService>();
+`t    
+`t    var host = builder.Build();
+`t    await host.RunAsync();
+`t}
 }
 
 public class SubromServerService : BackgroundService {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
-        // Start the web server
-        var webApp = CreateWebApplication();
-        await webApp.RunAsync(stoppingToken);
-    }
+`tprotected override async Task ExecuteAsync(CancellationToken stoppingToken) {
+`t    // Start the web server
+`t    var webApp = CreateWebApplication();
+`t    await webApp.RunAsync(stoppingToken);
+`t}
 }
 ```
 
@@ -193,9 +193,9 @@ The React UI will be served directly by the server:
 // In production, serve React build from embedded resources or wwwroot
 app.UseDefaultFiles();
 app.UseStaticFiles(new StaticFileOptions {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(AppContext.BaseDirectory, "wwwroot")),
-    RequestPath = ""
+`tFileProvider = new PhysicalFileProvider(
+`t    Path.Combine(AppContext.BaseDirectory, "wwwroot")),
+`tRequestPath = ""
 });
 
 // SPA fallback for client-side routing
@@ -251,33 +251,33 @@ ENTRYPOINT ["dotnet", "Subrom.Server.dll"]
 ### Settings Schema
 ```json
 {
-  "server": {
-    "port": 52100,
-    "bindAddress": "localhost",
-    "enableHttps": false
-  },
-  "startup": {
-    "runOnStartup": true,
-    "startMinimized": true,
-    "checkForUpdates": true
-  },
-  "scanning": {
-    "autoScanOnDriveConnect": true,
-    "scanIntervalHours": 24,
-    "parallelHashingThreads": 4
-  },
-  "ui": {
-    "theme": "dark",
-    "language": "en"
-  },
-  "drives": [
-    {
-      "id": "drive-1",
-      "path": "E:\\ROMs",
-      "label": "ROM Drive",
-      "autoScan": true
-    }
-  ]
+`t"server": {
+`t"port": 52100,
+`t"bindAddress": "localhost",
+`t"enableHttps": false
+`t},
+`t"startup": {
+`t"runOnStartup": true,
+`t"startMinimized": true,
+`t"checkForUpdates": true
+`t},
+`t"scanning": {
+`t"autoScanOnDriveConnect": true,
+`t"scanIntervalHours": 24,
+`t"parallelHashingThreads": 4
+`t},
+`t"ui": {
+`t"theme": "dark",
+`t"language": "en"
+`t},
+`t"drives": [
+`t{
+`t  "id": "drive-1",
+`t  "path": "E:\\ROMs",
+`t  "label": "ROM Drive",
+`t  "autoScan": true
+`t}
+`t]
 }
 ```
 
@@ -341,16 +341,16 @@ Server serves both API and static files.
 app.UseMiddleware<ApiKeyAuthMiddleware>();
 
 public class ApiKeyAuthMiddleware {
-    public async Task InvokeAsync(HttpContext context) {
-        if (context.Request.Host.Host != "localhost") {
-            var apiKey = context.Request.Headers["X-Api-Key"];
-            if (!ValidateApiKey(apiKey)) {
-                context.Response.StatusCode = 401;
-                return;
-            }
-        }
-        await _next(context);
-    }
+`tpublic async Task InvokeAsync(HttpContext context) {
+`t    if (context.Request.Host.Host != "localhost") {
+`t        var apiKey = context.Request.Headers["X-Api-Key"];
+`t        if (!ValidateApiKey(apiKey)) {
+`t            context.Response.StatusCode = 401;
+`t            return;
+`t        }
+`t    }
+`t    await _next(context);
+`t}
 }
 ```
 
@@ -360,12 +360,12 @@ public class ApiKeyAuthMiddleware {
 ```
 GET /api/health
 {
-  "status": "healthy",
-  "uptime": "2d 14h 32m",
-  "database": "ok",
-  "activeScanJobs": 0,
-  "lastScanAt": "2026-01-20T10:30:00Z",
-  "version": "1.0.0"
+`t"status": "healthy",
+`t"uptime": "2d 14h 32m",
+`t"database": "ok",
+`t"activeScanJobs": 0,
+`t"lastScanAt": "2026-01-20T10:30:00Z",
+`t"version": "1.0.0"
 }
 ```
 

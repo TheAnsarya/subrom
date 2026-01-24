@@ -29,10 +29,10 @@ docs/
 ├── user-guide.md               # End-user documentation
 ├── api-reference.md            # API documentation
 └── plans/                      # Technical planning documents
-    ├── current-architecture.md
-    ├── cross-platform-plan.md
-    ├── cross-platform-installer-plan.md
-    └── ...
+	├── current-architecture.md
+	├── cross-platform-plan.md
+	├── cross-platform-installer-plan.md
+	└── ...
 
 ~docs/                          # Development documentation
 ├── issues/
