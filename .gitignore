@@ -9,6 +9,10 @@
 ~tas-files/mesen-mmo/
 ~reference-files/
 
+# Yarn Berry (modern Yarn)
+.yarn/install-state.gz
+.pnp.*
+
 #######################################
 # User-specific files
 #######################################
