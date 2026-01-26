@@ -55,7 +55,29 @@ Oh, the c# background services (like scanning files, processing) and webhosting 
 
 The stuff we just planned? implement it! Make the 1.0.0 release, then do the service and tray changes for cross-platform and implement and document them, and when done plan for the 1.1.0 release and then do the 1.1.0 release; continue;
 
-for this release we want to make sure there is full cross platform support so we want an installer (like msi but cross-platform, or if we have to, an installer that works on each platform) that builds everything, sets up the services and the tray icon, and creates shortcuts, etc, make plans and todolists and issues and epics and documentation; then implement it; continue this and previous work, towards a release; continue;
+format everything, especially the new files, including `*.md`  files especially Tabs not spaces always, ***COME ON, STOP USING SPACES, I'VE SAID IT A HUNDRED TIMES, TABS NOT SPACES, AND ALWAYS 4 SPACE TABS (NOT 8 SPACE TABS, EVER)***; for this release we want to make sure there is full cross platform support so we want an installer (like msi but cross-platform, or if we have to, an installer that works on each platform) that builds everything, sets up the services and the tray icon, and creates shortcuts, etc, make plans and todolists and issues and epics and documentation; then implement it; continue this and previous work, towards a release; continue;
+
+`GitHub Actions workflow` and `CI/CD` are create and configured and set up to run, but not actually run if they cost money, if they are free, run them, but turn off actions if I have to pay for them I don't have any money; continue; fix the tray icon mising issue, fix everything, just make documentation guides that link all the readme's and docs together; MAIN ISSUE: create install files for every platform with one starting point executable, that you don't have to download the source code, you download an exe or msi or something and it installs the whole application for you with default settings, you get a ui to pick some drives or folders and some dats, or whatever; continue;
+
+the `icon.ico`, `subrom.ico`, `icon.png`, whatever is a bad icon, it's just an `S` on grey or blue background, it's bad, come up with a good idea for an icon and implement it; if github actions and CI/CD actions are free, then implement them and document them and run them; continue;
+
+we should NOT be using a very old version of yarn, we are using ***vite*** as our primary and the most modern yarn as a backup
+
+sorry, start again, on that, NO npm, NO npx, NO old yarn, and ONLY use modern yarn if `vite` can't perform those functions (and use the most modern version of vite); we want modern standards and practices;
+
+rebuild the local ui using vite and yarn berry and get rid of any remain node_module crap; continue;
+
+review the project, make sure everything is using the most modern code, versions, standards, and practices; format all of the code and documentation as too much of it use spaces for indentation and you should only ever use TABS never SPACES for indentation, not just at the start of line, but during the whole line; update chat and session logs and documentation and issues and plans; continue work; continue;
+
+
+
+
+
+
+
+
+
+
 
 
 
