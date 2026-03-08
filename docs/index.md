@@ -5,17 +5,20 @@ Welcome to Subrom - a ROM management and verification toolkit.
 ## Quick Links
 
 ### Getting Started
+
 - [README](../README.md) - Project overview, features, and quick start
 - [Installation Guide](installation.md) - Detailed installation instructions
 - [User Guide](user-guide.md) - How to use Subrom
 
 ### For Developers
+
 - [API Reference](api-reference.md) - REST API documentation
 - [Architecture Overview](plans/current-architecture.md) - System design
 - [CI/CD Guide](ci-cd.md) - GitHub Actions workflows
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
 
 ### Downloads
+
 - [GitHub Releases](https://github.com/TheAnsarya/subrom/releases) - Download installers
 
 ---
@@ -45,17 +48,23 @@ docs/
 ## Installation
 
 ### Windows
+
 Download the MSI installer from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
+
 - `Subrom-x.x.x-win-x64.msi` - Full installer with service and tray app
 
 ### Linux
+
 Download from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
+
 - `subrom_x.x.x_amd64.deb` - Debian/Ubuntu package
 - `subrom-x.x.x-1.x86_64.rpm` - Fedora/RHEL package  
 - `Subrom-x.x.x-x86_64.AppImage` - Universal Linux (no install needed)
 
 ### macOS
+
 Download from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
+
 - `Subrom-x.x.x.pkg` - macOS installer package
 
 ---
@@ -78,6 +87,7 @@ Download from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
 ## Related Documentation
 
 ### User Documentation
+
 | Document | Description |
 |----------|-------------|
 | [Installation](installation.md) | Step-by-step installation |
@@ -85,6 +95,7 @@ Download from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
 | [FAQ](faq.md) | Frequently asked questions |
 
 ### Developer Documentation
+
 | Document | Description |
 |----------|-------------|
 | [API Reference](api-reference.md) | REST API endpoints |
@@ -93,6 +104,7 @@ Download from [GitHub Releases](https://github.com/TheAnsarya/subrom/releases):
 | [Installer Plan](~docs/plans/cross-platform-installer-plan.md) | Installer infrastructure |
 
 ### Project Management
+
 | Document | Description |
 |----------|-------------|
 | [Epics & Issues](~docs/issues/epics.md) | GitHub issue tracking |

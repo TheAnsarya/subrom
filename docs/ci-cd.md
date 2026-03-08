@@ -5,6 +5,7 @@ Subrom uses GitHub Actions for continuous integration and delivery. **All workfl
 ## Workflows
 
 ### 1. CI (Continuous Integration)
+
 **File:** `.github/workflows/ci.yml`  
 **Triggers:** Push to `main`, Pull Requests to `main`
 
@@ -19,6 +20,7 @@ Runs automatically on every code change to ensure quality.
 | `build-cross-platform` | Windows, Linux, macOS | Verify builds on all platforms |
 
 #### Status Badge
+
 ```markdown
 [![CI](https://github.com/TheAnsarya/subrom/actions/workflows/ci.yml/badge.svg)](https://github.com/TheAnsarya/subrom/actions/workflows/ci.yml)
 ```
@@ -26,6 +28,7 @@ Runs automatically on every code change to ensure quality.
 ---
 
 ### 2. Release (Build & Publish)
+
 **File:** `.github/workflows/release.yml`  
 **Triggers:** Push tags matching `v*` (e.g., `v1.2.0`)
 
@@ -55,6 +58,7 @@ git push origin v1.2.0
 ```
 
 The workflow will automatically:
+
 1. Build for all platforms
 2. Create installers with install scripts
 3. Upload to GitHub Releases
@@ -63,10 +67,12 @@ The workflow will automatically:
 ---
 
 ### 3. Build Installers (Advanced)
+
 **File:** `.github/workflows/build-installers.yml`  
 **Triggers:** Push tags `v*`, Manual dispatch
 
 More comprehensive installer builds including:
+
 - Windows MSI (WiX Toolset)
 - Linux DEB package
 - Linux AppImage
@@ -79,11 +85,13 @@ More comprehensive installer builds including:
 ## GitHub Actions Costs
 
 ### Public Repositories: **FREE** ✅
+
 - Unlimited minutes for all workflows
 - Free artifact storage (500 MB)
 - No cost for any runner (Windows, Linux, macOS)
 
 ### Private Repositories
+
 - 2,000 free minutes/month (Linux)
 - macOS uses 10x minutes
 - Windows uses 2x minutes
@@ -146,16 +154,19 @@ yarn build
 ## Troubleshooting
 
 ### Workflow failed
+
 1. Check the Actions tab for error logs
 2. Click on the failed job
 3. Expand the failed step to see details
 
 ### Build fails locally but passes in CI
+
 - Different .NET SDK versions
 - Different OS-specific behavior
 - Missing dependencies
 
 ### Release not created
+
 - Ensure tag matches `v*` pattern (e.g., `v1.2.0`)
 - Check the `release` job for errors
 - Verify repository permissions for creating releases

@@ -43,51 +43,51 @@ Subrom is a modern ROM collection management tool with a beautiful web UI, real-
 ### ✅ Complete & Working
 
 - **DAT File Support**
-	- Logiqx XML parser (No-Intro, Redump, MAME)
-	- ClrMamePro DAT parser (TOSEC, legacy)
-	- Streaming parser for 60K+ entry files
-	- Category browser
+   	- Logiqx XML parser (No-Intro, Redump, MAME)
+   	- ClrMamePro DAT parser (TOSEC, legacy)
+   	- Streaming parser for 60K+ entry files
+   	- Category browser
 
 - **ROM Scanning**
-	- Recursive folder scanning
-	- Archive support (ZIP, 7z, RAR, TAR, GZip)
-	- Parallel hash computation (CRC32, MD5, SHA1)
-	- ROM header detection and removal
-	- Scan resume/checkpoint
-	- Background job processing
+   	- Recursive folder scanning
+   	- Archive support (ZIP, 7z, RAR, TAR, GZip)
+   	- Parallel hash computation (CRC32, MD5, SHA1)
+   	- ROM header detection and removal
+   	- Scan resume/checkpoint
+   	- Background job processing
 
 - **Verification**
-	- Hash-based verification
-	- Duplicate detection
-	- Bad dump identification
-	- 1G1R filtering
-	- Parent/clone detection
+   	- Hash-based verification
+   	- Duplicate detection
+   	- Bad dump identification
+   	- 1G1R filtering
+   	- Parent/clone detection
 
 - **Organization**
-	- 5 built-in templates
-	- Custom placeholders
-	- Move/copy with rollback
-	- Dry-run preview
-	- Operation undo
+   	- 5 built-in templates
+   	- Custom placeholders
+   	- Move/copy with rollback
+   	- Dry-run preview
+   	- Operation undo
 
 - **Storage Management**
-	- Multi-drive support
-	- Online/offline tracking
-	- Network drives (UNC)
-	- Space monitoring
+   	- Multi-drive support
+   	- Online/offline tracking
+   	- Network drives (UNC)
+   	- Space monitoring
 
 - **Web UI**
-	- Dashboard with stats
-	- DAT manager
-	- ROM browser (virtualized for 60K+ rows)
-	- Verification results
-	- Settings page
-	- Dark/light themes
+   	- Dashboard with stats
+   	- DAT manager
+   	- ROM browser (virtualized for 60K+ rows)
+   	- Verification results
+   	- Settings page
+   	- Dark/light themes
 
 - **Desktop**
-	- System tray application
-	- Windows service
-	- Auto-start support
+   	- System tray application
+   	- Windows service
+   	- Auto-start support
 
 ## Quick Start
 
@@ -138,6 +138,7 @@ dotnet run --project src/Subrom.Tray
 ```
 
 Right-click the tray icon to access:
+
 - Open in Browser
 - Start/Stop Server  
 - Settings
@@ -314,6 +315,7 @@ Subrom.sln
 API documentation available at `/scalar/v1` when running in development mode.
 
 Key endpoints:
+
 - `GET /api/datfiles` - List DAT files
 - `POST /api/datfiles/import` - Import DAT file
 - `GET /api/drives` - List drives
@@ -338,6 +340,7 @@ Settings stored in `appsettings.json` in the application directory:
 ```
 
 To change the port or bind address, set the environment variable:
+
 ```bash
 ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
 ```
@@ -353,6 +356,7 @@ ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
 ## Technology Stack
 
 **Backend:**
+
 - .NET 10 / C# 14
 - ASP.NET Core Minimal APIs
 - Entity Framework Core + SQLite
@@ -360,6 +364,7 @@ ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
 - Serilog structured logging
 
 **Frontend:**
+
 - React 19 + TypeScript 5.8
 - Vite build tool
 - Zustand state management
@@ -367,6 +372,7 @@ ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
 - CSS Modules
 
 **Testing:**
+
 - xUnit
 - Moq
 - 359+ unit tests

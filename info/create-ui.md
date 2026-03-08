@@ -1,9 +1,7 @@
 
 
-
-
 Install node:
-https://nodejs.org/en/
+<https://nodejs.org/en/>
 
 Update chocolatey:
 choco upgrade chocolatey
@@ -40,5 +38,4 @@ yarn add @fortawesome/fontawesome-svg-core
 yarn add @fortawesome/react-fontawesome
 yarn add @fortawesome/free-regular-svg-icons
 yarn add @fortawesome/free-solid-svg-icons
-
 

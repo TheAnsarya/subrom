@@ -148,3 +148,19 @@ Maximize work per penny, save my money, that's what these polices are for: get a
 - Create todo lists for all work
 - Update status as tasks complete
 - Maintain visibility of progress
+
+## Markdown Quality Policy
+
+- Always fix markdownlint warnings when creating or editing markdown files.
+- At minimum, enforce these rules on every markdown update:
+	- `MD022` - blank lines around headings
+	- `MD031` - blank lines around fenced code blocks
+	- `MD032` - blank lines around lists
+	- `MD047` - single trailing newline at EOF
+- Generate markdown with proper blank-line spacing by default so follow-up cleanup is minimal.
+
+## Documentation Link-Tree Policy
+
+- Every markdown/documentation file must be reachable from the main `README.md` through a link-tree.
+- When adding or moving docs, update `README.md` and intermediate docs index files.
+- Do not leave orphan documentation pages.

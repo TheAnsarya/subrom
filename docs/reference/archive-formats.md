@@ -20,6 +20,7 @@ Subrom can scan and verify ROMs inside compressed archives without extracting th
 ### Scanning Archives
 
 When scanning a folder, Subrom automatically:
+
 1. Detects archive files by extension
 2. Opens archives and lists contents
 3. Computes hashes for each file inside
@@ -39,6 +40,7 @@ No extraction to disk is required!
 ### Nested Archives
 
 Subrom can scan archives within archives (e.g., a ZIP containing ZIPs), but this:
+
 - Increases memory usage
 - Slows down scanning
 - Is limited to 2 levels of nesting
@@ -46,6 +48,7 @@ Subrom can scan archives within archives (e.g., a ZIP containing ZIPs), but this
 ## ZIP Format Details
 
 ZIP is the recommended format for ROM storage due to:
+
 - Fast random access to individual files
 - Good compression for most ROM types
 - Universal support across platforms
@@ -54,6 +57,7 @@ ZIP is the recommended format for ROM storage due to:
 ### Compression Methods
 
 Subrom supports all standard ZIP compression methods:
+
 - Store (no compression)
 - Deflate (most common)
 - Deflate64
@@ -65,11 +69,13 @@ Subrom supports all standard ZIP compression methods:
 7-Zip offers better compression than ZIP but with tradeoffs:
 
 **Pros:**
+
 - 30-70% smaller than ZIP for some ROMs
 - Supports very large archives (16 exabytes)
 - Strong encryption option
 
 **Cons:**
+
 - Solid archives must be read sequentially
 - Slower to scan than ZIP
 - Higher memory requirements

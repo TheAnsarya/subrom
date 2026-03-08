@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+
 - Cross-platform tray app (Avalonia)
 - Performance benchmarks
 - Docker image
@@ -15,27 +16,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.0] - 2026-01-22
 
 ### Added
+
 - **Cross-Platform Installers** 📦
 `t- Windows MSI installer with WiX Toolset v5
-	- Windows Service installation and auto-start
-	- System tray application with auto-start on login
-	- Start Menu and Desktop shortcuts
-	- Upgrade support for seamless updates
+   	- Windows Service installation and auto-start
+   	- System tray application with auto-start on login
+   	- Start Menu and Desktop shortcuts
+   	- Upgrade support for seamless updates
 `t- Linux DEB package for Debian/Ubuntu
-	- systemd service integration
-	- Auto-start on boot
-	- Proper file permissions and user creation
+   	- systemd service integration
+   	- Auto-start on boot
+   	- Proper file permissions and user creation
 `t- Linux RPM package for Fedora/RHEL
 `t- Linux AppImage for universal distribution
-	- No installation required
-	- XDG-compliant data directories
+   	- No installation required
+   	- XDG-compliant data directories
 `t- macOS PKG installer
-	- App bundle with proper Info.plist
-	- LaunchAgent for auto-start on login
-	- Optional DMG creation
+   	- App bundle with proper Info.plist
+   	- LaunchAgent for auto-start on login
+   	- Optional DMG creation
 
 - **Build Infrastructure**
-`t- `installers/` directory with cross-platform build scripts
+`t-`installers/` directory with cross-platform build scripts
 `t- `version.json` for centralized version management
 `t- GitHub Actions workflow for automated installer builds
 `t- Artifact upload to GitHub Releases on tag push
@@ -46,20 +48,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- Installer README with build instructions
 
 ### Changed
+
 - API version updated to 1.2.0
 - Test count: 375 (maintained from 1.1.0)
 
 ## [1.1.0] - 2026-01-22
 
 ### Added
+
 - **Multi-Drive Parallel Scanning** 🚀
-`t- `ParallelScanService` for scanning multiple drives simultaneously
+`t-`ParallelScanService` for scanning multiple drives simultaneously
 `t- Configurable concurrency limits (drives and hashes per drive)
 `t- SSD drive prioritization option
 `t- Multi-drive progress tracking with per-drive status
 
 - **Scan Queue Management** 📋
-`t- `ScanQueueService` for priority-based scan scheduling
+`t-`ScanQueueService` for priority-based scan scheduling
 `t- Pause/resume queue processing
 `t- Priority levels (Low, Normal, High)
 `t- Move jobs to front/back of queue
@@ -67,33 +71,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- Queue statistics endpoint
 
 - **Export Functionality** 📤
-`t- `ExportService` for CSV and JSON export
+`t-`ExportService` for CSV and JSON export
 `t- Export all ROMs or filter by drive
 `t- Export by verification status (Verified, Unknown, BadDump)
 `t- Collection summary export with statistics
 `t- Download endpoint with Content-Disposition header
 
 - **New API Endpoints**
-`t- `/api/export/roms/csv` - Export ROMs as CSV
+`t-`/api/export/roms/csv` - Export ROMs as CSV
 `t- `/api/export/roms/json` - Export ROMs as JSON
-`t- `/api/export/roms/by-status/{status}` - Export by verification status
+`t-`/api/export/roms/by-status/{status}` - Export by verification status
 `t- `/api/export/summary` - Collection statistics summary
-`t- `/api/export/download/roms` - Download export as file
+`t-`/api/export/download/roms` - Download export as file
 `t- `/api/scan-queue/` - Queue management endpoints
-`t- `/api/scan-queue/stats` - Queue statistics
+`t-`/api/scan-queue/stats` - Queue statistics
 `t- `/api/scan-queue/pause` - Pause queue
-`t- `/api/scan-queue/resume` - Resume queue
+`t-`/api/scan-queue/resume` - Resume queue
 `t- `/api/scan-queue/{id}/priority` - Change job priority
-`t- `/api/scan-queue/{id}/move-to-front` - Move to front
+`t-`/api/scan-queue/{id}/move-to-front` - Move to front
 `t- `/api/scan-queue/{id}/move-to-back` - Move to back
 
 ### Changed
+
 - API version updated to 1.1.0
 - Test count: 375 (maintained from 1.0.0)
 
 ## [1.0.0] - 2026-01-22
 
 ### Added
+
 - **Cross-Platform Support** 🎉
 `t- Full Windows, Linux, and macOS support
 `t- `PlatformHelper` utility class for cross-platform directory resolution
@@ -111,7 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- 27 unit tests for settings
 
 - **Global Error Handling**
-`t- `/error` endpoint with ProblemDetails response format
+`t-`/error` endpoint with ProblemDetails response format
 `t- Exception type mapping (404 for KeyNotFoundException, 400 for InvalidOperation)
 `t- Development vs production error detail levels
 
@@ -121,6 +127,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- Cross-platform deployment documentation
 
 ### Changed
+
 - Test count: 375 (up from 332)
 - Server now logs platform name on startup
 - Data/log directories use platform-appropriate locations
@@ -128,6 +135,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0-rc1] - 2026-01-22
 
 ### Added
+
 - **Settings Persistence**
 `t- AppSettings domain entity with comprehensive configuration
 `t- Settings API endpoints (GET, PUT, PATCH per category, POST reset)
@@ -136,7 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- 27 new unit tests for settings
 
 - **Global Error Handling**
-`t- `/error` endpoint with ProblemDetails response format
+`t-`/error` endpoint with ProblemDetails response format
 `t- Exception type mapping (404 for KeyNotFoundException, 400 for InvalidOperation)
 `t- Development vs production error detail levels
 
@@ -147,10 +155,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- Feature comparison with RomVault and ClrMame Pro
 
 ### Changed
+
 - Test count increased from 332 to 359 (exceeded 350 target)
 - Epic #13 progress: 0% → 50%
 
 ### Fixed
+
 - All critical blockers for 1.0.0 resolved
 
 ## [1.0.0-alpha] - 2026-01-22
@@ -158,6 +168,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 #### Core Features
+
 - **DAT File Support**
 `t- Logiqx XML DAT parser with streaming support
 `t- ClrMamePro DAT parser with 21 unit tests
@@ -222,12 +233,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 `t- Health check endpoint
 
 ### Technical Details
+
 - Built on .NET 10 / C# 14
 - 332+ unit tests with 100% pass rate
 - Zero compiler warnings
 - Clean architecture with Domain/Application/Infrastructure layers
 
 ### Known Limitations
+
 - DAT auto-sync from providers requires manual download
 - No-Intro website blocked automated access (manual DAT download required)
 - Windows-only for system tray and service features

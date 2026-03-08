@@ -7,6 +7,7 @@ Subrom supports the most common DAT file formats used by ROM cataloging groups.
 The primary format used by most modern DAT providers. This is an XML-based format with a standardized schema.
 
 **Used by:**
+
 - No-Intro
 - TOSEC
 - Redump
@@ -140,6 +141,7 @@ To import a DAT file manually:
 ## Version Tracking
 
 Subrom tracks DAT file versions and can:
+
 - Detect when updates are available
 - Show changes between versions
 - Update your ROM status when DATs change

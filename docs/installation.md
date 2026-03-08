@@ -3,6 +3,7 @@
 Complete installation instructions for all platforms.
 
 ## Table of Contents
+
 - [Windows](#windows)
 - [Linux](#linux)
 - [macOS](#macos)
@@ -24,9 +25,10 @@ Complete installation instructions for all platforms.
 `t - **Shortcuts** - Start Menu and Desktop shortcuts
 
 After installation:
+
 - The server starts automatically as a Windows Service
 - A system tray icon appears for quick access
-- Access the web UI at **http://localhost:5678**
+- Access the web UI at **<http://localhost:5678>**
 
 ### Option 2: Portable ZIP
 
@@ -55,7 +57,7 @@ sudo dpkg -i subrom_X.X.X_amd64.deb
 sudo apt install ./subrom_X.X.X_amd64.deb
 ```
 
-The service starts automatically. Access at **http://localhost:5678**
+The service starts automatically. Access at **<http://localhost:5678>**
 
 #### Managing the Service
 
@@ -127,9 +129,10 @@ rm Subrom-X.X.X-x86_64.AppImage
 `t - Click "Open Anyway"
 
 After installation:
+
 - Subrom is installed to `/Applications/Subrom.app`
 - A LaunchAgent starts the server automatically on login
-- Access the web UI at **http://localhost:5678**
+- Access the web UI at **<http://localhost:5678>**
 
 ### Option 2: DMG (Drag and Drop)
 
@@ -218,11 +221,13 @@ See [Installer Build Guide](../installers/README.md) for creating platform-speci
 Default: **5678**
 
 To change, set the environment variable:
+
 ```bash
 export ASPNETCORE_URLS=http://localhost:8080
 ```
 
 Or edit `appsettings.json`:
+
 ```json
 {
 `t"Urls": "http://localhost:8080"
@@ -235,8 +240,8 @@ Or edit `appsettings.json`:
 
 ### Server won't start
 
-1. Check if port 5678 is in use: 
-`t - Windows: `netstat -ano | findstr 5678`
+1. Check if port 5678 is in use:
+`t - Windows:`netstat -ano | findstr 5678`
 `t - Linux/macOS: `lsof -i :5678`
 2. Check logs for errors
 3. Ensure .NET runtime is installed

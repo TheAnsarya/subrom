@@ -5,6 +5,7 @@ Welcome to the Subrom documentation. Subrom is a ROM management and verification
 ## What is Subrom?
 
 Subrom helps you:
+
 - **Verify ROMs** against DAT files from No-Intro, TOSEC, MAME, and more
 - **Organize** your ROM collection with intelligent renaming and folder structures
 - **Track** ROMs across multiple drives, including offline storage
@@ -21,23 +22,27 @@ Subrom helps you:
 ## Documentation Index
 
 ### Getting Started
+
 - [Installation](getting-started/installation.md)
 - [First Scan](getting-started/first-scan.md)
 - [Understanding Results](getting-started/understanding-results.md)
 
 ### Features
+
 - [DAT File Management](features/dat-management.md)
 - [ROM Scanning](features/scanning.md)
 - [Archive Support](features/archives.md)
 - [Drive Management](features/drives.md)
 
 ### Reference
+
 - [Supported DAT Formats](reference/dat-formats.md)
 - [Supported Archive Formats](reference/archive-formats.md)
 - [Configuration Options](reference/configuration.md)
 - [API Reference](reference/api.md)
 
 ### Guides
+
 - [Organizing with 1G1R](guides/1g1r.md)
 - [Managing Multiple Drives](guides/multiple-drives.md)
 - [Offline Storage](guides/offline-storage.md)

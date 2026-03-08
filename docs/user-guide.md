@@ -3,6 +3,7 @@
 A complete guide to using Subrom for ROM management and verification.
 
 ## Table of Contents
+
 - [Getting Started](#getting-started)
 - [Adding DAT Files](#adding-dat-files)
 - [Scanning ROM Files](#scanning-rom-files)
@@ -17,7 +18,7 @@ A complete guide to using Subrom for ROM management and verification.
 ### First Launch
 
 1. **Open the Web Interface**
-	 - Navigate to **http://localhost:5678** in your browser
+	 - Navigate to **<http://localhost:5678>** in your browser
 	 - The dashboard shows your collection statistics
 
 2. **System Tray (Windows)**
@@ -31,6 +32,7 @@ A complete guide to using Subrom for ROM management and verification.
 ### Dashboard Overview
 
 The dashboard displays:
+
 - Total DAT files loaded
 - Total ROMs cataloged
 - Verification statistics (Verified, Missing, Unknown)
@@ -41,6 +43,7 @@ The dashboard displays:
 ## Adding DAT Files
 
 DAT files define the expected ROMs for a system. Subrom supports:
+
 - **XML DAT** (Logiqx format) - Used by No-Intro, Redump
 - **ClrMamePro DAT** - Used by TOSEC, GoodTools
 
@@ -84,6 +87,7 @@ DAT files define the expected ROMs for a system. Subrom supports:
 ### Scan Progress
 
 During scanning, you'll see:
+
 - Current file being processed
 - Files scanned / total files
 - Hashes computed
@@ -92,6 +96,7 @@ During scanning, you'll see:
 ### Scan Queue
 
 Multiple scans are queued automatically:
+
 - View queue on the **Scan Queue** page
 - Pause/resume queue processing
 - Change priority of pending scans
@@ -104,6 +109,7 @@ Multiple scans are queued automatically:
 ### Automatic Verification
 
 ROMs are automatically verified against loaded DAT files when:
+
 - A scan completes
 - New DAT files are imported
 
@@ -183,6 +189,7 @@ Find duplicate ROMs across your collection:
 ### Collection Summary
 
 Export a summary with:
+
 - Total files
 - Verification breakdown
 - Per-system statistics
