@@ -106,6 +106,13 @@ yarn dev      # Development server
 yarn build    # Production build
 ```
 
+### Parser Performance Validation
+
+- Run streaming parser regression tests:
+	- `dotnet test tests/Subrom.Tests.Unit/Subrom.Tests.Unit.csproj -c Release --filter "StreamingLogiqxParserTests"`
+- Capture parser allocation/profile traces before and after parser hot-path changes:
+	- `dotnet test tests/Subrom.Tests.Unit/Subrom.Tests.Unit.csproj -c Release --filter "StreamingLogiqxParserTests" --collect:"XPlat Code Coverage"`
+
 ## Documentation Structure
 
 ### `~docs/` (Tilde Docs - Development Documentation)

@@ -10,6 +10,8 @@ namespace Subrom.Infrastructure.Parsing;
 /// Uses XmlReader for forward-only parsing with minimal memory usage.
 /// </summary>
 public sealed class StreamingLogiqxParser : IDatParser {
+	private static readonly XmlReaderSettings ReaderSettings = CreateReaderSettings();
+
 	public DatFormat Format => DatFormat.LogiqxXml;
 
 	// Internal DTOs for collecting game data before creating domain objects
@@ -86,14 +88,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 
 		progress?.Report(new DatParseProgress { Phase = "Initializing streaming parser..." });
 
-		var settings = new XmlReaderSettings {
-			DtdProcessing = DtdProcessing.Ignore,
-			IgnoreWhitespace = true,
-			IgnoreComments = true,
-			Async = true,
-		};
-
-		using var reader = XmlReader.Create(stream, settings);
+		using var reader = XmlReader.Create(stream, ReaderSettings);
 
 		var datFile = new DatFile {
 			FileName = fileName,
@@ -189,14 +184,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 		Stream stream,
 		IProgress<DatParseProgress>? progress = null,
 		[EnumeratorCancellation] CancellationToken cancellationToken = default) {
-		var settings = new XmlReaderSettings {
-			DtdProcessing = DtdProcessing.Ignore,
-			IgnoreWhitespace = true,
-			IgnoreComments = true,
-			Async = true,
-		};
-
-		using var reader = XmlReader.Create(stream, settings);
+		using var reader = XmlReader.Create(stream, ReaderSettings);
 		var gamesYielded = 0;
 
 		while (await reader.ReadAsync()) {
@@ -349,13 +337,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 		var sizeStr = reader.GetAttribute("size");
 		var size = long.TryParse(sizeStr, out var s) ? s : 0;
 
-		var statusStr = reader.GetAttribute("status")?.ToLowerInvariant();
-		var status = statusStr switch {
-			"baddump" => RomStatus.BadDump,
-			"nodump" => RomStatus.NoDump,
-			"verified" => RomStatus.Verified,
-			_ => RomStatus.Good
-		};
+		var status = ParseRomStatus(reader.GetAttribute("status"));
 
 		return new RomData(
 			name,
@@ -369,8 +351,42 @@ public sealed class StreamingLogiqxParser : IDatParser {
 		);
 	}
 
-	private static string? NormalizeHash(string? hash) =>
-		string.IsNullOrWhiteSpace(hash) ? null : hash.ToLowerInvariant();
+	private static string? NormalizeHash(string? hash) {
+		if (string.IsNullOrWhiteSpace(hash)) {
+			return null;
+		}
+
+		var span = hash.AsSpan();
+		var start = 0;
+		var end = span.Length - 1;
+		while (start <= end && char.IsWhiteSpace(span[start])) {
+			start++;
+		}
+
+		while (end >= start && char.IsWhiteSpace(span[end])) {
+			end--;
+		}
+
+		if (start > end) {
+			return null;
+		}
+
+		var trimmed = span[start..(end + 1)];
+		var hasUpperHex = false;
+		foreach (var c in trimmed) {
+			if (c is >= 'A' and <= 'F') {
+				hasUpperHex = true;
+				break;
+			}
+		}
+
+		if (start == 0 && end == span.Length - 1 && !hasUpperHex) {
+			return hash;
+		}
+
+		var normalized = new string(trimmed);
+		return hasUpperHex ? normalized.ToLowerInvariant() : normalized;
+	}
 
 	private static string? NullIfEmpty(string? value) =>
 		string.IsNullOrWhiteSpace(value) ? null : value;
@@ -385,5 +401,34 @@ public sealed class StreamingLogiqxParser : IDatParser {
 		if (combined.Contains("mame")) return DatProvider.MAME;
 
 		return DatProvider.Unknown;
+	}
+
+	private static XmlReaderSettings CreateReaderSettings() {
+		return new XmlReaderSettings {
+			DtdProcessing = DtdProcessing.Ignore,
+			IgnoreWhitespace = true,
+			IgnoreComments = true,
+			Async = true,
+		};
+	}
+
+	private static RomStatus ParseRomStatus(string? status) {
+		if (string.IsNullOrWhiteSpace(status)) {
+			return RomStatus.Good;
+		}
+
+		if (status.Equals("baddump", StringComparison.OrdinalIgnoreCase)) {
+			return RomStatus.BadDump;
+		}
+
+		if (status.Equals("nodump", StringComparison.OrdinalIgnoreCase)) {
+			return RomStatus.NoDump;
+		}
+
+		if (status.Equals("verified", StringComparison.OrdinalIgnoreCase)) {
+			return RomStatus.Verified;
+		}
+
+		return RomStatus.Good;
 	}
 }

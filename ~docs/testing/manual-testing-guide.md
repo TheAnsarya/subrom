@@ -38,6 +38,15 @@ dotnet run --project src/Subrom.Server
 
 Server should start at: `http://localhost:52100`
 
+### Parser Performance Validation
+
+Run these targeted checks whenever `StreamingLogiqxParser` parsing paths change:
+
+```powershell
+dotnet test tests/Subrom.Tests.Unit/Subrom.Tests.Unit.csproj -c Release --filter "StreamingLogiqxParserTests"
+dotnet test tests/Subrom.Tests.Unit/Subrom.Tests.Unit.csproj -c Release --filter "StreamingLogiqxParserTests" --collect:"XPlat Code Coverage"
+```
+
 ---
 
 ## Test Categories
