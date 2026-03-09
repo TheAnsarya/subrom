@@ -37,8 +37,11 @@ public sealed class StreamingLogiqxParser : IDatParser {
 	public bool CanParse(string filePath) {
 		if (!File.Exists(filePath)) return false;
 
-		var extension = Path.GetExtension(filePath).ToLowerInvariant();
-		if (extension is not ".dat" and not ".xml") return false;
+		var extension = Path.GetExtension(filePath);
+		if (!extension.Equals(".dat", StringComparison.OrdinalIgnoreCase)
+			&& !extension.Equals(".xml", StringComparison.OrdinalIgnoreCase)) {
+			return false;
+		}
 
 		// Quick check for Logiqx format
 		try {
@@ -92,17 +95,20 @@ public sealed class StreamingLogiqxParser : IDatParser {
 
 		using var reader = XmlReader.Create(stream, settings);
 
-		// Temporary storage for header info
+		var datFile = new DatFile {
+			FileName = fileName,
+			Name = Path.GetFileNameWithoutExtension(fileName),
+			Format = DatFormat.LogiqxXml,
+			Provider = DatProvider.Unknown
+		};
+
+		// Temporary storage for provider detection
 		string? name = null;
 		string? description = null;
 		string? version = null;
 		string? author = null;
 		string? homepage = null;
 		string? system = null;
-		DatFormat format = DatFormat.LogiqxXml;
-		DatProvider provider = DatProvider.Unknown;
-
-		var gameDataList = new List<GameData>();
 		var gamesProcessed = 0;
 
 		// Parse using streaming approach
@@ -114,13 +120,19 @@ public sealed class StreamingLogiqxParser : IDatParser {
 			switch (reader.LocalName) {
 				case "header":
 					(name, description, version, author, homepage, system) = await ParseHeaderAsync(reader);
+						datFile.Name = name ?? datFile.Name;
+						datFile.Description = description;
+						datFile.Version = version;
+						datFile.Author = author;
+						datFile.Homepage = homepage;
+						datFile.System = system;
 					break;
 
 				case "game":
 				case "machine":
 					var gameData = await ParseGameDataAsync(reader);
 					if (gameData is not null) {
-						gameDataList.Add(gameData);
+							datFile.AddGame(ConvertToGameEntry(gameData, datFile.Id));
 						gamesProcessed++;
 
 						if (gamesProcessed % 500 == 0) {
@@ -136,27 +148,8 @@ public sealed class StreamingLogiqxParser : IDatParser {
 			}
 		}
 
-		// Detect provider
-		provider = DetectProvider(homepage, null, name, fileName);
-
-		// Create the DatFile with all required properties
-		var datFile = new DatFile {
-			FileName = fileName,
-			Name = name ?? Path.GetFileNameWithoutExtension(fileName),
-			Description = description,
-			Version = version,
-			Author = author,
-			Homepage = homepage,
-			System = system,
-			Format = format,
-			Provider = provider
-		};
-
-		// Convert game data to domain objects with proper DatFileId
-		foreach (var gameData in gameDataList) {
-			var game = ConvertToGameEntry(gameData, datFile.Id);
-			datFile.AddGame(game);
-		}
+		// Detect provider after full header parse.
+		datFile.Provider = DetectProvider(homepage, null, datFile.Name, fileName);
 
 		progress?.Report(new DatParseProgress {
 			Phase = "Complete",
@@ -274,6 +267,7 @@ public sealed class StreamingLogiqxParser : IDatParser {
 
 		while (await headerReader.ReadAsync()) {
 			if (headerReader.NodeType != XmlNodeType.Element) continue;
+			if (headerReader.Depth == 0 && headerReader.LocalName == "header") continue;
 
 			var elementName = headerReader.LocalName;
 			var content = await headerReader.ReadElementContentAsStringAsync();
