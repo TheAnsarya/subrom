@@ -353,6 +353,18 @@ ASPNETCORE_URLS=http://0.0.0.0:8080  # Bind to all interfaces on port 8080
 - [Roadmap](~docs/plans/roadmap.md)
 - [Changelog](CHANGELOG.md)
 
+Markdown quality automation:
+
+- `scripts/test-markdown-policy.ps1`
+- `scripts/benchmark-markdown-policy.ps1`
+
+Example:
+
+```powershell
+pwsh -File scripts/test-markdown-policy.ps1
+pwsh -File scripts/benchmark-markdown-policy.ps1 -Runs 5
+```
+
 ## Technology Stack
 
 **Backend:**
